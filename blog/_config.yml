@@ -3,16 +3,16 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
+title: Flower Crown Eevee
 subtitle:
-description:
-author: John Doe
-language:
+description: A full belly conquers all.
+author: Eevee
+language: zh-Hans
 timezone:
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://yoursite.com
+url: http://joinaero.github.io/
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
@@ -68,4 +68,7 @@ theme: next
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
-  type:
+  type: git
+  repo: git@github.com:joinAero/joinAero.github.io.git
+  branch: master
+  message: "Hexo deploy: {{ now('YYYY-MM-DD HH:mm:ss') }}"
