@@ -34,9 +34,9 @@ wechatpay: /uploads/wechat-reward-qrcode.png
 # When running the site in a subdirectory (e.g. domain.tld/blog), remove the leading slash (/archives -> archives)
 menu:
   home: /
+  archives: /archives
   categories: /categories
   tags: /tags
-  archives: /archives
   #about: /about
   #commonweal: /404.html
 
