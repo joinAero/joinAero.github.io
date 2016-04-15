@@ -21,7 +21,7 @@ rss:
 reward_comment: '<div style="display: table; margin: 0 auto">
 <span style="display: table-cell; vertical-align: middle">您可以投食小伊布</span>
 <img src="/uploads/avatar.png" style="display: table-cell; width: 30px; margin-bottom: 10px" />
-<span style="display: table-cell; vertical-align: middle">，打赏一下哦~</span>
+<span style="display: table-cell; vertical-align: middle">，奖励一下哦~</span>
 </div>'
 alipay: /uploads/alipay-reward-qrcode.jpg
 wechatpay: /uploads/wechat-reward-qrcode.png
