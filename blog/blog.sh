@@ -22,8 +22,8 @@ npm_installed() {
 
 npm_update() {
     if [[ $# -eq 0 ]]; then
-        echo "\033[32mnpm update -g\033[0m"
-        npm update -g
+        # echo "\033[32mnpm update -g\033[0m"
+        # npm update -g
         echo "\033[32mnpm update\033[0m"
         npm update
     else
@@ -54,12 +54,14 @@ process() {
     done
 }
 
-echo "\033[36mprepare modules\033[0m"
+echo "\033[36mprepare modules extra\033[0m"
 process "hexo-deployer-git hexo-generator-feed"
 
+echo
 echo "\033[36mupdate modules all\033[0m"
 npm_update
 
+echo
 echo "\033[36mprepare themes\033[0m"
 cd themes/; sh themes.sh; cd ..
 
