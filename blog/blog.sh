@@ -1,4 +1,6 @@
 #!/bin/bash
+# echo "\033[32mnpm update -g\033[0m"
+# npm update -g
 # echo "\033[32mnpm update\033[0m"
 # npm update
 echo "\033[32minstall \033[35mhexo-deployer-git\033[0m"
