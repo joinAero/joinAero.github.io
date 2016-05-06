@@ -9,6 +9,7 @@ if [[ -a "$dest" ]]; then
     if [[ -d "$dest" ]]; then
         echo -e "\033[32mgit pull \033[35m${theme}\033[0m"
         cd $dest; git pull $repo; cd ..
+        # git checkout -- _config.yml
     else
         echo -e "\033[31m${dest} is not a directory\033[0m"
         exit 1
