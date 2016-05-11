@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Djinni,Cpp,Android,iOS," />
 
 
 
@@ -86,15 +86,62 @@
 
 
 
-<meta name="description" content="A full belly conquers all.">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Flower Crown Eevee">
-<meta property="og:url" content="http://eevee.cc/index.html">
+<meta name="description" content=".post-body .fancybox img {
+    margin: 0 auto 25px;
+}
+
+
+Djinni 是一个用来生成跨语言的类型声明和接口绑定的工具，主要用于 C++ 和 Java 以及 Objective-C 间的互通。
+此文，将介绍如何使用 Djinni 开发 Android, iOS 的共享库。这会带来几个好处：
+
+用了接口描述文件。声明清晰、修改简易，并保证了跨">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 Djinni 开发 Android, iOS 共享库">
+<meta property="og:url" content="http://eevee.cc/2016/05/06/using-djinni/index.html">
 <meta property="og:site_name" content="Flower Crown Eevee">
-<meta property="og:description" content="A full belly conquers all.">
+<meta property="og:description" content=".post-body .fancybox img {
+    margin: 0 auto 25px;
+}
+
+
+Djinni 是一个用来生成跨语言的类型声明和接口绑定的工具，主要用于 C++ 和 Java 以及 Objective-C 间的互通。
+此文，将介绍如何使用 Djinni 开发 Android, iOS 的共享库。这会带来几个好处：
+
+用了接口描述文件。声明清晰、修改简易，并保证了跨">
+<meta property="og:image" content="http://eevee.cc/2016/05/06/using-djinni/cpp_pro_new.png">
+<meta property="og:image" content="http://eevee.cc/2016/05/06/using-djinni/cpp_pro_new_2.png">
+<meta property="og:image" content="http://eevee.cc/2016/05/06/using-djinni/cpp_pro_structure.png">
+<meta property="og:image" content="http://eevee.cc/2016/05/06/using-djinni/cpp_pro_move.png">
+<meta property="og:image" content="http://eevee.cc/2016/05/06/using-djinni/cpp_pro_overview.png">
+<meta property="og:image" content="http://eevee.cc/2016/05/06/using-djinni/ios_pro_new.png">
+<meta property="og:image" content="http://eevee.cc/2016/05/06/using-djinni/ios_pro_new_2.png">
+<meta property="og:image" content="http://eevee.cc/2016/05/06/using-djinni/ios_pro_new_3.png">
+<meta property="og:image" content="http://eevee.cc/2016/05/06/using-djinni/ios_pro_lib_header.png">
+<meta property="og:image" content="http://eevee.cc/2016/05/06/using-djinni/ios_pro_lib_link.png">
+<meta property="og:image" content="http://eevee.cc/2016/05/06/using-djinni/ios_pro_overview.png">
+<meta property="og:image" content="http://eevee.cc/2016/05/06/using-djinni/ios_pro_result.png">
+<meta property="og:image" content="http://eevee.cc/2016/05/06/using-djinni/android_pro_new.png">
+<meta property="og:image" content="http://eevee.cc/2016/05/06/using-djinni/android_pro_sdk.png">
+<meta property="og:image" content="http://eevee.cc/2016/05/06/using-djinni/android_pro_new_lib.png">
+<meta property="og:image" content="http://eevee.cc/2016/05/06/using-djinni/android_pro_nav.png">
+<meta property="og:image" content="http://eevee.cc/2016/05/06/using-djinni/android_pro_result.png">
+<meta property="og:image" content="http://eevee.cc/2016/05/06/using-djinni/android_pro2_new.png">
+<meta property="og:image" content="http://eevee.cc/2016/05/06/using-djinni/android_pro2_new_lib.png">
+<meta property="og:image" content="http://eevee.cc/2016/05/06/using-djinni/android_pro2_nav.png">
+<meta property="og:image" content="http://eevee.cc/2016/05/06/using-djinni/android_pro2_result.png">
+<meta property="og:updated_time" content="2016-05-11T12:42:20.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Flower Crown Eevee">
-<meta name="twitter:description" content="A full belly conquers all.">
+<meta name="twitter:title" content="使用 Djinni 开发 Android, iOS 共享库">
+<meta name="twitter:description" content=".post-body .fancybox img {
+    margin: 0 auto 25px;
+}
+
+
+Djinni 是一个用来生成跨语言的类型声明和接口绑定的工具，主要用于 C++ 和 Java 以及 Objective-C 间的互通。
+此文，将介绍如何使用 Djinni 开发 Android, iOS 的共享库。这会带来几个好处：
+
+用了接口描述文件。声明清晰、修改简易，并保证了跨">
+<meta name="twitter:image" content="http://eevee.cc/2016/05/06/using-djinni/cpp_pro_new.png">
 
 
 
@@ -112,7 +159,7 @@
   };
 </script>
 
-  <title> Flower Crown Eevee </title>
+  <title> 使用 Djinni 开发 Android, iOS 共享库 | Flower Crown Eevee </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -142,9 +189,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left 
-   page-home 
- ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -231,9 +276,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
   
@@ -253,10 +298,7 @@
             
             
               
-                
-                <a class="post-title-link" href="/2016/05/06/using-djinni/" itemprop="url">
-                  使用 Djinni 开发 Android, iOS 共享库
-                </a>
+                使用 Djinni 开发 Android, iOS 共享库
               
             
           </h1>
@@ -323,8 +365,6 @@
 
       
         
-          
-            
 <style type="text/css">
 .post-body .fancybox img {
     margin: 0 auto 25px;
@@ -564,36 +604,90 @@ Extra Tools:
 * [sbt下载慢？](http://www.zhihu.com/question/31158252)
 -->
 
-          
+      
+    </div>
+
+    <div>
+      
         
       
     </div>
 
     <div>
       
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div><div style="display: table; margin: 0 auto"> <span style="display: table-cell; vertical-align: middle">您可以投食小伊布</span> <img src="/uploads/avatar.png" style="display: table-cell; width: 30px; margin-bottom: 10px" /> <span style="display: table-cell; vertical-align: middle">，奖励一下哦~</span> </div></div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/uploads/wechat-reward-qrcode.png" alt="Eevee WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/uploads/alipay-reward-qrcode.jpg" alt="Eevee Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
     </div>
+  </div>
 
-    <div>
+
       
     </div>
 
     <footer class="post-footer">
       
-
+        <div class="post-tags">
+          
+            <a href="/tags/Djinni/" rel="tag">#Djinni</a>
+          
+            <a href="/tags/Cpp/" rel="tag">#Cpp</a>
+          
+            <a href="/tags/Android/" rel="tag">#Android</a>
+          
+            <a href="/tags/iOS/" rel="tag">#iOS</a>
+          
+        </div>
       
 
       
+
       
-        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2016/05/06/using-djinni/"
+     data-title="使用 Djinni 开发 Android, iOS 共享库"
+     data-content=""
+     data-url="http://eevee.cc/2016/05/06/using-djinni/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
 
 
           </div>
@@ -601,6 +695,14 @@ Extra Tools:
 
 
           
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/05/06/using-djinni/"
+           data-title="使用 Djinni 开发 Android, iOS 共享库" data-url="http://eevee.cc/2016/05/06/using-djinni/">
+      </div>
+    
+  </div>
+
 
         </div>
         
@@ -620,8 +722,17 @@ Extra Tools:
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+      <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/uploads/avatar.png"
@@ -698,6 +809,17 @@ Extra Tools:
 
       </section>
 
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#初见：Djinni-及其样例"><span class="nav-number">1.</span> <span class="nav-text">初见：Djinni 及其样例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#下载-Djinni"><span class="nav-number">1.1.</span> <span class="nav-text">下载 Djinni</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编译-Djinni"><span class="nav-number">1.2.</span> <span class="nav-text">编译 Djinni</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用-Djinni"><span class="nav-number">1.3.</span> <span class="nav-text">使用 Djinni</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编译样例"><span class="nav-number">1.4.</span> <span class="nav-text">编译样例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#准备-GYP"><span class="nav-number">1.5.</span> <span class="nav-text">准备 GYP</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#从无到有：Hello-Djinni"><span class="nav-number">2.</span> <span class="nav-text">从无到有：Hello Djinni</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#C-接口"><span class="nav-number">2.1.</span> <span class="nav-text">C++ 接口</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#定义接口描述文件"><span class="nav-number">2.1.1.</span> <span class="nav-text">定义接口描述文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#生成接口绑定代码"><span class="nav-number">2.1.2.</span> <span class="nav-text">生成接口绑定代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实现-C-接口"><span class="nav-number">2.1.3.</span> <span class="nav-text">实现 C++ 接口</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#C-工程"><span class="nav-number">2.2.</span> <span class="nav-text">C++ 工程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#iOS-工程"><span class="nav-number">2.3.</span> <span class="nav-text">iOS 工程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#生成接口-Libraries-工程"><span class="nav-number">2.3.1.</span> <span class="nav-text">生成接口 Libraries 工程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#添加接口-Libraries-依赖"><span class="nav-number">2.3.2.</span> <span class="nav-text">添加接口 Libraries 依赖</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#完成-UI-并运行"><span class="nav-number">2.3.3.</span> <span class="nav-text">完成 UI 并运行</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Android-工程"><span class="nav-number">2.4.</span> <span class="nav-text">Android 工程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用-GypMakefile"><span class="nav-number">2.4.1.</span> <span class="nav-text">使用 GypMakefile</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用新试验性插件"><span class="nav-number">2.4.2.</span> <span class="nav-text">使用新试验性插件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NDK-参考"><span class="nav-number">2.4.3.</span> <span class="nav-text">NDK 参考</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结语：开始使用-Djinni-吧"><span class="nav-number">3.</span> <span class="nav-text">结语：开始使用 Djinni 吧</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#附：源码"><span class="nav-number">4.</span> <span class="nav-text">附：源码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#附：运行环境"><span class="nav-number">5.</span> <span class="nav-text">附：运行环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#附：参考内容"><span class="nav-number">6.</span> <span class="nav-text">附：参考内容</span></a></li></ol></div>
+            
+          </div>
+        </section>
       
 
     </div>
@@ -801,6 +923,10 @@ Extra Tools:
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
 
   
 
