@@ -128,9 +128,7 @@ $ git checkout -q 0bb67471bca068996e15b56738fa4824dfa19de0
 
 #### 定义接口描述文件
 
-**[project_root]/hellodjinni.djinni:**
-
-``` bash
+``` bash hellodjinni.djinni https://github.com/joinAero/XCalculator/blob/master/sample/hellodjinni/hellodjinni.djinni hellodjinni.djinni
 hello_djinni = interface +c {
     static create(): hello_djinni;
     get_hello_djinni(): string;
@@ -141,9 +139,7 @@ hello_djinni = interface +c {
 
 写了个简单的 Shell 脚本来执行 Djinni 命令，如下：
 
-**[project_root]/run_djinni.sh:**
-
-``` bash
+``` bash run_djinni.sh: https://github.com/joinAero/XCalculator/blob/master/sample/hellodjinni/run_djinni.sh run_djinni.sh
 #!/bin/bash
 set -e
 shopt -s nullglob
@@ -194,15 +190,13 @@ $djinni_dir/src/run-assume-built \
 
 其读取了`local.properties`内配置的 Djinni 目录路径。
 
-**[project_root]/local.properties:**
-
-``` bash
+``` bash local.properties https://github.com/joinAero/XCalculator/tree/master/sample/hellodjinni/local.properties local.properties
 djinni.dir=<path-to-djinni>
 gyp.dir=<path-to-gyp>
 ndk.dir=<path-to-ndk>
 ```
 
-运行后，代码生成在了`[project_root]/generated-src`目录。
+运行后，代码生成在了`generated-src`目录。
 
 ``` bash
 $ ./run_djinni.sh
@@ -212,9 +206,7 @@ $ ./run_djinni.sh
 
 首先，创建`src`目录，存放手写的代码。然后，于子目录`cpp`内实现 C++ 接口。
 
-**src/cpp/hello_djinni_impl.hpp:**
-
-``` hpp
+``` hpp src/cpp/hello_djinni_impl.hpp https://github.com/joinAero/XCalculator/tree/master/sample/hellodjinni/src/cpp/hello_djinni_impl.hpp hello_djinni_impl.hpp
 #pragma once
 
 #include "hello_djinni.hpp"
@@ -233,9 +225,7 @@ public:
 }  // namespace hellodjinni
 ```
 
-**src/cpp/hello_djinni_impl.cpp:**
-
-``` cpp
+``` cpp src/cpp/hello_djinni_impl.cpp https://github.com/joinAero/XCalculator/tree/master/sample/hellodjinni/src/cpp/hello_djinni_impl.cpp hello_djinni_impl.cpp
 #include "hello_djinni_impl.hpp"
 #include <string>
 
@@ -291,11 +281,9 @@ src/cpp/hello_djinni_impl.hpp
 
 {% asset_img cpp_pro_move.png %}
 
-然后，编写好`main.cpp`的代码。
+然后，编写好`main.cpp`的代码：
 
-**project/cpp/HelloDjinni/HelloDjinni/main.cpp:**
-
-``` cpp
+``` cpp project/cpp/HelloDjinni/HelloDjinni/main.cpp https://github.com/joinAero/XCalculator/tree/master/sample/hellodjinni/project/cpp/HelloDjinni/HelloDjinni/main.cpp main.cpp
 #include <iostream>
 #include "hello_djinni_impl.hpp"
 
@@ -316,7 +304,7 @@ int main(int argc, const char * argv[]) {
 
 或者，写个`project/Cpp.mk`：
 
-``` makefile
+``` makefile project/Cpp.mk https://github.com/joinAero/XCalculator/tree/master/sample/hellodjinni/project/Cpp.mk Cpp.mk
 MD := -mkdir -p
 RD := -rm -rf
 RM := -rm -f
@@ -397,11 +385,9 @@ Hello Djinni! 11:46:56 PM
 
 利用 Djinni, GYP 及 Make 生成接口 Libraries 工程。
 
-首先，创建 GYP 文件。
+首先，创建 GYP 文件：
 
-**project/libhellodjinni.gyp:**
-
-``` json
+``` json project/libhellodjinni.gyp https://github.com/joinAero/XCalculator/tree/master/sample/hellodjinni/project/libhellodjinni.gyp libhellodjinni.gyp
 {
   "targets": [
     {
@@ -464,11 +450,9 @@ $ git submodule add https://chromium.googlesource.com/external/gyp.git deps/gyp
 
 如果仍想要 Djinni 与 GYP 独立于工程目录外，同时又能够工作在工程目录，那么需要把依赖的东西复制进工程目录。之后，即是这样做的。
 
-接下来，创建 Makefile 文件。
+接下来，创建 Makefile 文件：
 
-**project/Makefile:**
-
-``` makefile
+``` makefile project/Makefile https://github.com/joinAero/XCalculator/tree/master/sample/hellodjinni/project/Makefile Makefile
 MD := -mkdir -p
 RD := -rm -rf
 RM := -rm -f
@@ -658,9 +642,7 @@ $(SRCROOT)/../../../generated-src/objc
 
 于`ViewController.m`内编写代码，创建 UI 并调用接口代码。
 
-**project/ios/HelloDjinni/HelloDjinni/ViewController.m:**
-
-``` objc
+``` objc project/ios/HelloDjinni/HelloDjinni/ViewController.m https://github.com/joinAero/XCalculator/tree/master/sample/hellodjinni/project/ios/HelloDjinni/HelloDjinni/ViewController.m ViewController.m
 #import "ViewController.h"
 #import "HDHelloDjinni.h"
 
@@ -751,7 +733,7 @@ $ make android_pro
 
 然后，修改此 app-core 的`build.gradle`，添加引用及 NDK 编译。变更如下：
 
-``` gradle
+``` gradle project/android/HelloDjinni/app-core/build.gradle https://github.com/joinAero/XCalculator/tree/master/sample/hellodjinni/project/android/HelloDjinni/app-core/build.gradle build.gradle
 apply plugin: 'com.android.library'
 
 android {
@@ -794,17 +776,13 @@ tasks.withType(JavaCompile) {
 
 项目导航栏切到 Project 视图，在 app-core 下新建`jni`目录，创建 NDK 的工程文件。
 
-**app-core/jni/Android.mk:**
-
-``` makefile
+``` makefile project/android/HelloDjinni/app-core/jni/Android.mk https://github.com/joinAero/XCalculator/tree/master/sample/hellodjinni/project/android/HelloDjinni/app-core/jni/Android.mk Android.mk
 # always force this build to re-run its dependencies
 FORCE_GYP := $(shell make -C ../../../../ GypAndroid.mk)
 include ../../../../GypAndroid.mk
 ```
 
-**app-core/jni/Application.mk:**
-
-``` makefile
+``` makefile project/android/HelloDjinni/app-core/jni/Application.mk https://github.com/joinAero/XCalculator/tree/master/sample/hellodjinni/project/android/HelloDjinni/app-core/jni/Application.mk Application.mk
 # Android makefile for libhellodjinni shared lib
 
 # Application.mk: http://developer.android.com/ndk/guides/application_mk.html
@@ -828,7 +806,7 @@ APP_MODULES := libhellodjinni_jni
 
 回到 app ，修改其`build.gradle`，以依赖 app-core 。变更如下：
 
-``` gradle
+``` gradle project/android/HelloDjinni/app/build.gradle https://github.com/joinAero/XCalculator/tree/master/sample/hellodjinni/project/android/HelloDjinni/app/build.gradle build.gradle
 dependencies {
     ...
     compile project(':app-core')
@@ -837,9 +815,7 @@ dependencies {
 
 新建`MyApplication.java`，作为自定义 Application。并设置到`AndroidManifest.xml`内"application"的"name"字段。
 
-**app/src/main/java/cc/eevee/hellodjinni/MyApplication.java:**
-
-``` java
+``` java project/android/HelloDjinni/app/src/.../MyApplication.java https://github.com/joinAero/XCalculator/tree/master/sample/hellodjinni/project/android/HelloDjinni/app/src/main/java/cc/eevee/hellodjinni/MyApplication.java MyApplication.java
 package cc.eevee.hellodjinni;
 
 import android.app.Application;
@@ -867,9 +843,7 @@ public class MyApplication extends Application {
 
 接着，修改 app UI，`MainActivity.java`及其布局`activity_main.xml`：
 
-**app/src/main/java/cc/eevee/hellodjinni/MainActivity.java:**
-
-``` java
+``` java project/android/HelloDjinni/app/src/.../MainActivity.java https://github.com/joinAero/XCalculator/tree/master/sample/hellodjinni/project/android/HelloDjinni/app/src/main/java/cc/eevee/hellodjinni/MainActivity.java MainActivity.java
 package cc.eevee.hellodjinni;
 
 import android.support.v7.app.AppCompatActivity;
@@ -900,9 +874,7 @@ public class MainActivity extends AppCompatActivity {
 }
 ```
 
-**app/src/main/res/layout/activity_main.xml:**
-
-``` xml
+``` xml project/android/HelloDjinni/app/src/.../activity_main.xml https://github.com/joinAero/XCalculator/tree/master/sample/hellodjinni/project/android/HelloDjinni/app/src/main/res/layout/activity_main.xml activity_main.xml
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -955,9 +927,7 @@ Android Studio 1.3 版本开始支持 NDK，需要使用 Experimental Plugin 。
 
 接下来，修改成 Experimental Plugin 。先是工程配置：
 
-**HelloDjinni2/build.gradle:**
-
-``` gradle
+``` gradle project/android/HelloDjinni2/build.gradle https://github.com/joinAero/XCalculator/tree/master/sample/hellodjinni/project/android/HelloDjinni2/build.gradle build.gradle
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
@@ -985,9 +955,7 @@ task clean(type: Delete) {
 
 接着是 app 模块配置：
 
-**HelloDjinni2/app/build.gradle:**
-
-``` gradle
+``` gradle project/android/HelloDjinni2/app/build.gradle https://github.com/joinAero/XCalculator/tree/master/sample/hellodjinni/project/android/HelloDjinni2/app/build.gradle build.gradle
 apply plugin: 'com.android.model.application'
 
 model {
@@ -1027,7 +995,7 @@ dependencies {
 
 然后，修改此 app-core 的`build.gradle`，支持 Experimental Plugin 并配置 NDK 。如下：
 
-``` gradle
+``` gradle project/android/HelloDjinni2/app-core/build.gradle https://github.com/joinAero/XCalculator/tree/master/sample/hellodjinni/project/android/HelloDjinni2/app-core/build.gradle build.gradle
 apply plugin: 'com.android.model.library'
 
 model {
@@ -1098,7 +1066,7 @@ dependencies {
 
 回到 app ，修改其`build.gradle`，以依赖 app-core 。变更如下：
 
-``` gradle
+``` gradle project/android/HelloDjinni2/app/build.gradle https://github.com/joinAero/XCalculator/tree/master/sample/hellodjinni/project/android/HelloDjinni2/app/build.gradle build.gradle
 dependencies {
     ...
     compile project(':app-core')
@@ -1107,9 +1075,7 @@ dependencies {
 
 新建`MyApplication.java`，作为自定义 Application。并设置到`AndroidManifest.xml`内"application"的"name"字段。
 
-**app/src/main/java/cc/eevee/hellodjinni2/MyApplication.java:**
-
-``` java
+``` java project/android/HelloDjinni2/app/src/.../MyApplication.java https://github.com/joinAero/XCalculator/tree/master/sample/hellodjinni/project/android/HelloDjinni2/app/src/main/java/cc/eevee/hellodjinni2/MyApplication.java MyApplication.java
 package cc.eevee.hellodjinni2;
 
 import android.app.Application;
@@ -1138,9 +1104,7 @@ public class MyApplication extends Application {
 
 接着，修改 app UI，`MainActivity.java`及其布局`activity_main.xml`：
 
-**app/src/main/java/cc/eevee/hellodjinni2/MainActivity.java:**
-
-``` java
+``` java project/android/HelloDjinni2/app/src/.../MainActivity.java https://github.com/joinAero/XCalculator/tree/master/sample/hellodjinni/project/android/HelloDjinni2/app/src/main/java/cc/eevee/hellodjinni2/MainActivity.java MainActivity.java
 package cc.eevee.hellodjinni2;
 
 import android.support.v7.app.AppCompatActivity;
@@ -1173,9 +1137,7 @@ public class MainActivity extends AppCompatActivity {
 }
 ```
 
-**app/src/main/res/layout/activity_main.xml:**
-
-``` xml
+``` xml project/android/HelloDjinni2/app/src/.../activity_main.xml https://github.com/joinAero/XCalculator/tree/master/sample/hellodjinni/project/android/HelloDjinni2/app/src/main/res/layout/activity_main.xml activity_main.xml
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
