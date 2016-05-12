@@ -1195,10 +1195,10 @@ Hello Djinni 的源码，这样得到：
 
 ``` bash
 $ git clone https://github.com/joinAero/XCalculator.git
-$ cd cd sample/hellodjinni/
+$ cd sample/hellodjinni/
 ```
 
-执行`make`编译，`make clean`清理。
+修改`local.properties`设好环境。执行`make`编译，`make clean`清理。
 
 **文件结构：**
 
@@ -1215,7 +1215,8 @@ hellodjinni/
 │      └─HelloDjinni.xcworkspace/   # iOS Project Workspace
 ├─src/
 │  └─cpp/                           # Cpp Interface Impls
-└─tools/                            # Helper Scripts
+├─tools/                            # Helper Scripts
+└─local.properties                  # Local Properties
 ```
 
 
