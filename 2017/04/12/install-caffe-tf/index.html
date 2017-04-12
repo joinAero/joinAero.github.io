@@ -1,0 +1,938 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Caffe,TensorFlow,Python,CUDA," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Flower Crown Eevee" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="Install Caffe &amp;amp; TensorFlow with Python and CUDA (macOS)RequirementsPython Installationpyenv 1234567$ brew install pyenv$ pyenv install --list$ pyenv install anaconda3-4.3.1$ pyenv global anaconda3">
+<meta name="keywords" content="Caffe,TensorFlow,Python,CUDA">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Install Caffe & TensorFlow with Python and CUDA">
+<meta property="og:url" content="http://eevee.cc/2017/04/12/install-caffe-tf/index.html">
+<meta property="og:site_name" content="Flower Crown Eevee">
+<meta property="og:description" content="Install Caffe &amp;amp; TensorFlow with Python and CUDA (macOS)RequirementsPython Installationpyenv 1234567$ brew install pyenv$ pyenv install --list$ pyenv install anaconda3-4.3.1$ pyenv global anaconda3">
+<meta property="og:updated_time" content="2017-04-12T09:27:57.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Install Caffe & TensorFlow with Python and CUDA">
+<meta name="twitter:description" content="Install Caffe &amp;amp; TensorFlow with Python and CUDA (macOS)RequirementsPython Installationpyenv 1234567$ brew install pyenv$ pyenv install --list$ pyenv install anaconda3-4.3.1$ pyenv global anaconda3">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '6273277081015027000',
+      author: 'Eevee'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://eevee.cc/2017/04/12/install-caffe-tf/"/>
+
+
+
+
+
+  <title> Install Caffe & TensorFlow with Python and CUDA | Flower Crown Eevee </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=55592908";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Flower Crown Eevee</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://eevee.cc/2017/04/12/install-caffe-tf/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Eevee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Flower Crown Eevee">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Install Caffe & TensorFlow with Python and CUDA
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-12T17:22:25+08:00">
+                2017-04-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Tech/" itemprop="url" rel="index">
+                    <span itemprop="name">Tech</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/04/12/install-caffe-tf/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/04/12/install-caffe-tf/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Install-Caffe-amp-TensorFlow-with-Python-and-CUDA-macOS"><a href="#Install-Caffe-amp-TensorFlow-with-Python-and-CUDA-macOS" class="headerlink" title="Install Caffe &amp; TensorFlow with Python and CUDA (macOS)"></a>Install Caffe &amp; TensorFlow with Python and CUDA (macOS)</h1><h2 id="Requirements"><a href="#Requirements" class="headerlink" title="Requirements"></a>Requirements</h2><h3 id="Python-Installation"><a href="#Python-Installation" class="headerlink" title="Python Installation"></a>Python Installation</h3><p><a href="https://github.com/pyenv/pyenv" target="_blank" rel="external">pyenv</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">$ brew install pyenv</div><div class="line">$ pyenv install --list</div><div class="line">$ pyenv install anaconda3-4.3.1</div><div class="line">$ pyenv global anaconda3-4.3.1</div><div class="line">$ pyenv versions</div><div class="line">  system</div><div class="line">* anaconda3-4.3.1 (set by /Users/John/.pyenv/version)</div></pre></td></tr></table></figure>
+<p>Enable pyenv in your shell:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ vi ~/.bash_profile</div><div class="line"># eval &quot;$(pyenv init -)&quot;</div><div class="line">$ exit</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">$ python --version</div><div class="line">Python 3.6.0 :: Anaconda 4.3.1 (x86_64)</div><div class="line">$ pip --version</div><div class="line">pip 9.0.1 from /Users/John/.pyenv/versions/anaconda3-4.3.1/lib/python3.6/site-packages (python 3.6)</div><div class="line">$ conda --version</div><div class="line">conda 4.3.14</div></pre></td></tr></table></figure>
+<h3 id="CUDA-Installation"><a href="#CUDA-Installation" class="headerlink" title="CUDA Installation"></a>CUDA Installation</h3><p>For Mac OS X, please see <a href="https://www.tensorflow.org/versions/r0.12/get_started/os_setup.html#optional-setup-gpu-for-mac" target="_blank" rel="external">Setup GPU for Mac</a></p>
+<p><a href="https://developer.nvidia.com/cuda-toolkit" target="_blank" rel="external">CUDA Toolkit 8.0</a></p>
+<p><a href="https://developer.nvidia.com/cudnn" target="_blank" rel="external">cuDNN v5</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ sudo mv include/cudnn.h /Developer/NVIDIA/CUDA-8.0/include/</div><div class="line">$ sudo mv lib/libcudnn* /Developer/NVIDIA/CUDA-8.0/lib</div><div class="line">$ sudo ln -s /Developer/NVIDIA/CUDA-8.0/lib/libcudnn* /usr/local/cuda/lib/</div><div class="line">$ sudo ln -s /usr/local/cuda/lib/libcuda.dylib /usr/local/cuda/lib/libcuda.1.dylib</div></pre></td></tr></table></figure>
+<h3 id="OpenCV-Installation"><a href="#OpenCV-Installation" class="headerlink" title="OpenCV Installation"></a>OpenCV Installation</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ curl -O https://github.com/opencv/opencv/archive/3.2.0.zip</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">$ cd opencv</div><div class="line">$ mkdir build</div><div class="line">$ cd build/</div><div class="line">$ PY3_DIR=$HOME/.pyenv/versions/anaconda3-4.3.1 &amp;&amp; \</div><div class="line">export CPLUS_INCLUDE_PATH=$PY3_DIR/include/python3.6m &amp;&amp; \</div><div class="line">cmake -D CMAKE_BUILD_TYPE=RELEASE \</div><div class="line">-D CMAKE_INSTALL_PREFIX=/usr/local \</div><div class="line">-D PYTHON3_LIBRARY=$PY3_DIR/lib \</div><div class="line">-D PYTHON3_INCLUDE_DIR=$PY3_DIR/include/python3.6m \</div><div class="line">-D PYTHON3_EXECUTABLE=$HOME/.pyenv/shims/python \</div><div class="line">-D BUILD_opencv_python2=OFF \</div><div class="line">-D BUILD_opencv_python3=ON \</div><div class="line">-D BUILD_EXAMPLES=ON \</div><div class="line">-D INSTALL_PYTHON_EXAMPLES=OFF \</div><div class="line">-D INSTALL_C_EXAMPLES=OFF \</div><div class="line">..</div><div class="line">$ make -j8</div><div class="line">$ make install</div></pre></td></tr></table></figure>
+<p>Issue fixed by <code>export CPLUS_INCLUDE_PATH=$PY3_DIR/include/python3.6m</code>:</p>
+<pre><code>[ 73%] Building CXX object modules/python3/CMakeFiles/opencv_python3.dir/__/src2/cv2.cpp.o
+/Users/John/Workspace/Fever/Vision/opencv/modules/python/src2/cv2.cpp:6:10: fatal error: &apos;Python.h&apos; file not
+      found
+#include &lt;Python.h&gt;
+         ^
+1 error generated.
+</code></pre><h2 id="Caffe"><a href="#Caffe" class="headerlink" title="Caffe"></a><a href="http://caffe.berkeleyvision.org/" target="_blank" rel="external">Caffe</a></h2><h3 id="Installation"><a href="#Installation" class="headerlink" title="Installation"></a><a href="http://caffe.berkeleyvision.org/installation.html" target="_blank" rel="external">Installation</a></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ brew install -vd snappy leveldb gflags glog szip lmdb</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"># with Python pycaffe needs dependencies built from source</div><div class="line">$ brew install --build-from-source -vd protobuf --with-python</div><div class="line">$ brew install --build-from-source -vd boost</div><div class="line">$ brew install --build-from-source -vd boost-python --with-python3 --without-python</div></pre></td></tr></table></figure>
+<p><a href="http://caffe.berkeleyvision.org/installation.html#compilation" target="_blank" rel="external">Compilation</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ git clone https://github.com/BVLC/caffe.git</div><div class="line">$ cd caffe/</div><div class="line">$ git checkout rc5</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ cp Makefile.config.example Makefile.config</div><div class="line"># Adjust Makefile.config (for example, if using Anaconda Python, or if cuDNN is desired)</div></pre></td></tr></table></figure>
+<pre><code>USE_CUDNN := 1
+
+OPENCV_VERSION := 3
+
+# brew install openblas
+BLAS := open
+BLAS_INCLUDE := $(shell brew --prefix openblas)/include
+BLAS_LIB := $(shell brew --prefix openblas)/lib
+
+# PYTHON_INCLUDE := /usr/include/python2.7 \
+        # /usr/lib/python2.7/dist-packages/numpy/core/include
+
+ANACONDA_HOME := $(HOME)/.pyenv/versions/anaconda3-4.3.1
+PYTHON_INCLUDE := $(ANACONDA_HOME)/include \
+        $(ANACONDA_HOME)/include/python3.6m \
+        $(ANACONDA_HOME)/lib/python3.6/site-packages/numpy/core/include
+
+# ll /usr/local/lib/*boost*py*
+PYTHON_LIBRARIES := boost_python3 python3.6m
+
+# PYTHON_LIB := /usr/lib
+PYTHON_LIB := $(ANACONDA_HOME)/lib
+
+WITH_PYTHON_LAYER := 1
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ make all -j8</div><div class="line">$ make pycaffe -j8</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">$ vi ~/.bash_profile</div><div class="line"># export PYTHONPATH=$HOME/Workspace/Fever/DeepLearning/caffe/python:$PYTHONPATH</div><div class="line">$ python</div><div class="line">&gt;&gt;&gt; import caffe</div><div class="line">&gt;&gt;&gt; caffe.__version__</div><div class="line">&apos;1.0.0-rc5&apos;</div><div class="line"># Or,</div><div class="line">$ python -c &quot;import caffe; print(caffe.__version__)&quot;</div><div class="line">1.0.0-rc5</div></pre></td></tr></table></figure>
+<h3 id="Issues"><a href="#Issues" class="headerlink" title="Issues"></a>Issues</h3><h4 id="Issue-make-pycaffe"><a href="#Issue-make-pycaffe" class="headerlink" title="Issue, make pycaffe:"></a>Issue, <code>make pycaffe</code>:</h4><pre><code>Undefined symbols for architecture x86_64:
+  &quot;boost::python::detail::init_module(PyModuleDef&amp;, void (*)())&quot;, referenced from:
+      _PyInit__caffe in _caffe-57cf03.o
+ld: symbol(s) not found for architecture x86_64
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+make: *** [python/caffe/_caffe.so] Error 1
+</code></pre><p>Solution:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ brew info boost-python</div><div class="line">$ brew reinstall boost-python --with-python3 --without-python</div></pre></td></tr></table></figure>
+<h4 id="Issue-import-caffe"><a href="#Issue-import-caffe" class="headerlink" title="Issue, import caffe:"></a>Issue, <code>import caffe</code>:</h4><pre><code>&gt;&gt;&gt; import caffe
+Failed to include caffe_pb2, things might go wrong!
+Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+  File &quot;/Users/John/Workspace/Fever/DeepLearning/caffe/python/caffe/__init__.py&quot;, line 4, in &lt;module&gt;
+    from .proto.caffe_pb2 import TRAIN, TEST
+  File &quot;/Users/John/Workspace/Fever/DeepLearning/caffe/python/caffe/proto/caffe_pb2.py&quot;, line 6, in &lt;module&gt;
+    from google.protobuf.internal import enum_type_wrapper
+ModuleNotFoundError: No module named &apos;google&apos;
+</code></pre><p>Solution:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ pip install protobuf</div></pre></td></tr></table></figure>
+<pre><code># https://anaconda.org/anaconda/protobuf/files
+$ conda install protobuf
+Fetching package metadata .........
+Solving package specifications: .
+
+UnsatisfiableError: The following specifications were found to be in conflict:
+  - protobuf -&gt; python 2.7* -&gt; openssl 1.0.1*
+  - python 3.6*
+Use &quot;conda info &lt;package&gt;&quot; to see the dependencies for each package.
+</code></pre><h3 id="Others"><a href="#Others" class="headerlink" title="Others"></a>Others</h3><p>How display dependencies:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ cd build/lib/</div><div class="line"># ldd -r libcaffe.so.1.0.0-rc5</div><div class="line">$ otool -L libcaffe.so.1.0.0-rc5</div></pre></td></tr></table></figure>
+<h2 id="TensorFlow"><a href="#TensorFlow" class="headerlink" title="TensorFlow"></a><a href="https://www.tensorflow.org/" target="_blank" rel="external">TensorFlow</a></h2><h3 id="Installation-1"><a href="#Installation-1" class="headerlink" title="Installation"></a><a href="https://www.tensorflow.org/versions/r0.12/get_started/os_setup.html#download-and-setup" target="_blank" rel="external">Installation</a></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ pip install tensorflow-gpu</div><div class="line"># Or,</div><div class="line"># tensorflow-gpu: https://pypi.python.org/pypi/tensorflow-gpu</div><div class="line">$ export TF_BINARY_URL=https://pypi.python.org/packages/d6/54/f7cf39483b16c25a8c132dc0b81aea2ae91e367da749f17dddeaf739123a/tensorflow_gpu-1.1.0rc1-cp36-cp36m-macosx_10_11_x86_64.whl</div><div class="line">$ pip install --upgrade $TF_BINARY_URL</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">$ python</div><div class="line">...</div><div class="line">&gt;&gt;&gt; import tensorflow as tf</div><div class="line">&gt;&gt;&gt; hello = tf.constant(&apos;Hello, TensorFlow!&apos;)</div><div class="line">&gt;&gt;&gt; sess = tf.Session()</div><div class="line">&gt;&gt;&gt; print(sess.run(hello))</div><div class="line">Hello, TensorFlow!</div><div class="line">&gt;&gt;&gt; a = tf.constant(10)</div><div class="line">&gt;&gt;&gt; b = tf.constant(32)</div><div class="line">&gt;&gt;&gt; print(sess.run(a + b))</div><div class="line">42</div><div class="line">&gt;&gt;&gt;</div></pre></td></tr></table></figure>
+<h3 id="Issues-1"><a href="#Issues-1" class="headerlink" title="Issues"></a>Issues</h3><h4 id="Issue-import-tensorflow"><a href="#Issue-import-tensorflow" class="headerlink" title="Issue, import tensorflow:"></a>Issue, <code>import tensorflow</code>:</h4><pre><code>&gt;&gt;&gt; import tensorflow as tf
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcublas.8.0.dylib locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcudnn.5.dylib locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcufft.8.0.dylib locally
+Segmentation fault: 11
+</code></pre><p>Solution:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo ln -s /usr/local/cuda/lib/libcuda.dylib /usr/local/cuda/lib/libcuda.1.dylib</div></pre></td></tr></table></figure>
+<ul>
+<li><a href="https://github.com/tensorflow/tensorflow/issues/2940" target="_blank" rel="external">Installing Tensorflow with GPU support on os x 10.11</a></li>
+</ul>
+<h4 id="Issue-“Library-not-loaded-rpath-libcublas-8-0-dylib”"><a href="#Issue-“Library-not-loaded-rpath-libcublas-8-0-dylib”" class="headerlink" title="Issue, “Library not loaded: @rpath/libcublas.8.0.dylib”:"></a>Issue, “Library not loaded: @rpath/libcublas.8.0.dylib”:</h4><pre><code>ImportError: dlopen(/Users/John/.pyenv/versions/anaconda3-4.3.1/lib/python3.6/site-packages/tensorflow/python/_pywrap_tensorflow_internal.so, 10): Library not loaded: @rpath/libcublas.8.0.dylib
+</code></pre><p>Solution: Disbale <a href="https://support.apple.com/en-us/HT204899" target="_blank" rel="external">SIP</a></p>
+<p>Reboot into “Recovery OS”,</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ csrutil disable</div></pre></td></tr></table></figure>
+<p>Restart into macOS,</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ python -c &quot;import tensorflow; print(tensorflow.__version__)&quot;</div><div class="line">1.1.0-rc1</div></pre></td></tr></table></figure>
+<h3 id="References"><a href="#References" class="headerlink" title="References"></a>References</h3><ul>
+<li><a href="https://github.com/jtoy/awesome-tensorflow" target="_blank" rel="external">Awesome TensorFlow</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div><div style="display: table; margin: 0 auto"> <span style="display: table-cell; vertical-align: middle">您可以投食小伊布</span> <img src="/uploads/avatar.png" style="display: table-cell; width: 30px; margin-bottom: 10px" /> <span style="display: table-cell; vertical-align: middle">，奖励一下哦~</span> </div></div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/uploads/wechat-reward-qrcode.png" alt="Eevee WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/uploads/alipay-reward-qrcode.jpg" alt="Eevee Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      Eevee
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://eevee.cc/2017/04/12/install-caffe-tf/" title="Install Caffe & TensorFlow with Python and CUDA">http://eevee.cc/2017/04/12/install-caffe-tf/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh" rel="external nofollow" target="_blank">CC BY-NC-ND 4.0</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Caffe/" rel="tag"># Caffe</a>
+          
+            <a href="/tags/TensorFlow/" rel="tag"># TensorFlow</a>
+          
+            <a href="/tags/Python/" rel="tag"># Python</a>
+          
+            <a href="/tags/CUDA/" rel="tag"># CUDA</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/05/06/using-djinni/" rel="prev" title="使用 Djinni 开发 Android, iOS 共享库">
+                使用 Djinni 开发 Android, iOS 共享库 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2017/04/12/install-caffe-tf/"
+     data-title="Install Caffe & TensorFlow with Python and CUDA"
+     data-content=""
+     data-url="http://eevee.cc/2017/04/12/install-caffe-tf/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/04/12/install-caffe-tf/"
+           data-title="Install Caffe & TensorFlow with Python and CUDA" data-url="http://eevee.cc/2017/04/12/install-caffe-tf/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.png"
+               alt="Eevee" />
+          <p class="site-author-name" itemprop="name">Eevee</p>
+           
+              <p class="site-description motion-element" itemprop="description">A full belly conquers all.</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/joinAero" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/joinAero" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Install-Caffe-amp-TensorFlow-with-Python-and-CUDA-macOS"><span class="nav-number">1.</span> <span class="nav-text">Install Caffe & TensorFlow with Python and CUDA (macOS)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Requirements"><span class="nav-number">1.1.</span> <span class="nav-text">Requirements</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Python-Installation"><span class="nav-number">1.1.1.</span> <span class="nav-text">Python Installation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CUDA-Installation"><span class="nav-number">1.1.2.</span> <span class="nav-text">CUDA Installation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#OpenCV-Installation"><span class="nav-number">1.1.3.</span> <span class="nav-text">OpenCV Installation</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Caffe"><span class="nav-number">1.2.</span> <span class="nav-text">Caffe</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Installation"><span class="nav-number">1.2.1.</span> <span class="nav-text">Installation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Issues"><span class="nav-number">1.2.2.</span> <span class="nav-text">Issues</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Issue-make-pycaffe"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">Issue, make pycaffe:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Issue-import-caffe"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">Issue, import caffe:</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Others"><span class="nav-number">1.2.3.</span> <span class="nav-text">Others</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TensorFlow"><span class="nav-number">1.3.</span> <span class="nav-text">TensorFlow</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Installation-1"><span class="nav-number">1.3.1.</span> <span class="nav-text">Installation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Issues-1"><span class="nav-number">1.3.2.</span> <span class="nav-text">Issues</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Issue-import-tensorflow"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">Issue, import tensorflow:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Issue-“Library-not-loaded-rpath-libcublas-8-0-dylib”"><span class="nav-number">1.3.2.2.</span> <span class="nav-text">Issue, “Library not loaded: @rpath/libcublas.8.0.dylib”:</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#References"><span class="nav-number">1.3.3.</span> <span class="nav-text">References</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Eevee</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"eevee"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js?v=5.1.0"></script>
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
