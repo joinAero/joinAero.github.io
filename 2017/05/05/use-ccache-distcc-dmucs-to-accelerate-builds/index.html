@@ -1,0 +1,928 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="ccache,distcc,dmucs," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Flower Crown Eevee" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="ccacheccache is a compiler cache. It speeds up recompilation by caching previous compilations and detecting when the same compilation is being done again. Supported languages are C, C++, Objective-C a">
+<meta name="keywords" content="ccache,distcc,dmucs">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Use ccache, distcc, dmucs to accelerate builds">
+<meta property="og:url" content="http://eevee.cc/2017/05/05/use-ccache-distcc-dmucs-to-accelerate-builds/index.html">
+<meta property="og:site_name" content="Flower Crown Eevee">
+<meta property="og:description" content="ccacheccache is a compiler cache. It speeds up recompilation by caching previous compilations and detecting when the same compilation is being done again. Supported languages are C, C++, Objective-C a">
+<meta property="og:updated_time" content="2017-05-05T03:33:09.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Use ccache, distcc, dmucs to accelerate builds">
+<meta name="twitter:description" content="ccacheccache is a compiler cache. It speeds up recompilation by caching previous compilations and detecting when the same compilation is being done again. Supported languages are C, C++, Objective-C a">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '6273277081015027000',
+      author: 'Eevee'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://eevee.cc/2017/05/05/use-ccache-distcc-dmucs-to-accelerate-builds/"/>
+
+
+
+
+
+  <title> Use ccache, distcc, dmucs to accelerate builds | Flower Crown Eevee </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=55592908";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Flower Crown Eevee</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://eevee.cc/2017/05/05/use-ccache-distcc-dmucs-to-accelerate-builds/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Eevee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Flower Crown Eevee">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Use ccache, distcc, dmucs to accelerate builds
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-05T11:29:26+08:00">
+                2017-05-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Tech/" itemprop="url" rel="index">
+                    <span itemprop="name">Tech</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/05/05/use-ccache-distcc-dmucs-to-accelerate-builds/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/05/use-ccache-distcc-dmucs-to-accelerate-builds/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="ccache"><a href="#ccache" class="headerlink" title="ccache"></a><a href="http://ccache.samba.org/" target="_blank" rel="external">ccache</a></h2><p><a href="http://ccache.samba.org/" target="_blank" rel="external">ccache</a> is a compiler cache. It speeds up recompilation by caching previous compilations and detecting when the same compilation is being done again. Supported languages are C, C++, Objective-C and Objective-C++.</p>
+<p>Mac:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"># install</div><div class="line">$ brew install ccache</div><div class="line"></div><div class="line"># where</div><div class="line">$ brew ls ccache</div><div class="line">$ which ccache</div><div class="line"></div><div class="line">$ brew info ccache</div><div class="line"></div><div class="line"># env</div><div class="line">$ vi ~/.bash_profile</div><div class="line"></div><div class="line">    export PATH=/usr/local/opt/ccache/libexec:$PATH</div><div class="line"></div><div class="line"># verify</div><div class="line">$ source ~/.bash_profile</div><div class="line">$ which clang</div><div class="line">/usr/local/opt/ccache/libexec/clang</div></pre></td></tr></table></figure>
+<p>Ubuntu:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"># install</div><div class="line">$ sudo apt-get install ccache</div><div class="line"></div><div class="line"># where</div><div class="line">$ whereis ccache</div><div class="line">$ which ccache</div><div class="line"></div><div class="line"># env</div><div class="line">$ vi ~/.bashrc</div><div class="line"></div><div class="line">    export PATH=/usr/lib/ccache:$PATH</div><div class="line"></div><div class="line"># verify</div><div class="line">$ source ~/.bashrc</div><div class="line">$ which g++ gcc</div><div class="line">/usr/lib/ccache/g++</div><div class="line">/usr/lib/ccache/gcc</div></pre></td></tr></table></figure>
+<ul>
+<li><a href="https://chromium.googlesource.com/chromium/src/+/master/docs/ccache_mac.md" target="_blank" rel="external">Using CCache on Mac</a></li>
+</ul>
+<h2 id="distcc-on-Ubuntu"><a href="#distcc-on-Ubuntu" class="headerlink" title="distcc on Ubuntu"></a><a href="https://github.com/distcc/distcc" target="_blank" rel="external">distcc</a> on Ubuntu</h2><p><a href="https://github.com/distcc/distcc" target="_blank" rel="external">distcc</a> is a program to distribute compilation of C or C++ code across several machines on a network. <a href="https://github.com/distcc/distcc" target="_blank" rel="external">distcc</a> should always generate the same results as a local compile, is simple to install and use, and is often two or more times faster than a local compile.</p>
+<p>Install:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"># install</div><div class="line">$ sudo apt-get install distcc</div><div class="line"># optional</div><div class="line">$ sudo apt-get install distccmon-gnome</div><div class="line"></div><div class="line">$ distcc --help</div><div class="line"></div><div class="line"># show ip</div><div class="line">$ ifconfig | grep &quot;inet &quot; | grep -v 127.0.0.1</div><div class="line">192.168.199.247</div><div class="line"></div><div class="line"># config</div><div class="line">$ sudo vi /etc/default/distcc</div><div class="line"></div><div class="line">    STARTDISTCC=&quot;true&quot;</div><div class="line">    ALLOWEDNETS=&quot;192.168.0.0/16&quot;</div><div class="line">    LISTENER=&quot;&quot;</div><div class="line">    ZEROCONF=&quot;false&quot;</div><div class="line"></div><div class="line"># start server</div><div class="line">$ sudo /etc/init.d/distcc start</div><div class="line"></div><div class="line"># reboot &amp; verify</div><div class="line">$ ps aux | grep distccd</div></pre></td></tr></table></figure>
+<p>Usage:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"># download</div><div class="line">$ curl -R -O http://www.lua.org/ftp/lua-5.3.4.tar.gz</div><div class="line">$ tar zxf lua-5.3.4.tar.gz</div><div class="line"></div><div class="line">$ cd lua-5.3.4</div><div class="line"></div><div class="line"># build</div><div class="line">$ time make linux</div><div class="line"></div><div class="line"># clean</div><div class="line">$ make clean; ccache -C</div><div class="line"></div><div class="line"># display distcc jobs, plz in another terminal</div><div class="line">$ distccmon-text 2</div><div class="line"># or, with gui</div><div class="line">$ distccmon-gnome &amp;</div><div class="line"></div><div class="line"># build with distcc</div><div class="line">$ export DISTCC_HOSTS=&quot;192.168.199.247 192.168.199.104&quot;</div><div class="line">$ time make -j12 CC=&quot;distcc gcc -std=gnu99&quot; linux</div></pre></td></tr></table></figure>
+<p>Cost:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th style="text-align:right">normal</th>
+<th style="text-align:right">ccache</th>
+<th style="text-align:right">distcc</th>
+<th style="text-align:right">distcc + ccache</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>cost</td>
+<td style="text-align:right">4.069s</td>
+<td style="text-align:right">0.134s</td>
+<td style="text-align:right">1.301s</td>
+<td style="text-align:right">1.296s</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>P.S. distcc: 2 quad-core pc, -j12</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>normal</th>
+<th style="text-align:right">make</th>
+<th style="text-align:right">make -j4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>cost</td>
+<td style="text-align:right">4.069s</td>
+<td style="text-align:right">1.403s</td>
+</tr>
+</tbody>
+</table>
+<p>Use with <a href="http://ccache.samba.org/" target="_blank" rel="external">ccache</a>:</p>
+<blockquote>
+<p>NOTE: This use of ccache is incompatible with use of distcc’s “pump” mode.</p>
+</blockquote>
+<h2 id="distcc-on-Mac"><a href="#distcc-on-Mac" class="headerlink" title="distcc on Mac"></a><a href="https://github.com/distcc/distcc" target="_blank" rel="external">distcc</a> on Mac</h2><p>Install:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"># install</div><div class="line">$ brew install distcc</div><div class="line"></div><div class="line">$ brew info distcc</div><div class="line">$ distcc --help</div><div class="line">$ distccd --help</div><div class="line"></div><div class="line"># show ip</div><div class="line">$ ifconfig | grep &quot;inet &quot; | grep -v 127.0.0.1</div><div class="line">192.168.199.182</div><div class="line"></div><div class="line"># config</div><div class="line">$ vi /usr/local/Cellar/distcc/3.2rc1/homebrew.mxcl.distcc.plist</div><div class="line"></div><div class="line">    ...</div><div class="line">    &lt;key&gt;ProgramArguments&lt;/key&gt;</div><div class="line">    &lt;array&gt;</div><div class="line">        &lt;string&gt;/usr/local/opt/distcc/bin/distccd&lt;/string&gt;</div><div class="line">        &lt;string&gt;--daemon&lt;/string&gt;</div><div class="line">        &lt;string&gt;--no-detach&lt;/string&gt;</div><div class="line">        &lt;string&gt;--allow=192.168.0.0/16&lt;/string&gt;</div><div class="line">    &lt;/array&gt;</div><div class="line">    ...</div><div class="line"></div><div class="line"># start server</div><div class="line">$ brew services start distcc</div><div class="line"></div><div class="line"># reboot &amp; verify</div><div class="line">$ ps aux | grep distccd</div></pre></td></tr></table></figure>
+<p>Usage:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"># download</div><div class="line">$ curl -R -O http://www.lua.org/ftp/lua-5.3.4.tar.gz</div><div class="line">$ tar zxf lua-5.3.4.tar.gz</div><div class="line"></div><div class="line">$ cd lua-5.3.4</div><div class="line"></div><div class="line"># build</div><div class="line">$ time make macosx</div><div class="line"></div><div class="line"># clean</div><div class="line">$ make clean; ccache -C</div><div class="line"></div><div class="line"># display distcc jobs, plz in another terminal</div><div class="line">$ distccmon-text 2</div><div class="line"></div><div class="line"># build with distcc</div><div class="line">$ export DISTCC_HOSTS=&quot;192.168.199.182 192.168.199.105&quot;</div><div class="line">$ vi src/Makefile</div><div class="line"></div><div class="line">    macosx:</div><div class="line">            $(MAKE) $(ALL) SYSCFLAGS=&quot;-DLUA_USE_MACOSX&quot; SYSLIBS=&quot;-lreadline&quot; CC=&quot;distcc cc&quot;</div><div class="line"></div><div class="line">$ time make -j12 macosx</div></pre></td></tr></table></figure>
+<blockquote>
+<p>Note: It is recommended that using distcc splits different platforms.</p>
+</blockquote>
+<h2 id="dmucs-on-Ubuntu"><a href="#dmucs-on-Ubuntu" class="headerlink" title="dmucs on Ubuntu"></a><a href="http://dmucs.sourceforge.net/" target="_blank" rel="external">dmucs</a> on Ubuntu</h2><p><a href="http://dmucs.sourceforge.net/" target="_blank" rel="external">DMUCS</a> is a system that allows a group of users to share a compilation farm.  Each compilation request from each user will be sent to the fastest available machine, every time.</p>
+<p>Install:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"># install</div><div class="line">$ sudo apt-get install dmucs</div><div class="line"></div><div class="line"># bug fix for restart on boot</div><div class="line">#   dmucs: race condition in start scripts prevents loadavg starting</div><div class="line">#   https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=798830</div><div class="line">$ sudo vi /etc/init.d/dmucs</div><div class="line"></div><div class="line">    start)</div><div class="line">          if [ &quot;$SERVER&quot; = &quot;yes&quot; ]; then</div><div class="line">              ...</div><div class="line">              if start_server ;  then</div><div class="line">              ...</div><div class="line">          if [ &quot;$USE_SERVER&quot; ]; then</div><div class="line">              ...</div><div class="line">              if start_loadavg ;  then</div><div class="line">              ...</div></pre></td></tr></table></figure>
+<blockquote>
+<p>P.S. Unfortunately, this fix doesn’t work on my Ubuntu, although <code>start_loadavg</code> result is ok ==.</p>
+<p>You could log the output of “/etc/init.d/dmucs” script, add this at the top:<br>    <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">exec 1&gt;/tmp/init.log 2&gt;&amp;1</div><div class="line">set -x</div></pre></td></tr></table></figure></p>
+</blockquote>
+<p>Server machine (e.g. 192.168.199.210):</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"># config</div><div class="line">$ sudo vi /etc/default/dmucs</div><div class="line"></div><div class="line">    SERVER=yes</div><div class="line">    USE_SERVER=</div><div class="line"></div><div class="line"># hosts-info</div><div class="line">$ sudo vi /etc/dmucs.conf</div><div class="line"></div><div class="line">    # Format: machine number-of-cpus power-index</div><div class="line">    192.168.199.104   4   8</div><div class="line">    192.168.199.247   4  10</div><div class="line"></div><div class="line"># start</div><div class="line">$ sudo /etc/init.d/dmucs start</div><div class="line"></div><div class="line"># verify restart on boot</div><div class="line">$ sudo reboot</div><div class="line">$ ps aux | grep dmucs</div><div class="line"></div><div class="line"># display which hosts/cpus are available</div><div class="line">$ monitor</div></pre></td></tr></table></figure>
+<p>Each host (e.g. 192.168.199.104 192.168.199.247):</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"># config</div><div class="line">$ sudo vi /etc/default/dmucs</div><div class="line"></div><div class="line">    SERVER=no</div><div class="line">    USE_SERVER=192.168.199.210</div><div class="line"></div><div class="line"># start</div><div class="line">$ sudo /etc/init.d/dmucs start</div><div class="line"></div><div class="line"># verify restart on boot</div><div class="line">$ sudo reboot</div><div class="line">$ ps aux | grep loadavg</div></pre></td></tr></table></figure>
+<p>Usage:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ cd lua-5.3.4</div><div class="line"></div><div class="line"># build</div><div class="line">$ time make -j12 CC=&quot;gethost -s 192.168.199.210 distcc gcc -std=gnu99&quot; linux</div></pre></td></tr></table></figure>
+<h3 id="Issue-loadavg-get-wrong-host-on-Ubuntu-14-04-then-dmucs-not-recognize-the-hosts"><a href="#Issue-loadavg-get-wrong-host-on-Ubuntu-14-04-then-dmucs-not-recognize-the-hosts" class="headerlink" title="Issue: loadavg get wrong host on Ubuntu 14.04, then dmucs not recognize the hosts"></a>Issue: <code>loadavg</code> get wrong host on Ubuntu 14.04, then <code>dmucs</code> not recognize the hosts</h3><p>Run <code>loadavg -s 192.168.199.210 -D</code>, see “Writing –&gt;127.0.1.1 …&lt;– to the server”.</p>
+<p>Easily avoid this issue as follows:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"># comment host &quot;127.0.1.1&quot;</div><div class="line">$ sudo vi /etc/hosts</div><div class="line"></div><div class="line">    127.0.0.1   localhost</div><div class="line">    #127.0.1.1  ubuntu</div><div class="line">    ...</div><div class="line"></div><div class="line"># restart loadavg</div><div class="line">$ sudo /etc/init.d/dmucs restart</div></pre></td></tr></table></figure>
+<p>However, it will affect dnsmasq at least.</p>
+<p>Learn more, plz google “127.0.1.1”, “ubuntu dnsmasq 127.0.1.1”.</p>
+<!--
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># enable &quot;/etc/init.d/*&quot; scripts</div><div class="line">sudo update-rc.d &lt;script&gt; defaults</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"># log for &quot;/etc/init.d/*&quot; scripts</div><div class="line">exec 1&gt;/tmp/init.log 2&gt;&amp;1</div><div class="line">set -x</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># restore configure</div><div class="line"># https://askubuntu.com/questions/66533/how-can-i-restore-configuration-files</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"># download [here](https://sourceforge.net/projects/dmucs/)</div><div class="line">$ tar jxf dmucs-0.6.tar.bz2</div><div class="line"></div><div class="line">$ cd dmucs/</div><div class="line"></div><div class="line"># build</div><div class="line">$ ./configure \</div><div class="line">CPPFLAGS=-DSERVER_MACH_NAME=\\\&quot;192.168.199.210\\\&quot;</div><div class="line">$ make</div><div class="line">$ make install</div></pre></td></tr></table></figure>
+<ul>
+<li><a href="http://jhshi.me/2013/11/02/how-to-get-hosts-ip-address/">How to Get Local Host’s Real IP Address</a></li>
+</ul>
+<p>–&gt;</p>
+-->
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div><div style="display: table; margin: 0 auto"> <span style="display: table-cell; vertical-align: middle">您可以投食小伊布</span> <img src="/uploads/avatar.png" style="display: table-cell; width: 30px; margin-bottom: 10px" /> <span style="display: table-cell; vertical-align: middle">，奖励一下哦~</span> </div></div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/uploads/wechat-reward-qrcode.png" alt="Eevee WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/uploads/alipay-reward-qrcode.jpg" alt="Eevee Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      Eevee
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://eevee.cc/2017/05/05/use-ccache-distcc-dmucs-to-accelerate-builds/" title="Use ccache, distcc, dmucs to accelerate builds">http://eevee.cc/2017/05/05/use-ccache-distcc-dmucs-to-accelerate-builds/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh" rel="external nofollow" target="_blank">CC BY-NC-ND 4.0</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ccache/" rel="tag"># ccache</a>
+          
+            <a href="/tags/distcc/" rel="tag"># distcc</a>
+          
+            <a href="/tags/dmucs/" rel="tag"># dmucs</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/04/12/install-caffe-tf/" rel="prev" title="Install Caffe & TensorFlow with Python and CUDA">
+                Install Caffe & TensorFlow with Python and CUDA <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2017/05/05/use-ccache-distcc-dmucs-to-accelerate-builds/"
+     data-title="Use ccache, distcc, dmucs to accelerate builds"
+     data-content=""
+     data-url="http://eevee.cc/2017/05/05/use-ccache-distcc-dmucs-to-accelerate-builds/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/05/05/use-ccache-distcc-dmucs-to-accelerate-builds/"
+           data-title="Use ccache, distcc, dmucs to accelerate builds" data-url="http://eevee.cc/2017/05/05/use-ccache-distcc-dmucs-to-accelerate-builds/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.png"
+               alt="Eevee" />
+          <p class="site-author-name" itemprop="name">Eevee</p>
+           
+              <p class="site-description motion-element" itemprop="description">A full belly conquers all.</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/joinAero" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/joinAero" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#ccache"><span class="nav-number">1.</span> <span class="nav-text">ccache</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#distcc-on-Ubuntu"><span class="nav-number">2.</span> <span class="nav-text">distcc on Ubuntu</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#distcc-on-Mac"><span class="nav-number">3.</span> <span class="nav-text">distcc on Mac</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dmucs-on-Ubuntu"><span class="nav-number">4.</span> <span class="nav-text">dmucs on Ubuntu</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Issue-loadavg-get-wrong-host-on-Ubuntu-14-04-then-dmucs-not-recognize-the-hosts"><span class="nav-number">4.1.</span> <span class="nav-text">Issue: loadavg get wrong host on Ubuntu 14.04, then dmucs not recognize the hosts</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Eevee</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"eevee"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js?v=5.1.0"></script>
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://eevee.cc/"/>
-  <updated>2017-04-12T09:27:57.000Z</updated>
+  <updated>2017-05-05T03:33:09.000Z</updated>
   <id>http://eevee.cc/</id>
   
   <author>
@@ -16,11 +16,129 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Use ccache, distcc, dmucs to accelerate builds</title>
+    <link href="http://eevee.cc/2017/05/05/use-ccache-distcc-dmucs-to-accelerate-builds/"/>
+    <id>http://eevee.cc/2017/05/05/use-ccache-distcc-dmucs-to-accelerate-builds/</id>
+    <published>2017-05-05T03:29:26.000Z</published>
+    <updated>2017-05-05T03:33:09.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="ccache"><a href="#ccache" class="headerlink" title="ccache"></a><a href="http://ccache.samba.org/" target="_blank" rel="external">ccache</a></h2><p><a href="http://ccache.samba.org/" target="_blank" rel="external">ccache</a> is a compiler cache. It speeds up recompilation by caching previous compilations and detecting when the same compilation is being done again. Supported languages are C, C++, Objective-C and Objective-C++.</p>
+<p>Mac:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"># install</div><div class="line">$ brew install ccache</div><div class="line"></div><div class="line"># where</div><div class="line">$ brew ls ccache</div><div class="line">$ which ccache</div><div class="line"></div><div class="line">$ brew info ccache</div><div class="line"></div><div class="line"># env</div><div class="line">$ vi ~/.bash_profile</div><div class="line"></div><div class="line">    export PATH=/usr/local/opt/ccache/libexec:$PATH</div><div class="line"></div><div class="line"># verify</div><div class="line">$ source ~/.bash_profile</div><div class="line">$ which clang</div><div class="line">/usr/local/opt/ccache/libexec/clang</div></pre></td></tr></table></figure>
+<p>Ubuntu:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"># install</div><div class="line">$ sudo apt-get install ccache</div><div class="line"></div><div class="line"># where</div><div class="line">$ whereis ccache</div><div class="line">$ which ccache</div><div class="line"></div><div class="line"># env</div><div class="line">$ vi ~/.bashrc</div><div class="line"></div><div class="line">    export PATH=/usr/lib/ccache:$PATH</div><div class="line"></div><div class="line"># verify</div><div class="line">$ source ~/.bashrc</div><div class="line">$ which g++ gcc</div><div class="line">/usr/lib/ccache/g++</div><div class="line">/usr/lib/ccache/gcc</div></pre></td></tr></table></figure>
+<ul>
+<li><a href="https://chromium.googlesource.com/chromium/src/+/master/docs/ccache_mac.md" target="_blank" rel="external">Using CCache on Mac</a></li>
+</ul>
+<h2 id="distcc-on-Ubuntu"><a href="#distcc-on-Ubuntu" class="headerlink" title="distcc on Ubuntu"></a><a href="https://github.com/distcc/distcc" target="_blank" rel="external">distcc</a> on Ubuntu</h2><p><a href="https://github.com/distcc/distcc" target="_blank" rel="external">distcc</a> is a program to distribute compilation of C or C++ code across several machines on a network. <a href="https://github.com/distcc/distcc" target="_blank" rel="external">distcc</a> should always generate the same results as a local compile, is simple to install and use, and is often two or more times faster than a local compile.</p>
+<p>Install:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"># install</div><div class="line">$ sudo apt-get install distcc</div><div class="line"># optional</div><div class="line">$ sudo apt-get install distccmon-gnome</div><div class="line"></div><div class="line">$ distcc --help</div><div class="line"></div><div class="line"># show ip</div><div class="line">$ ifconfig | grep &quot;inet &quot; | grep -v 127.0.0.1</div><div class="line">192.168.199.247</div><div class="line"></div><div class="line"># config</div><div class="line">$ sudo vi /etc/default/distcc</div><div class="line"></div><div class="line">    STARTDISTCC=&quot;true&quot;</div><div class="line">    ALLOWEDNETS=&quot;192.168.0.0/16&quot;</div><div class="line">    LISTENER=&quot;&quot;</div><div class="line">    ZEROCONF=&quot;false&quot;</div><div class="line"></div><div class="line"># start server</div><div class="line">$ sudo /etc/init.d/distcc start</div><div class="line"></div><div class="line"># reboot &amp; verify</div><div class="line">$ ps aux | grep distccd</div></pre></td></tr></table></figure>
+<p>Usage:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"># download</div><div class="line">$ curl -R -O http://www.lua.org/ftp/lua-5.3.4.tar.gz</div><div class="line">$ tar zxf lua-5.3.4.tar.gz</div><div class="line"></div><div class="line">$ cd lua-5.3.4</div><div class="line"></div><div class="line"># build</div><div class="line">$ time make linux</div><div class="line"></div><div class="line"># clean</div><div class="line">$ make clean; ccache -C</div><div class="line"></div><div class="line"># display distcc jobs, plz in another terminal</div><div class="line">$ distccmon-text 2</div><div class="line"># or, with gui</div><div class="line">$ distccmon-gnome &amp;</div><div class="line"></div><div class="line"># build with distcc</div><div class="line">$ export DISTCC_HOSTS=&quot;192.168.199.247 192.168.199.104&quot;</div><div class="line">$ time make -j12 CC=&quot;distcc gcc -std=gnu99&quot; linux</div></pre></td></tr></table></figure>
+<p>Cost:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th style="text-align:right">normal</th>
+<th style="text-align:right">ccache</th>
+<th style="text-align:right">distcc</th>
+<th style="text-align:right">distcc + ccache</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>cost</td>
+<td style="text-align:right">4.069s</td>
+<td style="text-align:right">0.134s</td>
+<td style="text-align:right">1.301s</td>
+<td style="text-align:right">1.296s</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>P.S. distcc: 2 quad-core pc, -j12</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>normal</th>
+<th style="text-align:right">make</th>
+<th style="text-align:right">make -j4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>cost</td>
+<td style="text-align:right">4.069s</td>
+<td style="text-align:right">1.403s</td>
+</tr>
+</tbody>
+</table>
+<p>Use with <a href="http://ccache.samba.org/" target="_blank" rel="external">ccache</a>:</p>
+<blockquote>
+<p>NOTE: This use of ccache is incompatible with use of distcc’s “pump” mode.</p>
+</blockquote>
+<h2 id="distcc-on-Mac"><a href="#distcc-on-Mac" class="headerlink" title="distcc on Mac"></a><a href="https://github.com/distcc/distcc" target="_blank" rel="external">distcc</a> on Mac</h2><p>Install:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"># install</div><div class="line">$ brew install distcc</div><div class="line"></div><div class="line">$ brew info distcc</div><div class="line">$ distcc --help</div><div class="line">$ distccd --help</div><div class="line"></div><div class="line"># show ip</div><div class="line">$ ifconfig | grep &quot;inet &quot; | grep -v 127.0.0.1</div><div class="line">192.168.199.182</div><div class="line"></div><div class="line"># config</div><div class="line">$ vi /usr/local/Cellar/distcc/3.2rc1/homebrew.mxcl.distcc.plist</div><div class="line"></div><div class="line">    ...</div><div class="line">    &lt;key&gt;ProgramArguments&lt;/key&gt;</div><div class="line">    &lt;array&gt;</div><div class="line">        &lt;string&gt;/usr/local/opt/distcc/bin/distccd&lt;/string&gt;</div><div class="line">        &lt;string&gt;--daemon&lt;/string&gt;</div><div class="line">        &lt;string&gt;--no-detach&lt;/string&gt;</div><div class="line">        &lt;string&gt;--allow=192.168.0.0/16&lt;/string&gt;</div><div class="line">    &lt;/array&gt;</div><div class="line">    ...</div><div class="line"></div><div class="line"># start server</div><div class="line">$ brew services start distcc</div><div class="line"></div><div class="line"># reboot &amp; verify</div><div class="line">$ ps aux | grep distccd</div></pre></td></tr></table></figure>
+<p>Usage:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"># download</div><div class="line">$ curl -R -O http://www.lua.org/ftp/lua-5.3.4.tar.gz</div><div class="line">$ tar zxf lua-5.3.4.tar.gz</div><div class="line"></div><div class="line">$ cd lua-5.3.4</div><div class="line"></div><div class="line"># build</div><div class="line">$ time make macosx</div><div class="line"></div><div class="line"># clean</div><div class="line">$ make clean; ccache -C</div><div class="line"></div><div class="line"># display distcc jobs, plz in another terminal</div><div class="line">$ distccmon-text 2</div><div class="line"></div><div class="line"># build with distcc</div><div class="line">$ export DISTCC_HOSTS=&quot;192.168.199.182 192.168.199.105&quot;</div><div class="line">$ vi src/Makefile</div><div class="line"></div><div class="line">    macosx:</div><div class="line">            $(MAKE) $(ALL) SYSCFLAGS=&quot;-DLUA_USE_MACOSX&quot; SYSLIBS=&quot;-lreadline&quot; CC=&quot;distcc cc&quot;</div><div class="line"></div><div class="line">$ time make -j12 macosx</div></pre></td></tr></table></figure>
+<blockquote>
+<p>Note: It is recommended that using distcc splits different platforms.</p>
+</blockquote>
+<h2 id="dmucs-on-Ubuntu"><a href="#dmucs-on-Ubuntu" class="headerlink" title="dmucs on Ubuntu"></a><a href="http://dmucs.sourceforge.net/" target="_blank" rel="external">dmucs</a> on Ubuntu</h2><p><a href="http://dmucs.sourceforge.net/" target="_blank" rel="external">DMUCS</a> is a system that allows a group of users to share a compilation farm.  Each compilation request from each user will be sent to the fastest available machine, every time.</p>
+<p>Install:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"># install</div><div class="line">$ sudo apt-get install dmucs</div><div class="line"></div><div class="line"># bug fix for restart on boot</div><div class="line">#   dmucs: race condition in start scripts prevents loadavg starting</div><div class="line">#   https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=798830</div><div class="line">$ sudo vi /etc/init.d/dmucs</div><div class="line"></div><div class="line">    start)</div><div class="line">          if [ &quot;$SERVER&quot; = &quot;yes&quot; ]; then</div><div class="line">              ...</div><div class="line">              if start_server ;  then</div><div class="line">              ...</div><div class="line">          if [ &quot;$USE_SERVER&quot; ]; then</div><div class="line">              ...</div><div class="line">              if start_loadavg ;  then</div><div class="line">              ...</div></pre></td></tr></table></figure>
+<blockquote>
+<p>P.S. Unfortunately, this fix doesn’t work on my Ubuntu, although <code>start_loadavg</code> result is ok ==.</p>
+<p>You could log the output of “/etc/init.d/dmucs” script, add this at the top:<br>    <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">exec 1&gt;/tmp/init.log 2&gt;&amp;1</div><div class="line">set -x</div></pre></td></tr></table></figure></p>
+</blockquote>
+<p>Server machine (e.g. 192.168.199.210):</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"># config</div><div class="line">$ sudo vi /etc/default/dmucs</div><div class="line"></div><div class="line">    SERVER=yes</div><div class="line">    USE_SERVER=</div><div class="line"></div><div class="line"># hosts-info</div><div class="line">$ sudo vi /etc/dmucs.conf</div><div class="line"></div><div class="line">    # Format: machine number-of-cpus power-index</div><div class="line">    192.168.199.104   4   8</div><div class="line">    192.168.199.247   4  10</div><div class="line"></div><div class="line"># start</div><div class="line">$ sudo /etc/init.d/dmucs start</div><div class="line"></div><div class="line"># verify restart on boot</div><div class="line">$ sudo reboot</div><div class="line">$ ps aux | grep dmucs</div><div class="line"></div><div class="line"># display which hosts/cpus are available</div><div class="line">$ monitor</div></pre></td></tr></table></figure>
+<p>Each host (e.g. 192.168.199.104 192.168.199.247):</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"># config</div><div class="line">$ sudo vi /etc/default/dmucs</div><div class="line"></div><div class="line">    SERVER=no</div><div class="line">    USE_SERVER=192.168.199.210</div><div class="line"></div><div class="line"># start</div><div class="line">$ sudo /etc/init.d/dmucs start</div><div class="line"></div><div class="line"># verify restart on boot</div><div class="line">$ sudo reboot</div><div class="line">$ ps aux | grep loadavg</div></pre></td></tr></table></figure>
+<p>Usage:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ cd lua-5.3.4</div><div class="line"></div><div class="line"># build</div><div class="line">$ time make -j12 CC=&quot;gethost -s 192.168.199.210 distcc gcc -std=gnu99&quot; linux</div></pre></td></tr></table></figure>
+<h3 id="Issue-loadavg-get-wrong-host-on-Ubuntu-14-04-then-dmucs-not-recognize-the-hosts"><a href="#Issue-loadavg-get-wrong-host-on-Ubuntu-14-04-then-dmucs-not-recognize-the-hosts" class="headerlink" title="Issue: loadavg get wrong host on Ubuntu 14.04, then dmucs not recognize the hosts"></a>Issue: <code>loadavg</code> get wrong host on Ubuntu 14.04, then <code>dmucs</code> not recognize the hosts</h3><p>Run <code>loadavg -s 192.168.199.210 -D</code>, see “Writing –&gt;127.0.1.1 …&lt;– to the server”.</p>
+<p>Easily avoid this issue as follows:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"># comment host &quot;127.0.1.1&quot;</div><div class="line">$ sudo vi /etc/hosts</div><div class="line"></div><div class="line">    127.0.0.1   localhost</div><div class="line">    #127.0.1.1  ubuntu</div><div class="line">    ...</div><div class="line"></div><div class="line"># restart loadavg</div><div class="line">$ sudo /etc/init.d/dmucs restart</div></pre></td></tr></table></figure>
+<p>However, it will affect dnsmasq at least.</p>
+<p>Learn more, plz google “127.0.1.1”, “ubuntu dnsmasq 127.0.1.1”.</p>
+<!--
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># enable &quot;/etc/init.d/*&quot; scripts</div><div class="line">sudo update-rc.d &lt;script&gt; defaults</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"># log for &quot;/etc/init.d/*&quot; scripts</div><div class="line">exec 1&gt;/tmp/init.log 2&gt;&amp;1</div><div class="line">set -x</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># restore configure</div><div class="line"># https://askubuntu.com/questions/66533/how-can-i-restore-configuration-files</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"># download [here](https://sourceforge.net/projects/dmucs/)</div><div class="line">$ tar jxf dmucs-0.6.tar.bz2</div><div class="line"></div><div class="line">$ cd dmucs/</div><div class="line"></div><div class="line"># build</div><div class="line">$ ./configure \</div><div class="line">CPPFLAGS=-DSERVER_MACH_NAME=\\\&quot;192.168.199.210\\\&quot;</div><div class="line">$ make</div><div class="line">$ make install</div></pre></td></tr></table></figure>
+<ul>
+<li><a href="http://jhshi.me/2013/11/02/how-to-get-hosts-ip-address/">How to Get Local Host’s Real IP Address</a></li>
+</ul>
+<p>–&gt;</p>
+-->]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;ccache&quot;&gt;&lt;a href=&quot;#ccache&quot; class=&quot;headerlink&quot; title=&quot;ccache&quot;&gt;&lt;/a&gt;&lt;a href=&quot;http://ccache.samba.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;cc
+    
+    </summary>
+    
+      <category term="Tech" scheme="http://eevee.cc/categories/Tech/"/>
+    
+    
+      <category term="ccache" scheme="http://eevee.cc/tags/ccache/"/>
+    
+      <category term="distcc" scheme="http://eevee.cc/tags/distcc/"/>
+    
+      <category term="dmucs" scheme="http://eevee.cc/tags/dmucs/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Install Caffe &amp; TensorFlow with Python and CUDA</title>
     <link href="http://eevee.cc/2017/04/12/install-caffe-tf/"/>
     <id>http://eevee.cc/2017/04/12/install-caffe-tf/</id>
     <published>2017-04-12T09:22:25.000Z</published>
-    <updated>2017-04-12T09:27:57.000Z</updated>
+    <updated>2017-04-12T09:34:06.000Z</updated>
     
     <content type="html"><![CDATA[<h1 id="Install-Caffe-amp-TensorFlow-with-Python-and-CUDA-macOS"><a href="#Install-Caffe-amp-TensorFlow-with-Python-and-CUDA-macOS" class="headerlink" title="Install Caffe &amp; TensorFlow with Python and CUDA (macOS)"></a>Install Caffe &amp; TensorFlow with Python and CUDA (macOS)</h1><h2 id="Requirements"><a href="#Requirements" class="headerlink" title="Requirements"></a>Requirements</h2><h3 id="Python-Installation"><a href="#Python-Installation" class="headerlink" title="Python Installation"></a>Python Installation</h3><p><a href="https://github.com/pyenv/pyenv" target="_blank" rel="external">pyenv</a></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">$ brew install pyenv</div><div class="line">$ pyenv install --list</div><div class="line">$ pyenv install anaconda3-4.3.1</div><div class="line">$ pyenv global anaconda3-4.3.1</div><div class="line">$ pyenv versions</div><div class="line">  system</div><div class="line">* anaconda3-4.3.1 (set by /Users/John/.pyenv/version)</div></pre></td></tr></table></figure>
