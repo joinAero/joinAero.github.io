@@ -271,6 +271,177 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://eevee.cc/2017/05/05/build-ocv-for-android-with-cuda/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Eevee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Flower Crown Eevee">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/05/05/build-ocv-for-android-with-cuda/" itemprop="url">
+                  Build OpenCV for Android with CUDA
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-05T15:31:13+08:00">
+                2017-05-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Tech/" itemprop="url" rel="index">
+                    <span itemprop="name">Tech</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/05/05/build-ocv-for-android-with-cuda/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/05/build-ocv-for-android-with-cuda/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ export ANDROID_NDK=$ANDROID_SDK/ndk-bundle</div><div class="line">$ export ANDROID_STANDALONE_TOOLCHAIN=$ANDROID_NDK/toolchains</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">$ cd opencv-3.2.0/platforms/</div><div class="line">$ mkdir -p build_android_arm</div><div class="line">$ cd build_android_arm/</div><div class="line">$ cmake -D CMAKE_BUILD_TYPE=RELEASE \</div><div class="line">-D CUDA_TOOLKIT_ROOT_DIR=$HOME/NVPACK/cuda-7.0 \</div><div class="line">-D CUDA_ARCH_BIN=&quot;5.3&quot; \</div><div class="line">-D CUDA_ARCH_PTX=&quot;&quot; \</div><div class="line">-D CUDA_FAST_MATH=ON \</div><div class="line">-D BUILD_DOCS=OFF \</div><div class="line">-D BUILD_EXAMPLES=OFF \</div><div class="line">-D BUILD_TESTS=OFF \</div><div class="line">-D BUILD_PERF_TESTS=OFF \</div><div class="line">-D WITH_CUDA=ON \</div><div class="line">-D WITH_CUFFT=OFF \</div><div class="line">-D WITH_CUBLAS=OFF \</div><div class="line">-D WITH_OPENCL=OFF \</div><div class="line">../..</div><div class="line"></div><div class="line"># cmake without ccache in env</div><div class="line">-D CMAKE_C_COMPILER=/usr/bin/cc \</div><div class="line">-D CMAKE_CXX_COMPILER=/usr/bin/c++ \</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ cd build_android_arm/</div><div class="line">$ make -j8</div><div class="line">$ make -j$(python -c &apos;import multiprocessing as mp; print(mp.cpu_count())&apos;)</div></pre></td></tr></table></figure>
+<p>Alternatives:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">$ cd opencv-3.2.0/platforms/</div><div class="line">$ ./scripts/cmake_android_arm.sh</div><div class="line"></div><div class="line"># Tegra X1: https://developer.nvidia.com/content/tegra-x1</div><div class="line">-D CUDA_GENERATION=Maxwell</div><div class="line"></div><div class="line"># ARM</div><div class="line">-D CUDA_ARCH_BIN=&quot;3.2&quot;</div><div class="line">-D CUDA_ARCH_PTX=&quot;&quot;</div><div class="line"></div><div class="line"># AARCH64</div><div class="line">-D CUDA_ARCH_BIN=&quot;5.3&quot;</div><div class="line">-D CUDA_ARCH_PTX=&quot;&quot;</div></pre></td></tr></table></figure>
+<h2 id="Usage"><a href="#Usage" class="headerlink" title="Usage"></a>Usage</h2><ul>
+<li>“Import Module” from “build_android_arm” directory.<ul>
+<li>Exclude “jni”, only keep “aidl”, “java”, “res/values/attrs.xml”</li>
+</ul>
+</li>
+</ul>
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
+<li><a href="http://opencv.org/platforms/android/" target="_blank" rel="external">OpenCV Platforms Android</a></li>
+<li><a href="http://code.opencv.org/projects/opencv/wiki/Building_OpenCV4Android_from_trunk" target="_blank" rel="external">Building OpenCV4Android from trunk</a></li>
+<li><p><a href="https://zami0xzami.wordpress.com/2016/03/17/building-opencv-for-android-from-source/" target="_blank" rel="external">Building OpenCV &amp; OpenCV Extra Modules For Android From Source</a></p>
+</li>
+<li><p><a href="http://docs.opencv.org/master/d6/d15/tutorial_building_tegra_cuda.html" target="_blank" rel="external">Building OpenCV for Tegra with CUDA</a></p>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://eevee.cc/2017/05/05/use-ccache-distcc-dmucs-to-accelerate-builds/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1194,7 +1365,7 @@ Extra Tools:
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">4</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1216,7 +1387,7 @@ Extra Tools:
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
