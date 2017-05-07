@@ -61,8 +61,11 @@ echo
 echo -e "\033[36mupdate modules all\033[0m"
 npm_update
 
-echo
-echo -e "\033[36mprepare themes\033[0m"
-cd themes/; ./themes.sh; cd ..
+#echo
+#echo -e "\033[36mprepare themes\033[0m"
+#cd themes/; ./themes.sh; cd ..
+
+echo -e "\033[1;32mUpdate submodules ...\033[0m"
+git submodule foreach git pull
 
 exit 0
