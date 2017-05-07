@@ -300,19 +300,19 @@ mathjax:
 #baidu_analytics:
 
 # Duoshuo ShortName
-duoshuo_shortname: eevee
+#duoshuo_shortname: eevee
 
 # Disqus
 disqus:
   enable: false
-  shortname:
+  shortname: eevee
   count: true
 
 # Hypercomments
 #hypercomments_id:
 
 # Gentie productKey
-#gentie_productKey:
+gentie_productKey: 7b9ece3e921846afa2286960d7f650a2
 
 # changyan
 changyan:
@@ -332,16 +332,16 @@ changyan:
 # Available value:
 #    button | slide
 # Warning: Baidu Share does not support https.
-#baidushare:
+baidushare: true
 ##  type: button
 
 # Share
-#jiathis:
+# jiathis: true
 # Warning: JiaThis does not support https.
 #add_this_id:
 
 # Share
-duoshuo_share: true
+#duoshuo_share: true
 
 # Google Webmaster tools verification setting
 # See: https://www.google.com/webmasters/
@@ -365,7 +365,7 @@ duoshuo_share: true
 # user_id must NOT be null when admin_enable is true!
 # you can visit http://dev.duoshuo.com get duoshuo user id.
 duoshuo_info:
-  ua_enable: true
+  ua_enable: false
   admin_enable: true
   user_id: 6273277081015027000
   admin_nickname: Eevee
@@ -433,7 +433,7 @@ tencent_analytics: 55592908
 
 
 # Enable baidu push so that the blog will push the url to baidu automatically which is very helpful for SEO
-baidu_push: false
+baidu_push: true
 
 # Google Calendar
 # Share your recent schedule to others via calendar page
