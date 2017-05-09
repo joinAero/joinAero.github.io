@@ -6,7 +6,7 @@
 favicon: /favicon.ico
 
 # Set default keywords (Use a comma to separate)
-keywords: "Hexo, NexT"
+keywords: "Eevee, Hexo, NexT"
 
 # Set rss to false to disable feed link.
 # Leave rss as empty to use site's feed link.
@@ -32,7 +32,7 @@ copyright: true
 canonical: true
 
 # Change headers hierarchy on site-subtitle (will be main site description) and on all post/pages titles for better SEO-optimization.
-seo: false
+seo: true
 
 # If true, will add site-subtitle to index page, added in main hexo config.
 # subtitle: Subtitle
@@ -78,9 +78,6 @@ menu_icons:
   sitemap: sitemap
   commonweal: heartbeat
 
-
-
-
 # ---------------------------------------------------------------
 # Scheme Settings
 # ---------------------------------------------------------------
@@ -89,7 +86,6 @@ menu_icons:
 #scheme: Muse
 scheme: Mist
 #scheme: Pisces
-
 
 # ---------------------------------------------------------------
 # Font Settings
@@ -137,13 +133,9 @@ font:
     family:
     size:
 
-
-
-
 # ---------------------------------------------------------------
 # Sidebar Settings
 # ---------------------------------------------------------------
-
 
 # Social Links
 # Key is the link label showing to end users.
@@ -151,7 +143,6 @@ font:
 social:
   GitHub: https://github.com/joinAero
   Twitter: https://twitter.com/joinAero
-
 
 # Social Links Icons
 # Icon Mapping:
@@ -166,27 +157,22 @@ social_icons:
   Twitter: twitter
   #Weibo: weibo
 
-
 # Sidebar Avatar
 # in theme directory(source/images): /images/avatar.jpg
 # in site  directory(source/uploads): /uploads/avatar.jpg
 avatar: /uploads/avatar.png
 
-
 # Table Of Contents in the Sidebar
 toc:
   enable: true
-
   # Automatically add list number to toc.
   number: true
-
 
 # Creative Commons 4.0 International License.
 # http://creativecommons.org/
 # Available: by | by-nc | by-nc-nd | by-nc-sa | by-nd | by-sa | zero
 #creative_commons: by-nc-sa
 #creative_commons:
-
 
 sidebar:
   # Sidebar Position, available value: left | right
@@ -213,14 +199,12 @@ sidebar:
   # Scroll percent label in b2t button
   scrollpercent: false
 
-
 # Blog rolls
 #links_title: Links
 #links_layout: block
 #links_layout: inline
 #links:
   #Title: http://example.com/
-
 
 # ---------------------------------------------------------------
 # Post Settings
@@ -267,7 +251,6 @@ post_copyright:
   license: CC BY-NC-ND 4.0
   license_url: http://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh
 
-
 # ---------------------------------------------------------------
 # Misc Theme Settings
 # ---------------------------------------------------------------
@@ -281,13 +264,11 @@ custom_logo:
   enabled: false
   image:
 
-
 # Code Highlight theme
 # Available value:
 #    normal | night | night eighties | night blue | night bright
 # https://github.com/chriskempson/tomorrow-theme
 highlight_theme: normal
-
 
 # ---------------------------------------------------------------
 # Third Party Services Settings
@@ -298,7 +279,6 @@ mathjax:
   enable: false
   per_page: false
   cdn: //cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML
-
 
 # Han Support docs: https://hanzi.pro/
 han: false
@@ -381,7 +361,6 @@ duoshuo_info:
   user_id: 6273277081015027000
   admin_nickname: Eevee
 
-
 # Facebook SDK Support.
 # https://github.com/iissnan/hexo-theme-next/pull/410
 facebook_sdk:
@@ -409,7 +388,6 @@ vkontakte_api:
   comments:     true
   num_of_posts: 10
 
-
 # Show number of visitors to each article.
 # You can visit https://leancloud.cn get AppID and AppKey.
 leancloud_visitors:
@@ -435,13 +413,11 @@ busuanzi_count:
   page_pv_header: <i class="fa fa-file-o"></i>
   page_pv_footer:
 
-
 # Tencent analytics ID
 tencent_analytics: 55592908
 
 # Tencent MTA ID
 # tencent_mta:
-
 
 # Enable baidu push so that the blog will push the url to baidu automatically which is very helpful for SEO
 baidu_push: true
@@ -473,21 +449,25 @@ algolia_search:
     hits_empty: "We didn't find any results for the search: ${query}"
     hits_stats: "${hits} results found in ${time} ms"
 
-
 # Local search
 local_search:
-  enable: false
+  enable: true
   # if auto, trigger search by changing input
   # if manual, trigger search by pressing enter key or search button
   trigger: auto
   # show top n results per article, show all results by setting to -1
   top_n_per_article: 1
 
+search:
+  path: search.xml
+  field: post
+  format: html
+  limit: 10000
+
 # External URL with BASE64 encrypt & decrypt
 # Usage: {% exturl text url "title" %}
 # Alias: {% extlink text url "title" %}
 exturl: false
-
 
 #! ---------------------------------------------------------------
 #! DO NOT EDIT THE FOLLOWING SETTINGS
@@ -589,8 +569,6 @@ vendors:
   # Internal version: 3.3.0
   # https://github.com/ethantw/Han
   han:
-
-
 
 # Assets
 css: css
