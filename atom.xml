@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://eevee.cc/"/>
-  <updated>2017-05-09T02:06:57.000Z</updated>
+  <updated>2017-05-09T09:36:45.000Z</updated>
   <id>http://eevee.cc/</id>
   
   <author>
@@ -14,6 +14,58 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Screen Sharing from Ubuntu to Mac</title>
+    <link href="http://eevee.cc/2017/05/09/screen-sharing-from-ubuntu-to-mac/"/>
+    <id>http://eevee.cc/2017/05/09/screen-sharing-from-ubuntu-to-mac/</id>
+    <published>2017-05-09T09:00:45.000Z</published>
+    <updated>2017-05-09T09:36:45.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="Ubuntu"><a href="#Ubuntu" class="headerlink" title="Ubuntu"></a>Ubuntu</h2><p>1) Open “Desktop Sharing” and setup,</p>
+<p><img src="/uploads/screen-sharing/desktop-sharing.png" alt=""></p>
+<p>2) <code>sudo apt-get install dconf-tools</code> and run <code>dconf-editor</code>,</p>
+<p><img src="/uploads/screen-sharing/dconf-editor.png" alt=""></p>
+<h2 id="Mac"><a href="#Mac" class="headerlink" title="Mac"></a>Mac</h2><p>1) Spotlight Search “Screen Sharing” and connect to,</p>
+<a id="more"></a>
+<p><img src="/uploads/screen-sharing/screen-sharing.png" alt=""></p>
+<p>2) View and control “Ubuntu Desktop”,</p>
+<p><img src="/uploads/screen-sharing/ubuntu-desktop.png" alt=""></p>
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
+<li><a href="https://askubuntu.com/questions/463486/can-no-longer-use-screen-share-to-connect-mac-to-ubuntu-since-upgrading-to-14-04" target="_blank" rel="external">Can no longer use Screen Share …</a></li>
+</ul>
+<!--
+
+Alternatives (failed):
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"># 1) Ubuntu:</div><div class="line"></div><div class="line">$ sudo vi /etc/ssh/sshd_config</div><div class="line">X11Forwarding yes</div><div class="line"></div><div class="line">$ sudo service ssh restart</div><div class="line"></div><div class="line"># 2) Mac:</div><div class="line"></div><div class="line"># XQuartz: https://www.xquartz.org/</div><div class="line">$ brew install Caskroom/cask/xquartz</div><div class="line"></div><div class="line"># 3) XQuartz:</div><div class="line"></div><div class="line"># SSH denied</div><div class="line">$ sudo vi /etc/ssh/ssh_config</div><div class="line">Host *</div><div class="line">    ForwardAgent yes</div><div class="line">    ForwardX11 yes</div><div class="line">$ ssh -X &lt;user@host&gt;</div><div class="line"></div><div class="line"># Remote Desktop from Mac to Ubuntu</div><div class="line">$ Xnest -geometry 1280x800 :1 &amp; DISPLAY=:1 ssh -Y &lt;user@host&gt; gnome-session</div></pre></td></tr></table></figure>
+<p>But,</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">Warning: No xauth data; using fake authentication data for X11 forwarding.</div><div class="line">Assertion failed: (key-&gt;initialized), function dixGetPrivateAddr, file ../include/privates.h, line 122.</div><div class="line">connect /tmp/.X11-unix/X1: Connection refused</div><div class="line">connect /tmp/.X11-unix/X1: Connection refused</div><div class="line"></div><div class="line">** (gnome-session:4546): WARNING **: Could not open X display</div><div class="line">connect /tmp/.X11-unix/X1: Connection refused</div><div class="line">connect /tmp/.X11-unix/X1: Connection refused</div><div class="line">connect /tmp/.X11-unix/X1: Connection refused</div><div class="line">connect /tmp/.X11-unix/X1: Connection refused</div><div class="line"></div><div class="line">** (gnome-session:4546): WARNING **: Cannot open display:</div><div class="line">[1]+  Abort trap: 6           Xnest -geometry 1280x800 :1</div></pre></td></tr></table></figure>
+<p>–&gt;</p>
+-->]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;Ubuntu&quot;&gt;&lt;a href=&quot;#Ubuntu&quot; class=&quot;headerlink&quot; title=&quot;Ubuntu&quot;&gt;&lt;/a&gt;Ubuntu&lt;/h2&gt;&lt;p&gt;1) Open “Desktop Sharing” and setup,&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/uploads/screen-sharing/desktop-sharing.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;2) &lt;code&gt;sudo apt-get install dconf-tools&lt;/code&gt; and run &lt;code&gt;dconf-editor&lt;/code&gt;,&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/uploads/screen-sharing/dconf-editor.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;Mac&quot;&gt;&lt;a href=&quot;#Mac&quot; class=&quot;headerlink&quot; title=&quot;Mac&quot;&gt;&lt;/a&gt;Mac&lt;/h2&gt;&lt;p&gt;1) Spotlight Search “Screen Sharing” and connect to,&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Tech" scheme="http://eevee.cc/categories/Tech/"/>
+    
+    
+      <category term="Screen Sharing" scheme="http://eevee.cc/tags/Screen-Sharing/"/>
+    
+      <category term="Remote Desktop" scheme="http://eevee.cc/tags/Remote-Desktop/"/>
+    
+      <category term="Ubuntu" scheme="http://eevee.cc/tags/Ubuntu/"/>
+    
+      <category term="Mac" scheme="http://eevee.cc/tags/Mac/"/>
+    
+  </entry>
   
   <entry>
     <title>Headless Raspberry Pi Setup</title>
@@ -261,9 +313,9 @@ make: *** [all] Error 2
       <category term="Tech" scheme="http://eevee.cc/categories/Tech/"/>
     
     
-      <category term="CUDA" scheme="http://eevee.cc/tags/CUDA/"/>
-    
       <category term="Android" scheme="http://eevee.cc/tags/Android/"/>
+    
+      <category term="CUDA" scheme="http://eevee.cc/tags/CUDA/"/>
     
       <category term="OpenCV" scheme="http://eevee.cc/tags/OpenCV/"/>
     
