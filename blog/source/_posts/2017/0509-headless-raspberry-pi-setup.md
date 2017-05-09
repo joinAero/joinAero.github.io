@@ -12,7 +12,7 @@ tags:
 
 1. [Download](https://www.raspberrypi.org/downloads/raspbian/) "RASPBIAN JESSIE LITE" without PIXEL desktop.
 2. Unzip it to get the image file (.img) for writing to your SD card.
-3. Setup headless settings, if don’t have an extra keyboard or HDMI cable.
+3. Setup headless settings, **if don’t have an extra keyboard or HDMI cable**.
     1. Add "ssh" file to the SD card root. Then boot your Pi.
     2. Connect it to the router with wire. Then get its ip from the router.
     3. Use SSH to connect to your Pi.
