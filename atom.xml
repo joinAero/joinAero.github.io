@@ -207,9 +207,9 @@ make: *** [all] Error 2
     
       <category term="CUDA" scheme="http://eevee.cc/tags/CUDA/"/>
     
-      <category term="OpenCV" scheme="http://eevee.cc/tags/OpenCV/"/>
-    
       <category term="Android" scheme="http://eevee.cc/tags/Android/"/>
+    
+      <category term="OpenCV" scheme="http://eevee.cc/tags/OpenCV/"/>
     
   </entry>
   
@@ -723,11 +723,11 @@ Extra Tools:
       <category term="Tech" scheme="http://eevee.cc/categories/Tech/"/>
     
     
-      <category term="Android" scheme="http://eevee.cc/tags/Android/"/>
-    
       <category term="Djinni" scheme="http://eevee.cc/tags/Djinni/"/>
     
       <category term="Cpp" scheme="http://eevee.cc/tags/Cpp/"/>
+    
+      <category term="Android" scheme="http://eevee.cc/tags/Android/"/>
     
       <category term="iOS" scheme="http://eevee.cc/tags/iOS/"/>
     
