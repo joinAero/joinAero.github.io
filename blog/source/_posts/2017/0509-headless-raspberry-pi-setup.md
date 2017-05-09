@@ -44,6 +44,8 @@ tags:
     - [Mac OS](https://www.raspberrypi.org/documentation/installation/installing-images/mac.md)
     - [Windows](https://www.raspberrypi.org/documentation/installation/installing-images/windows.md)
 
+<!-- more -->
+
 * [Installation Guide](https://www.raspberrypi.org/documentation/installation/installing-images/README.md)
 * [Headless Raspberry Pi Setup](https://hackernoon.com/raspberry-pi-headless-install-462ccabd75d0)
 * [Mac下安装树莓派系统raspbian](http://www.jianshu.com/p/5dc83db2b78e)

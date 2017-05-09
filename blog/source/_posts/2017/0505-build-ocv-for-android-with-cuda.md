@@ -47,6 +47,8 @@ $ unzip -q tools_r25.2.3-linux.zip
 
 ## Build
 
+<!-- more -->
+
 ```
 $ cd opencv-3.2.0/platforms/
 $ mkdir -p build_android_arm

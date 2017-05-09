@@ -42,6 +42,8 @@ $ which clang
 
 Ubuntu:
 
+<!-- more -->
+
 ```
 # install
 $ sudo apt-get install ccache

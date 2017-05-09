@@ -51,6 +51,8 @@ $ src/build
 
 ### 使用 Djinni
 
+<!-- more -->
+
 生成样例接口代码：
 
 ``` bash

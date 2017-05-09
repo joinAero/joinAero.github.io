@@ -1,5 +1,5 @@
 ---
-title: 'Install Caffe & TensorFlow with Python and CUDA'
+title: 'Install Caffe & TensorFlow with Python and CUDA (macOS)'
 date: 2017-04-12 17:22:25
 categories:
 - Tech
@@ -9,8 +9,6 @@ tags:
 - Python
 - CUDA
 ---
-
-# Install Caffe & TensorFlow with Python and CUDA (macOS)
 
 ## Requirements
 
@@ -46,6 +44,8 @@ conda 4.3.14
 ```
 
 ### CUDA Installation
+
+<!-- more -->
 
 For Mac OS X, please see [Setup GPU for Mac](https://www.tensorflow.org/versions/r0.12/get_started/os_setup.html#optional-setup-gpu-for-mac)
 
