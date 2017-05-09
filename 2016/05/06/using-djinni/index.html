@@ -90,23 +90,23 @@
 
 
 
-<meta name="description" content=".post-body .fancybox img {     margin: 0 auto 25px; }   Djinni 是一个用来生成跨语言的类型声明和接口绑定的工具，主要用于 C++ 和 Java 以及 Objective-C 间的互通。 此文，将介绍如何使用 Djinni 开发 Android, iOS 的共享库。这会带来几个好处：  用了接口描述文件。声明清晰、修改简易，并保证了跨">
+<meta name="description" content=".post-body .fancybox img {     margin: 0 auto 25px; }   Djinni 是一个用来生成跨语言的类型声明和接口绑定的工具，主要用于 C++ 和 Java 以及 Objective-C 间的互通。 此文，将介绍如何使用 Djinni 开发 Android, iOS 的共享库。这会带来几个好处：  用了接口描述文件。声明清晰、修改简易，并保证了跨平">
 <meta name="keywords" content="Djinni,Cpp,Android,iOS">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用 Djinni 开发 Android, iOS 共享库">
 <meta property="og:url" content="http://eevee.cc/2016/05/06/using-djinni/index.html">
 <meta property="og:site_name" content="Flower Crown Eevee">
-<meta property="og:description" content=".post-body .fancybox img {     margin: 0 auto 25px; }   Djinni 是一个用来生成跨语言的类型声明和接口绑定的工具，主要用于 C++ 和 Java 以及 Objective-C 间的互通。 此文，将介绍如何使用 Djinni 开发 Android, iOS 的共享库。这会带来几个好处：  用了接口描述文件。声明清晰、修改简易，并保证了跨">
+<meta property="og:description" content=".post-body .fancybox img {     margin: 0 auto 25px; }   Djinni 是一个用来生成跨语言的类型声明和接口绑定的工具，主要用于 C++ 和 Java 以及 Objective-C 间的互通。 此文，将介绍如何使用 Djinni 开发 Android, iOS 的共享库。这会带来几个好处：  用了接口描述文件。声明清晰、修改简易，并保证了跨平">
 <meta property="og:image" content="http://eevee.cc/2016/05/06/using-djinni/cpp_pro_structure.png">
 <meta property="og:image" content="http://eevee.cc/2016/05/06/using-djinni/cpp_pro_move.png">
 <meta property="og:image" content="http://eevee.cc/2016/05/06/using-djinni/ios_pro_new.png">
 <meta property="og:image" content="http://eevee.cc/2016/05/06/using-djinni/ios_pro_new_2.png">
 <meta property="og:image" content="http://eevee.cc/2016/05/06/using-djinni/ios_pro_lib_header.png">
 <meta property="og:image" content="http://eevee.cc/2016/05/06/using-djinni/ios_pro_result.png">
-<meta property="og:updated_time" content="2017-04-12T08:53:35.000Z">
+<meta property="og:updated_time" content="2017-05-09T02:06:48.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用 Djinni 开发 Android, iOS 共享库">
-<meta name="twitter:description" content=".post-body .fancybox img {     margin: 0 auto 25px; }   Djinni 是一个用来生成跨语言的类型声明和接口绑定的工具，主要用于 C++ 和 Java 以及 Objective-C 间的互通。 此文，将介绍如何使用 Djinni 开发 Android, iOS 的共享库。这会带来几个好处：  用了接口描述文件。声明清晰、修改简易，并保证了跨">
+<meta name="twitter:description" content=".post-body .fancybox img {     margin: 0 auto 25px; }   Djinni 是一个用来生成跨语言的类型声明和接口绑定的工具，主要用于 C++ 和 Java 以及 Objective-C 间的互通。 此文，将介绍如何使用 Djinni 开发 Android, iOS 的共享库。这会带来几个好处：  用了接口描述文件。声明清晰、修改简易，并保证了跨平">
 <meta name="twitter:image" content="http://eevee.cc/2016/05/06/using-djinni/cpp_pro_structure.png">
 
 
@@ -394,7 +394,8 @@
 <ul>
 <li><a href="http://www.zhihu.com/question/31158252" target="_blank" rel="external">sbt下载慢？</a></li>
 </ul>
-<h3 id="使用-Djinni"><a href="#使用-Djinni" class="headerlink" title="使用 Djinni"></a>使用 Djinni</h3><p>生成样例接口代码：</p>
+<h3 id="使用-Djinni"><a href="#使用-Djinni" class="headerlink" title="使用 Djinni"></a>使用 Djinni</h3><a id="more"></a>
+<p>生成样例接口代码：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">cd</span> [djinni_root]/example/  <span class="comment"># example_root</span></div><div class="line">$ ./run_djinni.sh</div></pre></td></tr></table></figure>
 <p>即会生成到<code>djinni-output-temp</code>临时目录，最终复制到<code>generated-src</code>生成目录。</p>
 <p>这里可以看到：依据描述文件<code>example.djinni</code>，C++ 和 Java 及 Objective-C 的绑定代码都会自动生成好。继续要做的，只是写它们的具体实现，见样例的<code>handwritten-src</code>目录。</p>
@@ -704,8 +705,8 @@ Extra Tools:
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/04/12/install-caffe-tf/" rel="prev" title="Install Caffe & TensorFlow with Python and CUDA">
-                Install Caffe & TensorFlow with Python and CUDA <i class="fa fa-chevron-right"></i>
+              <a href="/2017/04/12/install-caffe-tf/" rel="prev" title="Install Caffe & TensorFlow with Python and CUDA (macOS)">
+                Install Caffe & TensorFlow with Python and CUDA (macOS) <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
