@@ -10,6 +10,12 @@ tags:
 - Mac
 ---
 
+{% raw %}
+<style type="text/css">
+.post-body .fancybox img { margin: 0 auto 25px; }
+</style>
+{% endraw %}
+
 ## Ubuntu
 
 1) Open "Desktop Sharing" and setup,

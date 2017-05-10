@@ -8,6 +8,12 @@ tags:
 - SSH
 ---
 
+{% raw %}
+<style type="text/css">
+li p { margin: 0; }
+</style>
+{% endraw %}
+
 ## Install
 
 1. [Download](https://www.raspberrypi.org/downloads/raspbian/) "RASPBIAN JESSIE LITE" without PIXEL desktop.
