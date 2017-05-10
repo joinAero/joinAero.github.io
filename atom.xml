@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://eevee.cc/"/>
-  <updated>2017-05-09T09:36:45.000Z</updated>
+  <updated>2017-05-10T15:13:17.000Z</updated>
   <id>http://eevee.cc/</id>
   
   <author>
@@ -16,21 +16,189 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Headless Firefly-RK3399 Setup</title>
+    <link href="http://eevee.cc/2017/05/10/headless-firefly-rk3399-setup/"/>
+    <id>http://eevee.cc/2017/05/10/headless-firefly-rk3399-setup/</id>
+    <published>2017-05-10T13:40:10.000Z</published>
+    <updated>2017-05-10T15:13:17.000Z</updated>
+    
+    <content type="html"><![CDATA[
+<style type="text/css">
+li p { margin: 0; }
+.post-body .fancybox img { margin: 0 auto; }
+.post-body .fancybox img[alt="install-rk-usb-driver.png"] { margin: 0 auto; }
+</style>
+
+<h1 id="Firefly-RK3399"><a href="#Firefly-RK3399" class="headerlink" title="Firefly-RK3399"></a><a href="http://www.t-firefly.com/zh/firenow/Firefly-rk3399/" target="_blank" rel="external">Firefly-RK3399</a></h1><h2 id="Flash-Image"><a href="#Flash-Image" class="headerlink" title="Flash Image"></a><a href="http://wiki.t-firefly.com/index.php/Firefly-RK3399/Flash_image/en" target="_blank" rel="external">Flash Image</a></h2><p>Windows:</p>
+<ol>
+<li>Download <a href="http://en.t-firefly.com/en/firenow/Firefly_RK3399/download/" target="_blank" rel="external">here</a>, 或<a href="http://www.t-firefly.com/zh/firenow/Firefly-rk3399/download/" target="_blank" rel="external">这里</a><ul>
+<li>Ubuntu 16.04 image: Firefly-RK3399_Ubuntu16.04_201703181519.img</li>
+<li>RK Tool: AndroidTool_Release_v2.38.rar</li>
+<li>RK USB driver: DriverAssitant_v4.5.rar</li>
+</ul>
+</li>
+<li><p>Install RK USB Driver</p>
+<ul>
+<li><p>Run “DriverAssitant_v4.5/DriverInstall.exe”</p>
+  <img src="/2017/05/10/headless-firefly-rk3399-setup/install-rk-usb-driver.png" alt="install-rk-usb-driver.png" title="">
+</li>
+</ul>
+</li>
+<li><p>Connect device to host</p>
+<ol>
+<li>Connect the power adapter to board.</li>
+<li>Use Type-C cable to connect host and device together.</li>
+<li>Press and hold RECOVERY key.</li>
+<li>Shortly press RESET key.</li>
+<li><p>After around two seconds, release RECOVERY key.</p>
+<a id="more"></a>
+<p>The host will prompt to have new device detected and configured. Open the Device Management, you’ll find a new device name “Rockusb Device”, as shown below. Return to previous step to reinstall driver if it is not shown.</p>
+<img src="/2017/05/10/headless-firefly-rk3399-setup/rk-usb-device-detected.png" alt="rk-usb-device-detected.png" title="">
+</li>
+</ol>
+</li>
+<li><p>Flush image</p>
+<ol>
+<li><p>Run “AndroidTool_Release_v2.38/AndroidTool.exe” as Administrator.</p>
+<ul>
+<li><p>Edit “config.ini”, set “Selected=2” to English</p>
+<img src="/2017/05/10/headless-firefly-rk3399-setup/android-tool.png" alt="android-tool.png" title="">
+</li>
+</ul>
+</li>
+<li><p>Switch to “Upgrade Firmware” tab page.</p>
+</li>
+<li>Click “Firmware” button and open the image file.<ul>
+<li>Detail information of the image file, like version and chip, is shown.</li>
+</ul>
+</li>
+<li><p>Click “Upgrade” button to start flash.</p>
+ <img src="/2017/05/10/headless-firefly-rk3399-setup/upgrade-firmware.png" alt="upgrade-firmware.png" title="">
+</li>
+<li><p>If upgrade fails, please try “LowerFormat” in the “Download Image” tab page first, then try again.</p>
+<blockquote>
+<p>WARN: If you flash firmware laoder different version of the original machine, please click “Erase Flash” before upgrading the firmware.</p>
+</blockquote>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="Setup-Firefly"><a href="#Setup-Firefly" class="headerlink" title="Setup Firefly"></a>Setup Firefly</h2><ol>
+<li>Connect Display or TV with HDMI cable</li>
+<li>Connect the power adapter to the board<ul>
+<li>The board will boot automatically once power on</li>
+</ul>
+</li>
+<li>Plug USB mouse &amp; keyboard to the board</li>
+</ol>
+<p>Now, you can control the board.</p>
+<pre><code>Username: firefly
+Password: firefly
+</code></pre><ol>
+<li>Connect the Wi-Fi</li>
+<li>Enable SSH server<ul>
+<li>Detect SSH server, <code>ps aux | grep sshd</code><ul>
+<li>Otherwise, <code>sudo apt-get install openssh-server</code> and <code>sudo /etc/init.d/ssh start</code></li>
+</ul>
+</li>
+<li>Get ip address, <code>ifconfig | grep &quot;inet &quot;</code></li>
+<li>SSH from remote pc, <code>ssh firefly@&lt;ip&gt;</code></li>
+</ul>
+</li>
+<li><p>Screen Sharing from Firefly</p>
+<ul>
+<li>Install, <code>sudo apt-get install vino</code></li>
+<li><p>Config, <code>vino-preferences</code></p>
+  {% asset_img vino-preferences.png %}
+</li>
+<li><p>Start, <code>/usr/lib/vino/vino-server --sm-disable</code></p>
+</li>
+<li><p>Autostart, open “Session and Startup” and check “Desktop Sharing”,</p>
+  <img src="/2017/05/10/headless-firefly-rk3399-setup/startup.png" alt="startup.png" title="">
+</li>
+</ul>
+</li>
+<li><p>Remote access from Ubuntu</p>
+<ul>
+<li><p>Open “Remmina Remote Desktop Client” and add connection,</p>
+  <img src="/2017/05/10/headless-firefly-rk3399-setup/remote-desktop-client.png" alt="remote-desktop-client.png" title="">
+</li>
+<li><p>Or, remote access from Mac, plz see <a href="/2017/05/09/screen-sharing-from-ubuntu-to-mac/">here</a>.</p>
+</li>
+</ul>
+</li>
+</ol>
+<p><strong>Finally, you can control the board from remote PC, without extra accessories or devices.</strong></p>
+<blockquote>
+<p>NOTE: You could get ip address of the board from your router’s home page.</p>
+</blockquote>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;style type=&quot;text/css&quot;&gt;
+li p { margin: 0; }
+.post-body .fancybox img { margin: 0 auto; }
+.post-body .fancybox img[alt=&quot;install-rk-usb-driver.png&quot;] { margin: 0 auto; }
+&lt;/style&gt;
+
+&lt;h1 id=&quot;Firefly-RK3399&quot;&gt;&lt;a href=&quot;#Firefly-RK3399&quot; class=&quot;headerlink&quot; title=&quot;Firefly-RK3399&quot;&gt;&lt;/a&gt;&lt;a href=&quot;http://www.t-firefly.com/zh/firenow/Firefly-rk3399/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Firefly-RK3399&lt;/a&gt;&lt;/h1&gt;&lt;h2 id=&quot;Flash-Image&quot;&gt;&lt;a href=&quot;#Flash-Image&quot; class=&quot;headerlink&quot; title=&quot;Flash Image&quot;&gt;&lt;/a&gt;&lt;a href=&quot;http://wiki.t-firefly.com/index.php/Firefly-RK3399/Flash_image/en&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Flash Image&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;Windows:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Download &lt;a href=&quot;http://en.t-firefly.com/en/firenow/Firefly_RK3399/download/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;here&lt;/a&gt;, 或&lt;a href=&quot;http://www.t-firefly.com/zh/firenow/Firefly-rk3399/download/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;这里&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;Ubuntu 16.04 image: Firefly-RK3399_Ubuntu16.04_201703181519.img&lt;/li&gt;
+&lt;li&gt;RK Tool: AndroidTool_Release_v2.38.rar&lt;/li&gt;
+&lt;li&gt;RK USB driver: DriverAssitant_v4.5.rar&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Install RK USB Driver&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Run “DriverAssitant_v4.5/DriverInstall.exe”&lt;/p&gt;
+  &lt;img src=&quot;/2017/05/10/headless-firefly-rk3399-setup/install-rk-usb-driver.png&quot; alt=&quot;install-rk-usb-driver.png&quot; title=&quot;&quot;&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Connect device to host&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Connect the power adapter to board.&lt;/li&gt;
+&lt;li&gt;Use Type-C cable to connect host and device together.&lt;/li&gt;
+&lt;li&gt;Press and hold RECOVERY key.&lt;/li&gt;
+&lt;li&gt;Shortly press RESET key.&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;After around two seconds, release RECOVERY key.&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Tech" scheme="http://eevee.cc/categories/Tech/"/>
+    
+    
+      <category term="Screen Sharing" scheme="http://eevee.cc/tags/Screen-Sharing/"/>
+    
+      <category term="Ubuntu" scheme="http://eevee.cc/tags/Ubuntu/"/>
+    
+      <category term="Firefly-RK3399" scheme="http://eevee.cc/tags/Firefly-RK3399/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Screen Sharing from Ubuntu to Mac</title>
     <link href="http://eevee.cc/2017/05/09/screen-sharing-from-ubuntu-to-mac/"/>
     <id>http://eevee.cc/2017/05/09/screen-sharing-from-ubuntu-to-mac/</id>
     <published>2017-05-09T09:00:45.000Z</published>
-    <updated>2017-05-09T09:36:45.000Z</updated>
+    <updated>2017-05-10T14:57:40.000Z</updated>
     
-    <content type="html"><![CDATA[<h2 id="Ubuntu"><a href="#Ubuntu" class="headerlink" title="Ubuntu"></a>Ubuntu</h2><p>1) Open “Desktop Sharing” and setup,</p>
-<p><img src="/uploads/screen-sharing/desktop-sharing.png" alt=""></p>
+    <content type="html"><![CDATA[
+<style type="text/css">
+.post-body .fancybox img { margin: 0 auto 25px; }
+</style>
+
+<h2 id="Ubuntu"><a href="#Ubuntu" class="headerlink" title="Ubuntu"></a>Ubuntu</h2><p>1) Open “Desktop Sharing” and setup,</p>
+<img src="/2017/05/09/screen-sharing-from-ubuntu-to-mac/desktop-sharing.png" alt="desktop-sharing.png" title="">
 <p>2) <code>sudo apt-get install dconf-tools</code> and run <code>dconf-editor</code>,</p>
-<p><img src="/uploads/screen-sharing/dconf-editor.png" alt=""></p>
+<img src="/2017/05/09/screen-sharing-from-ubuntu-to-mac/dconf-editor.png" alt="dconf-editor.png" title="">
 <h2 id="Mac"><a href="#Mac" class="headerlink" title="Mac"></a>Mac</h2><p>1) Spotlight Search “Screen Sharing” and connect to,</p>
 <a id="more"></a>
-<p><img src="/uploads/screen-sharing/screen-sharing.png" alt=""></p>
+<img src="/2017/05/09/screen-sharing-from-ubuntu-to-mac/screen-sharing.png" alt="screen-sharing.png" title="">
 <p>2) View and control “Ubuntu Desktop”,</p>
-<p><img src="/uploads/screen-sharing/ubuntu-desktop.png" alt=""></p>
+<img src="/2017/05/09/screen-sharing-from-ubuntu-to-mac/ubuntu-desktop.png" alt="ubuntu-desktop.png" title="">
 <h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
 <li><a href="https://askubuntu.com/questions/463486/can-no-longer-use-screen-share-to-connect-mac-to-ubuntu-since-upgrading-to-14-04" target="_blank" rel="external">Can no longer use Screen Share …</a></li>
 </ul>
@@ -46,10 +214,14 @@ Alternatives (failed):
     
     <summary type="html">
     
-      &lt;h2 id=&quot;Ubuntu&quot;&gt;&lt;a href=&quot;#Ubuntu&quot; class=&quot;headerlink&quot; title=&quot;Ubuntu&quot;&gt;&lt;/a&gt;Ubuntu&lt;/h2&gt;&lt;p&gt;1) Open “Desktop Sharing” and setup,&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;/uploads/screen-sharing/desktop-sharing.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+      &lt;style type=&quot;text/css&quot;&gt;
+.post-body .fancybox img { margin: 0 auto 25px; }
+&lt;/style&gt;
+
+&lt;h2 id=&quot;Ubuntu&quot;&gt;&lt;a href=&quot;#Ubuntu&quot; class=&quot;headerlink&quot; title=&quot;Ubuntu&quot;&gt;&lt;/a&gt;Ubuntu&lt;/h2&gt;&lt;p&gt;1) Open “Desktop Sharing” and setup,&lt;/p&gt;
+&lt;img src=&quot;/2017/05/09/screen-sharing-from-ubuntu-to-mac/desktop-sharing.png&quot; alt=&quot;desktop-sharing.png&quot; title=&quot;&quot;&gt;
 &lt;p&gt;2) &lt;code&gt;sudo apt-get install dconf-tools&lt;/code&gt; and run &lt;code&gt;dconf-editor&lt;/code&gt;,&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;/uploads/screen-sharing/dconf-editor.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;img src=&quot;/2017/05/09/screen-sharing-from-ubuntu-to-mac/dconf-editor.png&quot; alt=&quot;dconf-editor.png&quot; title=&quot;&quot;&gt;
 &lt;h2 id=&quot;Mac&quot;&gt;&lt;a href=&quot;#Mac&quot; class=&quot;headerlink&quot; title=&quot;Mac&quot;&gt;&lt;/a&gt;Mac&lt;/h2&gt;&lt;p&gt;1) Spotlight Search “Screen Sharing” and connect to,&lt;/p&gt;
     
     </summary>
@@ -72,9 +244,14 @@ Alternatives (failed):
     <link href="http://eevee.cc/2017/05/09/headless-raspberry-pi-setup/"/>
     <id>http://eevee.cc/2017/05/09/headless-raspberry-pi-setup/</id>
     <published>2017-05-09T01:12:33.000Z</published>
-    <updated>2017-05-09T02:06:57.000Z</updated>
+    <updated>2017-05-10T14:56:58.000Z</updated>
     
-    <content type="html"><![CDATA[<h2 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h2><ol>
+    <content type="html"><![CDATA[
+<style type="text/css">
+li p { margin: 0; }
+</style>
+
+<h2 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h2><ol>
 <li><a href="https://www.raspberrypi.org/downloads/raspbian/" target="_blank" rel="external">Download</a> “RASPBIAN JESSIE LITE” without PIXEL desktop.</li>
 <li>Unzip it to get the image file (.img) for writing to your SD card.</li>
 <li><p>Setup headless settings, <strong>if don’t have an extra keyboard or HDMI cable</strong>.</p>
@@ -137,7 +314,11 @@ Alternatives (failed):
     
     <summary type="html">
     
-      &lt;h2 id=&quot;Install&quot;&gt;&lt;a href=&quot;#Install&quot; class=&quot;headerlink&quot; title=&quot;Install&quot;&gt;&lt;/a&gt;Install&lt;/h2&gt;&lt;ol&gt;
+      &lt;style type=&quot;text/css&quot;&gt;
+li p { margin: 0; }
+&lt;/style&gt;
+
+&lt;h2 id=&quot;Install&quot;&gt;&lt;a href=&quot;#Install&quot; class=&quot;headerlink&quot; title=&quot;Install&quot;&gt;&lt;/a&gt;Install&lt;/h2&gt;&lt;ol&gt;
 &lt;li&gt;&lt;a href=&quot;https://www.raspberrypi.org/downloads/raspbian/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Download&lt;/a&gt; “RASPBIAN JESSIE LITE” without PIXEL desktop.&lt;/li&gt;
 &lt;li&gt;Unzip it to get the image file (.img) for writing to your SD card.&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;Setup headless settings, &lt;strong&gt;if don’t have an extra keyboard or HDMI cable&lt;/strong&gt;.&lt;/p&gt;
