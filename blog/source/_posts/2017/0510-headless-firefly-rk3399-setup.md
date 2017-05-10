@@ -14,6 +14,15 @@ tags:
 li p { margin: 0; }
 .post-body .fancybox img { margin: 0 auto; }
 .post-body .fancybox img[alt="install-rk-usb-driver.png"] { margin: 0 auto; }
+.code {
+  font-family: consolas, Menlo, "PingFang SC", "Microsoft YaHei", monospace;
+  padding: 2px 4px;
+  word-wrap: break-word;
+  color: #555;
+  background: #eee;
+  border-radius: 3px;
+  font-size: 13px;
+}
 </style>
 {% endraw %}
 
@@ -84,7 +93,7 @@ Now, you can control the board.
     - SSH from remote pc, `ssh firefly@<ip>`
 3. Screen Sharing from Firefly
     - Install, `sudo apt-get install vino`
-    - Config, `vino-preferences`
+    - Config, <span class="code">vino-preferences</span>
 
         {% asset_img vino-preferences.png %}
 
