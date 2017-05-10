@@ -14,11 +14,11 @@ tags:
 
 1) Open "Desktop Sharing" and setup,
 
-![](/uploads/screen-sharing/desktop-sharing.png)
+{% asset_img desktop-sharing.png %}
 
 2) `sudo apt-get install dconf-tools` and run `dconf-editor`,
 
-![](/uploads/screen-sharing/dconf-editor.png)
+{% asset_img dconf-editor.png %}
 
 ## Mac
 
@@ -26,11 +26,11 @@ tags:
 
 <!-- more -->
 
-![](/uploads/screen-sharing/screen-sharing.png)
+{% asset_img screen-sharing.png %}
 
 2) View and control "Ubuntu Desktop",
 
-![](/uploads/screen-sharing/ubuntu-desktop.png)
+{% asset_img ubuntu-desktop.png %}
 
 ## References
 
