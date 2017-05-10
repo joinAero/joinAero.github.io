@@ -90,23 +90,24 @@
 
 
 
-<meta name="description" content="li p { margin: 0; } .post-body .fancybox img { margin: 0 auto; } .post-body .fancybox img[alt=&quot;install-rk-usb-driver.png&quot;] { margin: 0 auto; }   Firefly-RK3399Flash ImageWindows:  Download here, 或这里">
+<meta name="description" content="li p { margin: 0; } .post-body .fancybox img { margin: 0 auto; } .post-body .fancybox img[alt=&quot;install-rk-usb-driver.png&quot;] { margin: 0 auto; } .code {   font-family: consolas, Menlo, &quot;PingFang SC&quot;, &quot;">
 <meta name="keywords" content="Screen Sharing,Ubuntu,Firefly-RK3399">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Headless Firefly-RK3399 Setup">
 <meta property="og:url" content="http://eevee.cc/2017/05/10/headless-firefly-rk3399-setup/index.html">
 <meta property="og:site_name" content="Flower Crown Eevee">
-<meta property="og:description" content="li p { margin: 0; } .post-body .fancybox img { margin: 0 auto; } .post-body .fancybox img[alt=&quot;install-rk-usb-driver.png&quot;] { margin: 0 auto; }   Firefly-RK3399Flash ImageWindows:  Download here, 或这里">
+<meta property="og:description" content="li p { margin: 0; } .post-body .fancybox img { margin: 0 auto; } .post-body .fancybox img[alt=&quot;install-rk-usb-driver.png&quot;] { margin: 0 auto; } .code {   font-family: consolas, Menlo, &quot;PingFang SC&quot;, &quot;">
 <meta property="og:image" content="http://eevee.cc/2017/05/10/headless-firefly-rk3399-setup/install-rk-usb-driver.png">
 <meta property="og:image" content="http://eevee.cc/2017/05/10/headless-firefly-rk3399-setup/rk-usb-device-detected.png">
 <meta property="og:image" content="http://eevee.cc/2017/05/10/headless-firefly-rk3399-setup/android-tool.png">
 <meta property="og:image" content="http://eevee.cc/2017/05/10/headless-firefly-rk3399-setup/upgrade-firmware.png">
+<meta property="og:image" content="http://eevee.cc/2017/05/10/headless-firefly-rk3399-setup/vino-preferences.png">
 <meta property="og:image" content="http://eevee.cc/2017/05/10/headless-firefly-rk3399-setup/startup.png">
 <meta property="og:image" content="http://eevee.cc/2017/05/10/headless-firefly-rk3399-setup/remote-desktop-client.png">
-<meta property="og:updated_time" content="2017-05-10T15:13:17.000Z">
+<meta property="og:updated_time" content="2017-05-10T15:45:47.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Headless Firefly-RK3399 Setup">
-<meta name="twitter:description" content="li p { margin: 0; } .post-body .fancybox img { margin: 0 auto; } .post-body .fancybox img[alt=&quot;install-rk-usb-driver.png&quot;] { margin: 0 auto; }   Firefly-RK3399Flash ImageWindows:  Download here, 或这里">
+<meta name="twitter:description" content="li p { margin: 0; } .post-body .fancybox img { margin: 0 auto; } .post-body .fancybox img[alt=&quot;install-rk-usb-driver.png&quot;] { margin: 0 auto; } .code {   font-family: consolas, Menlo, &quot;PingFang SC&quot;, &quot;">
 <meta name="twitter:image" content="http://eevee.cc/2017/05/10/headless-firefly-rk3399-setup/install-rk-usb-driver.png">
 
 
@@ -414,6 +415,15 @@
 li p { margin: 0; }
 .post-body .fancybox img { margin: 0 auto; }
 .post-body .fancybox img[alt="install-rk-usb-driver.png"] { margin: 0 auto; }
+.code {
+  font-family: consolas, Menlo, "PingFang SC", "Microsoft YaHei", monospace;
+  padding: 2px 4px;
+  word-wrap: break-word;
+  color: #555;
+  background: #eee;
+  border-radius: 3px;
+  font-size: 13px;
+}
 </style>
 
 <h1 id="Firefly-RK3399"><a href="#Firefly-RK3399" class="headerlink" title="Firefly-RK3399"></a><a href="http://www.t-firefly.com/zh/firenow/Firefly-rk3399/" target="_blank" rel="external">Firefly-RK3399</a></h1><h2 id="Flash-Image"><a href="#Flash-Image" class="headerlink" title="Flash Image"></a><a href="http://wiki.t-firefly.com/index.php/Firefly-RK3399/Flash_image/en" target="_blank" rel="external">Flash Image</a></h2><p>Windows:</p>
@@ -495,8 +505,8 @@ Password: firefly
 <li><p>Screen Sharing from Firefly</p>
 <ul>
 <li>Install, <code>sudo apt-get install vino</code></li>
-<li><p>Config, <code>vino-preferences</code></p>
-  {% asset_img vino-preferences.png %}
+<li><p>Config, <span class="code">vino-preferences</span></p>
+  <img src="/2017/05/10/headless-firefly-rk3399-setup/vino-preferences.png" alt="vino-preferences.png" title="">
 </li>
 <li><p>Start, <code>/usr/lib/vino/vino-server --sm-disable</code></p>
 </li>
