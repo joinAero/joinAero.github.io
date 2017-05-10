@@ -2,7 +2,12 @@
 title: Screen Sharing from Ubuntu to Mac
 date: 2017-05-09 17:00:45
 categories:
+- Tech
 tags:
+- Screen Sharing
+- Remote Desktop
+- Ubuntu
+- Mac
 ---
 
 ## Ubuntu
