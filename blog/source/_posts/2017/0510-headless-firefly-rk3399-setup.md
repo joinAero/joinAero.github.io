@@ -112,3 +112,30 @@ Now, you can control the board.
 **Finally, you can control the board from remote PC, without extra accessories or devices.**
 
 > NOTE: You could get ip address of the board from your router’s home page.
+
+**If you wanna access the Firefly's files, you can do as follows:**
+
+1. Install [Samba](https://www.samba.org/) on Firefly,
+    ```
+    # samba
+    sudo apt-get install samba samba-common-bin
+
+    # config samba
+    sudo vi /etc/samba/smb.conf
+
+    [homes]
+      read only = no
+
+    # restart
+    sudo /etc/init.d/samba restart
+    # add user
+    sudo smbpasswd -a firefly
+    ```
+2. Open "Finder" on Mac,
+    - "Go > Connect to Server"
+
+        {% asset_img smb-connect.png %}
+
+    - Then, select "firefly" volume
+
+        {% asset_img smb-access.png %}
