@@ -8,13 +8,13 @@ tags:
 - SSH
 ---
 
+## Install
+
 {% raw %}
 <style type="text/css">
-li p { margin: 0; }
+.post-body li p { margin: 0; }
 </style>
 {% endraw %}
-
-## Install
 
 1. [Download](https://www.raspberrypi.org/downloads/raspbian/) "RASPBIAN JESSIE LITE" without PIXEL desktop.
 2. Unzip it to get the image file (.img) for writing to your SD card.

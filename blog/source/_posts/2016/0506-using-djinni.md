@@ -10,17 +10,7 @@ tags:
 - iOS
 ---
 
-{% raw %}
-<style type="text/css">
-.post-body .fancybox img {
-    margin: 0 auto 25px;
-}
-</style>
-{% endraw %}
-
-
 [Djinni]: https://github.com/dropbox/djinni
-
 
 [Djinni][] 是一个用来生成跨语言的类型声明和接口绑定的工具，主要用于 C++ 和 Java 以及 Objective-C 间的互通。
 
@@ -29,6 +19,11 @@ tags:
 * 用了接口描述文件。声明清晰、修改简易，并保证了跨平台接口的一致性。
 * 自动生成接口绑定代码。免去了绑定 C++ 和 Java (JNI) 及 Objective-C (Objective-C++) 的麻烦。
 
+{% raw %}
+<style type="text/css">
+.post-body .fancybox img { margin: 0 auto 25px; }
+</style>
+{% endraw %}
 
 ## 初见：Djinni 及其样例
 

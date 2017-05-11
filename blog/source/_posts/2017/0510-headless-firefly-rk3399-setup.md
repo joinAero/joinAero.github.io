@@ -9,12 +9,16 @@ tags:
 - Ubuntu
 ---
 
+[Firefly-RK3399]: http://www.t-firefly.com/zh/firenow/Firefly-rk3399/
+
+# [Firefly-RK3399][]
+
 {% raw %}
 <style type="text/css">
-li p { margin: 0; }
+.post-body li p { margin: 0; }
 .post-body .fancybox img { margin: 0 auto; }
-.post-body .fancybox img[alt="install-rk-usb-driver.png"] { margin: 0 auto; }
-.code {
+.post-body li .fancybox img { margin: 25px auto; }
+.post-body .code {
   font-family: consolas, Menlo, "PingFang SC", "Microsoft YaHei", monospace;
   padding: 2px 4px;
   word-wrap: break-word;
@@ -25,10 +29,6 @@ li p { margin: 0; }
 }
 </style>
 {% endraw %}
-
-[Firefly-RK3399]: http://www.t-firefly.com/zh/firenow/Firefly-rk3399/
-
-# [Firefly-RK3399][]
 
 ## [Flash Image](http://wiki.t-firefly.com/index.php/Firefly-RK3399/Flash_image/en)
 
