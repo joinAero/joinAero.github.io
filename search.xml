@@ -47,9 +47,9 @@
         <category>Tech</category>
       </categories>
       <tags>
-        <tag>CUDA</tag>
-        <tag>Android</tag>
         <tag>OpenCV</tag>
+        <tag>Android</tag>
+        <tag>CUDA</tag>
       </tags>
   </entry>
   <entry>
@@ -73,10 +73,10 @@
         <category>Tech</category>
       </categories>
       <tags>
+        <tag>CUDA</tag>
         <tag>Caffe</tag>
         <tag>TensorFlow</tag>
         <tag>Python</tag>
-        <tag>CUDA</tag>
       </tags>
   </entry>
   <entry>
@@ -87,9 +87,9 @@
         <category>Tech</category>
       </categories>
       <tags>
+        <tag>Android</tag>
         <tag>Djinni</tag>
         <tag>Cpp</tag>
-        <tag>Android</tag>
         <tag>iOS</tag>
       </tags>
   </entry>
