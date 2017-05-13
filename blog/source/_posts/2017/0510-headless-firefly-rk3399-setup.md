@@ -139,3 +139,21 @@ Now, you can control the board.
     - Then, select "firefly" volume
 
         {% asset_img smb-access.png %}
+
+**If you wanna setup other WiFi connections, you can do as follows:**
+
+1. Add a WiFi connection,
+    - Run `nmtui`, then "Edit a connection > Add > Wi-Fi"
+
+        {% asset_img nmtui.png %}
+
+    - Field "Device" is "wlan0 mac address", run `ip addr` to get
+    - Enter "OK", done
+2. Connection file is created here,
+    ```
+    $ ll /etc/NetworkManager/system-connections/
+    ```
+3. Connect a WiFi with SSID found nearby,
+    ```
+    $ nmcli device wifi con "ssid" password "password"
+    ```
