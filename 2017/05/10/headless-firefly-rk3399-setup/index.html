@@ -102,11 +102,8 @@
 <meta property="og:image" content="http://eevee.cc/2017/05/10/headless-firefly-rk3399-setup/android-tool.png">
 <meta property="og:image" content="http://eevee.cc/2017/05/10/headless-firefly-rk3399-setup/upgrade-firmware.png">
 <meta property="og:image" content="http://eevee.cc/2017/05/10/headless-firefly-rk3399-setup/vino-preferences.png">
-<meta property="og:image" content="http://eevee.cc/2017/05/10/headless-firefly-rk3399-setup/startup.png">
-<meta property="og:image" content="http://eevee.cc/2017/05/10/headless-firefly-rk3399-setup/remote-desktop-client.png">
-<meta property="og:image" content="http://eevee.cc/2017/05/10/headless-firefly-rk3399-setup/smb-connect.png">
-<meta property="og:image" content="http://eevee.cc/2017/05/10/headless-firefly-rk3399-setup/smb-access.png">
-<meta property="og:updated_time" content="2017-05-11T04:28:01.000Z">
+<meta property="og:image" content="http://eevee.cc/2017/05/10/headless-firefly-rk3399-setup/nmtui.png">
+<meta property="og:updated_time" content="2017-05-13T06:52:39.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Headless Firefly-RK3399 Setup">
 <meta name="twitter:description" content="Firefly-RK3399  .post-body li p { margin: 0; } .post-body .fancybox img { margin: 0 auto; } .post-body li .fancybox img { margin: 25px auto; } .post-body .code {   font-family: consolas, Menlo, &quot;PingF">
@@ -513,14 +510,14 @@ Password: firefly
 <li><p>Start, <code>/usr/lib/vino/vino-server --sm-disable</code></p>
 </li>
 <li><p>Autostart, open “Session and Startup” and check “Desktop Sharing”,</p>
-  <img src="/2017/05/10/headless-firefly-rk3399-setup/startup.png" alt="startup.png" title="">
+  {% asset_img startup.png %}
 </li>
 </ul>
 </li>
 <li><p>Remote access from Ubuntu</p>
 <ul>
 <li><p>Open “Remmina Remote Desktop Client” and add connection,</p>
-  <img src="/2017/05/10/headless-firefly-rk3399-setup/remote-desktop-client.png" alt="remote-desktop-client.png" title="">
+  {% asset_img remote-desktop-client.png %}
 </li>
 <li><p>Or, remote access from Mac, plz see <a href="/2017/05/09/screen-sharing-from-ubuntu-to-mac/">here</a>.</p>
 </li>
@@ -539,12 +536,31 @@ Password: firefly
 <li><p>Open “Finder” on Mac,</p>
 <ul>
 <li><p>“Go &gt; Connect to Server”</p>
-  <img src="/2017/05/10/headless-firefly-rk3399-setup/smb-connect.png" alt="smb-connect.png" title="">
+  {% asset_img smb-connect.png %}
 </li>
 <li><p>Then, select “firefly” volume</p>
-  <img src="/2017/05/10/headless-firefly-rk3399-setup/smb-access.png" alt="smb-access.png" title="">
+  {% asset_img smb-access.png %}
 </li>
 </ul>
+</li>
+</ol>
+<p><strong>If you wanna setup other WiFi connections, you can do as follows:</strong></p>
+<ol>
+<li><p>Add a WiFi connection,</p>
+<ul>
+<li><p>Run <code>nmtui</code>, then “Edit a connection &gt; Add &gt; Wi-Fi”</p>
+  <img src="/2017/05/10/headless-firefly-rk3399-setup/nmtui.png" alt="nmtui.png" title="">
+</li>
+<li><p>Field “Device” is “wlan0 mac address”, run <code>ip addr</code> to get</p>
+</li>
+<li>Enter “OK”, done</li>
+</ul>
+</li>
+<li><p>Connection file is created here,</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ll /etc/NetworkManager/system-connections/</div></pre></td></tr></table></figure>
+</li>
+<li><p>Connect a WiFi with SSID found nearby,</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ nmcli device wifi con &quot;ssid&quot; password &quot;password&quot;</div></pre></td></tr></table></figure>
 </li>
 </ol>
 
