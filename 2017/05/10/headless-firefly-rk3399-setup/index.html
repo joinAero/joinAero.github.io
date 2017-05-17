@@ -102,8 +102,12 @@
 <meta property="og:image" content="http://eevee.cc/2017/05/10/headless-firefly-rk3399-setup/android-tool.png">
 <meta property="og:image" content="http://eevee.cc/2017/05/10/headless-firefly-rk3399-setup/upgrade-firmware.png">
 <meta property="og:image" content="http://eevee.cc/2017/05/10/headless-firefly-rk3399-setup/vino-preferences.png">
+<meta property="og:image" content="http://eevee.cc/2017/05/10/headless-firefly-rk3399-setup/startup.png">
+<meta property="og:image" content="http://eevee.cc/2017/05/10/headless-firefly-rk3399-setup/remote-desktop-client.png">
+<meta property="og:image" content="http://eevee.cc/2017/05/10/headless-firefly-rk3399-setup/smb-connect.png">
+<meta property="og:image" content="http://eevee.cc/2017/05/10/headless-firefly-rk3399-setup/smb-access.png">
 <meta property="og:image" content="http://eevee.cc/2017/05/10/headless-firefly-rk3399-setup/nmtui.png">
-<meta property="og:updated_time" content="2017-05-13T06:52:39.000Z">
+<meta property="og:updated_time" content="2017-05-17T04:20:47.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Headless Firefly-RK3399 Setup">
 <meta name="twitter:description" content="Firefly-RK3399  .post-body li p { margin: 0; } .post-body .fancybox img { margin: 0 auto; } .post-body li .fancybox img { margin: 25px auto; } .post-body .code {   font-family: consolas, Menlo, &quot;PingF">
@@ -507,17 +511,17 @@ Password: firefly
 <li><p>Config, <span class="code">vino-preferences</span></p>
   <img src="/2017/05/10/headless-firefly-rk3399-setup/vino-preferences.png" alt="vino-preferences.png" title="">
 </li>
-<li><p>Start, <code>/usr/lib/vino/vino-server --sm-disable</code></p>
+<li><p>Start, <span class="code">/usr/lib/vino/vino-server –sm-disable`</span></p>
 </li>
 <li><p>Autostart, open “Session and Startup” and check “Desktop Sharing”,</p>
-  {% asset_img startup.png %}
+  <img src="/2017/05/10/headless-firefly-rk3399-setup/startup.png" alt="startup.png" title="">
 </li>
 </ul>
 </li>
 <li><p>Remote access from Ubuntu</p>
 <ul>
 <li><p>Open “Remmina Remote Desktop Client” and add connection,</p>
-  {% asset_img remote-desktop-client.png %}
+  <img src="/2017/05/10/headless-firefly-rk3399-setup/remote-desktop-client.png" alt="remote-desktop-client.png" title="">
 </li>
 <li><p>Or, remote access from Mac, plz see <a href="/2017/05/09/screen-sharing-from-ubuntu-to-mac/">here</a>.</p>
 </li>
@@ -536,10 +540,10 @@ Password: firefly
 <li><p>Open “Finder” on Mac,</p>
 <ul>
 <li><p>“Go &gt; Connect to Server”</p>
-  {% asset_img smb-connect.png %}
+  <img src="/2017/05/10/headless-firefly-rk3399-setup/smb-connect.png" alt="smb-connect.png" title="">
 </li>
 <li><p>Then, select “firefly” volume</p>
-  {% asset_img smb-access.png %}
+  <img src="/2017/05/10/headless-firefly-rk3399-setup/smb-access.png" alt="smb-access.png" title="">
 </li>
 </ul>
 </li>
@@ -548,7 +552,7 @@ Password: firefly
 <ol>
 <li><p>Add a WiFi connection,</p>
 <ul>
-<li><p>Run <code>nmtui</code>, then “Edit a connection &gt; Add &gt; Wi-Fi”</p>
+<li><p>Run <span class="code">nmtui</span>, then “Edit a connection &gt; Add &gt; Wi-Fi”</p>
   <img src="/2017/05/10/headless-firefly-rk3399-setup/nmtui.png" alt="nmtui.png" title="">
 </li>
 <li><p>Field “Device” is “wlan0 mac address”, run <code>ip addr</code> to get</p>
