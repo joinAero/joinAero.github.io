@@ -97,7 +97,7 @@ Now, you can control the board.
 
         {% asset_img vino-preferences.png %}
 
-    - Start, `/usr/lib/vino/vino-server --sm-disable`
+    - Start, <span class="code">/usr/lib/vino/vino-server --sm-disable`</span>
     - Autostart, open "Session and Startup" and check "Desktop Sharing",
 
         {% asset_img startup.png %}
@@ -143,7 +143,7 @@ Now, you can control the board.
 **If you wanna setup other WiFi connections, you can do as follows:**
 
 1. Add a WiFi connection,
-    - Run `nmtui`, then "Edit a connection > Add > Wi-Fi"
+    - Run <span class="code">nmtui</span>, then "Edit a connection > Add > Wi-Fi"
 
         {% asset_img nmtui.png %}
 
