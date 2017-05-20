@@ -2,6 +2,7 @@
 title: Build OpenCV on Firefly-RK3399
 date: 2017-05-17 12:49:56
 categories:
+- Tech
 tags:
 - Firefly-RK3399
 - OpenCV
