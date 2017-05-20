@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://eevee.cc/"/>
-  <updated>2017-05-17T05:39:56.000Z</updated>
+  <updated>2017-05-20T05:28:25.000Z</updated>
   <id>http://eevee.cc/</id>
   
   <author>
@@ -16,11 +16,188 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Use Kinect on Firefly-RK3399</title>
+    <link href="http://eevee.cc/2017/05/20/use-kinect-on-firefly-rk3399/"/>
+    <id>http://eevee.cc/2017/05/20/use-kinect-on-firefly-rk3399/</id>
+    <published>2017-05-20T05:09:46.000Z</published>
+    <updated>2017-05-20T05:28:25.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="Preparation"><a href="#Preparation" class="headerlink" title="Preparation"></a>Preparation</h2>
+<style type="text/css">
+.post-body .fancybox img { margin: 0 auto 25px; }
+</style>
+
+<h3 id="Install-libfreenect"><a href="#Install-libfreenect" class="headerlink" title="Install libfreenect"></a>Install <a href="https://github.com/OpenKinect/libfreenect" target="_blank" rel="external">libfreenect</a></h3><blockquote>
+<p>Note:<br>&nbsp;&nbsp;libfreenect  for Kinect Xbox 360<br>&nbsp;&nbsp;libfreenect2 for Kinect Xbox One</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"># download latest code, instead of latest release v0.5.5</div><div class="line">$ git clone https://github.com/OpenKinect/libfreenect.git</div><div class="line">$ cd libfreenect/</div><div class="line"></div><div class="line"># fix issue with OpenCV, in line 173</div><div class="line">$ vi OpenNI2-FreenectDriver/src/DepthStream.hpp</div><div class="line"></div><div class="line">        case XN_STREAM_PROPERTY_ZERO_PLANE_DISTANCE:    // unsigned long long or unsigned int (for OpenNI2/OpenCV)</div><div class="line">          if (*pDataSize != sizeof(unsigned long long) &amp;&amp; *pDataSize != sizeof(unsigned int))</div><div class="line">          &#123;</div><div class="line">            LogError(&quot;Unexpected size for XN_STREAM_PROPERTY_ZERO_PLANE_DISTANCE&quot;);</div><div class="line">            return ONI_STATUS_ERROR;</div><div class="line">          &#125; else &#123;</div><div class="line">            if (*pDataSize != sizeof(unsigned long long)) &#123;</div><div class="line">              *(static_cast&lt;unsigned long long*&gt;(data)) = ZERO_PLANE_DISTANCE_VAL;</div><div class="line">            &#125; else &#123;</div><div class="line">              *(static_cast&lt;unsigned int*&gt;(data)) = (unsigned int) ZERO_PLANE_DISTANCE_VAL;</div><div class="line">            &#125;</div><div class="line">          &#125;</div><div class="line">          return ONI_STATUS_OK;</div><div class="line"></div><div class="line"># build</div><div class="line">$ mkdir build</div><div class="line">$ cd build</div><div class="line">$ cmake -DBUILD_OPENNI2_DRIVER=ON ..</div><div class="line">$ make</div><div class="line"></div><div class="line"># preview</div><div class="line">$ ./bin/freenect-glview</div></pre></td></tr></table></figure>
+<a id="more"></a>
+<img src="/2017/05/20/use-kinect-on-firefly-rk3399/freenect-glview.png" alt="freenect-glview.png" title="">
+<h3 id="Install-OpenNI"><a href="#Install-OpenNI" class="headerlink" title="Install OpenNI"></a>Install <a href="https://structure.io/openni" target="_blank" rel="external">OpenNI</a></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"># download this, aarch64 platform support</div><div class="line">$ git clone -b develop https://github.com/joinAero/OpenNI2.git</div><div class="line">$ cd OpenNI2/</div><div class="line"></div><div class="line"># deps</div><div class="line">$ sudo apt-get install libudev-dev</div><div class="line"># or, all</div><div class="line">$ sudo apt-get install \</div><div class="line">    g++              \</div><div class="line">    python           \</div><div class="line">    libusb-1.0-0-dev \</div><div class="line">    libudev-dev      \</div><div class="line">    openjdk-6-jdk    \</div><div class="line">    freeglut3-dev    \</div><div class="line">    doxygen          \</div><div class="line">    graphviz</div><div class="line"></div><div class="line"># build</div><div class="line">$ make</div><div class="line"></div><div class="line"># setup</div><div class="line">$ echo &quot;export OPENNI2_INCLUDE=`pwd`/Include&quot; &gt;&gt; ~/.bashrc</div><div class="line">$ echo &quot;export OPENNI2_REDIST=`pwd`/Bin/AArch64-Release&quot; &gt;&gt; ~/.bashrc</div></pre></td></tr></table></figure>
+<p>Then, copy the freenect driver to OpenNI2 driver repository:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">$ cd libfreenect/build/</div><div class="line">$ cd lib/OpenNI2-FreenectDriver/</div><div class="line"></div><div class="line">$ export FREENECT_DRIVER_LIB=libFreenectDriver.so</div><div class="line">$ export FREENECT_DRIVER_REAL_LIB=$(python - &lt;&lt;&apos;EOF&apos;</div><div class="line">import os</div><div class="line">lib = os.environ[&apos;FREENECT_DRIVER_LIB&apos;]</div><div class="line">while os.path.islink(lib):</div><div class="line">    lib = os.readlink(lib)</div><div class="line">print(lib)</div><div class="line">EOF</div><div class="line">)</div><div class="line">$ ln -sf `pwd`/$FREENECT_DRIVER_REAL_LIB $OPENNI2_REDIST/OpenNI2/Drivers/$FREENECT_DRIVER_LIB</div></pre></td></tr></table></figure>
+<!--
+# ARM options: https://gcc.gnu.org/onlinedocs/gcc/ARM-Options.html
+# AArch64 Options: https://gcc.gnu.org/onlinedocs/gcc-7.1.0/gcc/AArch64-Options.html
+# `cat /proc/cpuinfo`
+# `lscpu`
+-->
+<h3 id="Build-OpenCV-with-OpenNI"><a href="#Build-OpenCV-with-OpenNI" class="headerlink" title="Build OpenCV with OpenNI"></a>Build OpenCV with OpenNI</h3><blockquote>
+<p>NOTE: Please see how to <a href="http://eevee.cc/2017/05/17/build-opencv-on-firefly-rk3399/">Build OpenCV on Firefly-RK3399</a>.</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">$ cd opencv/</div><div class="line">$ mkdir build</div><div class="line">$ cd build/</div><div class="line"></div><div class="line">$ export PY_NAME=$(python -c &apos;from sys import version_info as v; print(&quot;python%d.%d&quot; % v[:2])&apos;)</div><div class="line">$ export PY_NUMPY_DIR=$(python -c &apos;import os.path, numpy.core; print(os.path.dirname(numpy.core.__file__))&apos;)</div><div class="line"></div><div class="line">$ cmake -DCMAKE_BUILD_TYPE=RELEASE \</div><div class="line">-DCMAKE_INSTALL_PREFIX=/usr/local \</div><div class="line">\</div><div class="line">-DPYTHON2_EXECUTABLE=$(which python) \</div><div class="line">-DPYTHON_INCLUDE_DIR=/usr/include/$PY_NAME \</div><div class="line">-DPYTHON_INCLUDE_DIR2=/usr/include/aarch64-linux-gnu/$PY_NAME \</div><div class="line">-DPYTHON_LIBRARY=/usr/lib/aarch64-linux-gnu/lib$PY_NAME.so \</div><div class="line">-DPYTHON2_NUMPY_INCLUDE_DIRS=/usr/lib/$PY_NAME/dist-packages/numpy/core/include/ \</div><div class="line">\</div><div class="line">-DWITH_OPENNI2=ON \</div><div class="line">\</div><div class="line">-DBUILD_DOCS=OFF \</div><div class="line">-DBUILD_EXAMPLES=OFF \</div><div class="line">-DBUILD_TESTS=OFF \</div><div class="line">-DBUILD_PERF_TESTS=OFF \</div><div class="line">\</div><div class="line">-DOPENCV_EXTRA_MODULES_PATH=../../opencv_contrib/modules \</div><div class="line">..</div><div class="line"></div><div class="line">$ make -j$(nproc --all)</div><div class="line">$ sudo make install</div></pre></td></tr></table></figure>
+<h2 id="Usage"><a href="#Usage" class="headerlink" title="Usage"></a>Usage</h2><h3 id="C"><a href="#C" class="headerlink" title="C++"></a>C++</h3><p><code>kinect.cc</code>:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">#include &quot;camera.hpp&quot;</div><div class="line"></div><div class="line">int main(int argc, char const *argv[]) &#123;</div><div class="line">    Camera cam(cv::CAP_OPENNI2);</div><div class="line">    if (!cam.IsOpened()) &#123;</div><div class="line">        std::cerr &lt;&lt; &quot;ERROR: Open camera failed&quot; &lt;&lt; std::endl;</div><div class="line">        return 1;</div><div class="line">    &#125;</div><div class="line">    std::cout &lt;&lt; &quot;\033[1;32mPress ESC/Q to terminate\033[0m\n\n&quot;;</div><div class="line"></div><div class="line">    double min, max;</div><div class="line">    cv::Mat adjmap, colormap;</div><div class="line">    cam.Capture([&amp;](const cv::Mat&amp; frame, const cv::Mat&amp; depthmap) &#123;</div><div class="line">        cv::minMaxIdx(depthmap, &amp;min, &amp;max);</div><div class="line">        const float scale = 255 / (max-min);</div><div class="line">        depthmap.convertTo(adjmap, CV_8UC1, scale, -min*scale);</div><div class="line"></div><div class="line">        //applyColorMap(adjmap, colormap, cv::COLORMAP_AUTUMN);</div><div class="line"></div><div class="line">        cam.DrawInfo(frame);</div><div class="line">        cam.DrawInfo(adjmap);</div><div class="line">        cv::imshow(&quot;frame&quot;, frame);</div><div class="line">        cv::imshow(&quot;depthmap&quot;, adjmap);</div><div class="line"></div><div class="line">        const int key = cv::waitKey(10);</div><div class="line">        return !(key == 27 || key == &apos;q&apos; || key == &apos;Q&apos;); // ESC/Q</div><div class="line">    &#125;);</div><div class="line"></div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>./build/bin/kinect</code>:</p>
+<img src="/2017/05/20/use-kinect-on-firefly-rk3399/kinect-sample.png" alt="kinect-sample.png" title="">
+<p>Could get complete C++ code <a href="https://gist.github.com/joinAero/40f2bf867b8d7beed2d2c5de3b6f933a" target="_blank" rel="external">here</a>, Python code <a href="https://gist.github.com/joinAero/1f76844278f141cea8338d1118423648" target="_blank" rel="external">here</a>.</p>
+<blockquote>
+<p>NOTE: Unable to retrieve correct image using Python code now. Please see this <a href="https://github.com/opencv/opencv/issues/4735" target="_blank" rel="external">issue</a>.</p>
+</blockquote>
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
+<li><a href="http://docs.opencv.org/master/d7/d6f/tutorial_kinect_openni.html" target="_blank" rel="external">Using Kinect and other OpenNI compatible depth sensors</a></li>
+<li><a href="http://stackoverflow.com/questions/37946618/openni2-with-opencv-3" target="_blank" rel="external">OpenNI2 with OpenCV 3 (macOS)</a><ul>
+<li>How to use Kinect using OpenNI2 with OpenCV 3 on macOS</li>
+</ul>
+</li>
+</ul>
+<h2 id="Issues"><a href="#Issues" class="headerlink" title="Issues"></a>Issues</h2><h3 id="Failed-to-use-libfreenect-form-sudo-apt-get-install-freenect"><a href="#Failed-to-use-libfreenect-form-sudo-apt-get-install-freenect" class="headerlink" title="Failed to use libfreenect form sudo apt-get install freenect"></a>Failed to use libfreenect form <code>sudo apt-get install freenect</code></h3><p><strong>Install:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">$ sudo apt-get install freenect</div><div class="line"></div><div class="line">$ apt-cache show freenect</div><div class="line">$ dpkg -L freenect</div><div class="line">$ dpkg -L libfreenect-bin</div><div class="line">$ dpkg -L libfreenect-dev</div><div class="line">$ dpkg -L libfreenect0.5</div><div class="line">$ dpkg -L libfreenect-doc</div></pre></td></tr></table></figure>
+<p><strong>Cause:</strong> not install freenect driver.</p>
+<h3 id="Failed-to-build-libfreenect-on-Firefly-RK3399-aarch64"><a href="#Failed-to-build-libfreenect-on-Firefly-RK3399-aarch64" class="headerlink" title="Failed to build libfreenect on Firefly-RK3399 (aarch64)"></a>Failed to build libfreenect on Firefly-RK3399 (aarch64)</h3><p><strong>Error when build libfreenect:</strong></p>
+<pre><code>[ 94%] Building CXX object OpenNI2-FreenectDriver/CMakeFiles/FreenectDriver.dir/src/ColorStream.cpp.o
+In file included from /home/firefly/Workspace/libfreenect-0.5.5/OpenNI2-FreenectDriver/extern/OpenNI-Linux-x64-2.2.0.33/Include/Driver/OniDriverAPI.h:24:0,
+                 from /home/firefly/Workspace/libfreenect-0.5.5/OpenNI2-FreenectDriver/src/ColorStream.hpp:6,
+                 from /home/firefly/Workspace/libfreenect-0.5.5/OpenNI2-FreenectDriver/src/ColorStream.cpp:2:
+/home/firefly/Workspace/libfreenect-0.5.5/OpenNI2-FreenectDriver/extern/OpenNI-Linux-x64-2.2.0.33/Include/OniPlatform.h:49:3: error: #error Xiron Platform Abstraction Layer - Unsupported Platform!
+ # error Xiron Platform Abstraction Layer - Unsupported Platform!
+   ^
+In file included from /home/firefly/Workspace/libfreenect-0.5.5/OpenNI2-FreenectDriver/extern/OpenNI-Linux-x64-2.2.0.33/Include/Driver/OniDriverAPI.h:25:0,
+                 from /home/firefly/Workspace/libfreenect-0.5.5/OpenNI2-FreenectDriver/src/ColorStream.hpp:6,
+                 from /home/firefly/Workspace/libfreenect-0.5.5/OpenNI2-FreenectDriver/src/ColorStream.cpp:2:
+/home/firefly/Workspace/libfreenect-0.5.5/OpenNI2-FreenectDriver/extern/OpenNI-Linux-x64-2.2.0.33/Include/OniCTypes.h:115:32: error: expected &apos;)&apos; before &apos;*&apos; token
+ typedef void (ONI_CALLBACK_TYPE* OniNewFrameCallback)(OniStreamHandle stream, void* pCookie);
+                                ^
+...
+In file included from /home/firefly/Workspace/libfreenect-0.5.5/OpenNI2-FreenectDriver/src/ColorStream.hpp:7:0,
+                 from /home/firefly/Workspace/libfreenect-0.5.5/OpenNI2-FreenectDriver/src/ColorStream.cpp:2:
+/home/firefly/Workspace/libfreenect-0.5.5/OpenNI2-FreenectDriver/src/VideoStream.hpp: In constructor &apos;FreenectDriver::VideoStream::VideoStream(Freenect::FreenectDevice*)&apos;:
+/home/firefly/Workspace/libfreenect-0.5.5/OpenNI2-FreenectDriver/src/VideoStream.hpp:34:46: error: &apos;memset&apos; was not declared in this scope
+         memset(&amp;cropping, 0, sizeof(cropping));
+                                              ^
+OpenNI2-FreenectDriver/CMakeFiles/FreenectDriver.dir/build.make:62: recipe for target &apos;OpenNI2-FreenectDriver/CMakeFiles/FreenectDriver.dir/src/ColorStream.cpp.o&apos; failed
+make[2]: *** [OpenNI2-FreenectDriver/CMakeFiles/FreenectDriver.dir/src/ColorStream.cpp.o] Error 1
+CMakeFiles/Makefile2:902: recipe for target &apos;OpenNI2-FreenectDriver/CMakeFiles/FreenectDriver.dir/all&apos; failed
+make[1]: *** [OpenNI2-FreenectDriver/CMakeFiles/FreenectDriver.dir/all] Error 2
+Makefile:127: recipe for target &apos;all&apos; failed
+make: *** [all] Error 2
+</code></pre><p><strong>Case:</strong> not support aarch64 platform if build from latest release v0.5.5.</p>
+<p><strong>Solution:</strong> use latest code instead of latest release v0.5.5.</p>
+<p>See this commit, <a href="https://github.com/OpenKinect/libfreenect/commit/873a2cc6f625221d34856c6574a959cfe8277a1e" target="_blank" rel="external">OpenNI2: Add aarch64 platform detection</a>.</p>
+<h3 id="Failed-to-use-OpenNI2-from-sudo-apt-get-install-libopenni2-dev"><a href="#Failed-to-use-OpenNI2-from-sudo-apt-get-install-libopenni2-dev" class="headerlink" title="Failed to use OpenNI2 from sudo apt-get install libopenni2-dev"></a>Failed to use OpenNI2 from <code>sudo apt-get install libopenni2-dev</code></h3><p><strong>Install:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"># install</div><div class="line">$ sudo apt-get install libopenni2-dev</div><div class="line"></div><div class="line">$ apt-cache show libopenni2-dev</div><div class="line">$ dpkg -L libopenni2-dev</div><div class="line"></div><div class="line"># copy driver</div><div class="line">$ cd libfreenect/build/</div><div class="line">$ cd lib/OpenNI2-FreenectDriver/</div><div class="line">$ export FREENECT_DRIVER_LIB=libFreenectDriver.so</div><div class="line">$ export FREENECT_DRIVER_REAL_LIB=$(python - &lt;&lt;&apos;EOF&apos;</div><div class="line">import os</div><div class="line">lib = os.environ[&apos;FREENECT_DRIVER_LIB&apos;]</div><div class="line">while os.path.islink(lib):</div><div class="line">    lib = os.readlink(lib)</div><div class="line">print(lib)</div><div class="line">EOF</div><div class="line">)</div><div class="line">$ ln -sf `pwd`/$FREENECT_DRIVER_REAL_LIB /usr/lib/OpenNI2/Drivers/$FREENECT_DRIVER_LIB</div></pre></td></tr></table></figure>
+<p><strong>Error when run sample:</strong></p>
+<pre><code>OpenCV Error: Unspecified error (OpenCVKinect: Device open failed see:  DeviceOpen using default: no devices found
+
+) in CvCapture_OpenNI2, file /home/firefly/Workspace/opencv/modules/videoio/src/cap_openni2.cpp, line 237
+VIDEOIO(cvCreateCameraCapture_OpenNI2(index)): raised OpenCV exception:
+
+/home/firefly/Workspace/opencv/modules/videoio/src/cap_openni2.cpp:237: error: (-2) OpenCVKinect: Device open failed see:   DeviceOpen using default: no devices found
+
+ in function CvCapture_OpenNI2
+</code></pre><p><strong>Case:</strong> not found freenect driver! why?</p>
+<h3 id="Failed-to-use-OpenNI2-from-OpenNI-Linux-Arm-2-2-0-33-tar-bz2"><a href="#Failed-to-use-OpenNI2-from-OpenNI-Linux-Arm-2-2-0-33-tar-bz2" class="headerlink" title="Failed to use OpenNI2 from OpenNI-Linux-Arm-2.2.0.33.tar.bz2"></a>Failed to use OpenNI2 from <code>OpenNI-Linux-Arm-2.2.0.33.tar.bz2</code></h3><p><strong>Install:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"># download</div><div class="line">$ curl -O https://s3.amazonaws.com/com.occipital.openni/OpenNI-Linux-Arm-2.2.0.33.tar.bz2</div><div class="line">$ tar jxf OpenNI-Linux-Arm-2.2.0.33.tar.bz2</div><div class="line">$ cd OpenNI-Linux-Arm-2.2/</div><div class="line"></div><div class="line"># install</div><div class="line">$ sudo ./install.sh</div><div class="line">$ cat OpenNIDevEnvironment &gt;&gt; ~/.bashrc</div><div class="line">$ source ~/.bashrc</div></pre></td></tr></table></figure>
+<ul>
+<li><a href="http://wiki.icub.org/wiki/OpenNI2" target="_blank" rel="external">OpenNI2 Wiki</a></li>
+</ul>
+<p>Then, copy the freenect driver to OpenNI2 driver repository:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">$ cd libfreenect/build/</div><div class="line">$ cd lib/OpenNI2-FreenectDriver/</div><div class="line"></div><div class="line">$ export FREENECT_DRIVER_LIB=libFreenectDriver.so</div><div class="line">$ export FREENECT_DRIVER_REAL_LIB=$(python - &lt;&lt;&apos;EOF&apos;</div><div class="line">import os</div><div class="line">lib = os.environ[&apos;FREENECT_DRIVER_LIB&apos;]</div><div class="line">while os.path.islink(lib):</div><div class="line">    lib = os.readlink(lib)</div><div class="line">print(lib)</div><div class="line">EOF</div><div class="line">)</div><div class="line">$ ln -sf `pwd`/$FREENECT_DRIVER_REAL_LIB $OPENNI2_REDIST/OpenNI2/Drivers/$FREENECT_DRIVER_LIB</div></pre></td></tr></table></figure>
+<p><strong>Error when rebuild OpenCV:</strong></p>
+<pre><code>[ 61%] Building CXX object modules/videoio/CMakeFiles/opencv_videoio.dir/src/cap_openni2.cpp.o
+In file included from /home/firefly/Workspace/OpenNI-Linux-Arm-2.2/Include/OpenNI.h:24:0,
+                 from /home/firefly/Workspace/opencv/modules/videoio/src/cap_openni2.cpp:69:
+/home/firefly/Workspace/OpenNI-Linux-Arm-2.2/Include/OniPlatform.h:49:3: error: #error Xiron Platform Abstraction Layer - Unsupported Platform!
+ # error Xiron Platform Abstraction Layer - Unsupported Platform!
+   ^
+In file included from /home/firefly/Workspace/OpenNI-Linux-Arm-2.2/Include/OniCAPI.h:25:0,
+                 from /home/firefly/Workspace/OpenNI-Linux-Arm-2.2/Include/OpenNI.h:28,
+                 from /home/firefly/Workspace/opencv/modules/videoio/src/cap_openni2.cpp:69:
+/home/firefly/Workspace/OpenNI-Linux-Arm-2.2/Include/OniCTypes.h:115:32: error: expected &apos;)&apos; before &apos;*&apos; token
+ typedef void (ONI_CALLBACK_TYPE* OniNewFrameCallback)(OniStreamHandle stream, void* pCookie);
+                                ^
+...
+/home/firefly/Workspace/opencv/modules/videoio/src/cap_openni2.cpp: In member function &apos;bool CvCapture_OpenNI2::setDepthGeneratorProperty(int, double)&apos;:
+/home/firefly/Workspace/opencv/modules/videoio/src/cap_openni2.cpp:612:60: warning: logical not is only applied to the left hand side of comparison [-Wlogical-not-parentheses]
+                     if( !device.getImageRegistrationMode() == mode )
+                                                            ^
+modules/videoio/CMakeFiles/opencv_videoio.dir/build.make:206: recipe for target &apos;modules/videoio/CMakeFiles/opencv_videoio.dir/src/cap_openni2.cpp.o&apos; failed
+make[2]: *** [modules/videoio/CMakeFiles/opencv_videoio.dir/src/cap_openni2.cpp.o] Error 1
+CMakeFiles/Makefile2:3987: recipe for target &apos;modules/videoio/CMakeFiles/opencv_videoio.dir/all&apos; failed
+make[1]: *** [modules/videoio/CMakeFiles/opencv_videoio.dir/all] Error 2
+</code></pre><p><strong>Case:</strong> not support aarch64 platform.</p>
+<p><strong>Solution:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ cd OpenNI-Linux-Arm-2.2</div><div class="line"># add `__aarch64__` in line 42</div><div class="line">$ vi Include/OniPlatform.h</div><div class="line"></div><div class="line">#elif (__linux__ &amp;&amp; (__arm__ || __aarch64__))</div></pre></td></tr></table></figure>
+<p><strong>Error when rebuild OpenCV again:</strong></p>
+<pre><code>[ 60%] Linking CXX shared library ../../lib/libopencv_videoio.so
+/usr/bin/ld: skipping incompatible /home/firefly/Workspace/OpenNI-Linux-Arm-2.2/Redist/libOpenNI2.so when searching for -lOpenNI2
+/usr/bin/ld: cannot find -lOpenNI2
+collect2: error: ld returned 1 exit status
+modules/videoio/CMakeFiles/opencv_videoio.dir/build.make:281: recipe for target &apos;lib/libopencv_videoio.so.3.2.0&apos; failed
+make[2]: *** [lib/libopencv_videoio.so.3.2.0] Error 1
+CMakeFiles/Makefile2:3987: recipe for target &apos;modules/videoio/CMakeFiles/opencv_videoio.dir/all&apos; failed
+make[1]: *** [modules/videoio/CMakeFiles/opencv_videoio.dir/all] Error 2
+Makefile:149: recipe for target &apos;all&apos; failed
+make: *** [all] Error 2
+</code></pre><p><strong>Case:</strong> not incompatible “libOpenNI2.so”.</p>
+<p><strong>Solution:</strong> build form source.</p>
+<h3 id="Failed-to-use-libfreenect-with-OpenNI2-from-source"><a href="#Failed-to-use-libfreenect-with-OpenNI2-from-source" class="headerlink" title="Failed to use libfreenect with OpenNI2 (from source)"></a>Failed to use libfreenect with OpenNI2 (from source)</h3><p><strong>Error when run sample:</strong></p>
+<pre><code>OpenNI2-FreenectDriver: (ERROR) Unexpected size for XN_STREAM_PROPERTY_ZERO_PLANE_DISTANCE
+OpenCV Error: Unspecified error (CvCapture_OpenNI2::readCamerasParams : Could not read virtual plane distance!
+) in readCamerasParams, file /home/firefly/Workspace/opencv/modules/videoio/src/cap_openni2.cpp, line 404
+write_register: 0x0005 &lt;= 0x00
+write_register: 0x0006 &lt;= 0x00
+OpenNI2-FreenectDriver: Closing device freenect://0
+VIDEOIO(cvCreateCameraCapture_OpenNI2(index)): raised OpenCV exception:
+
+/home/firefly/Workspace/opencv/modules/videoio/src/cap_openni2.cpp:404: error: (-2) CvCapture_OpenNI2::readCamerasParams : Could not read virtual plane distance!
+ in function readCamerasParams
+</code></pre><p><strong>Solution:</strong> fix this issue, plz see <a href="http://stackoverflow.com/questions/33657103/using-microsoft-kinect-with-opencv-3-0-0" target="_blank" rel="external">here</a>.</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;Preparation&quot;&gt;&lt;a href=&quot;#Preparation&quot; class=&quot;headerlink&quot; title=&quot;Preparation&quot;&gt;&lt;/a&gt;Preparation&lt;/h2&gt;
+&lt;style type=&quot;text/css&quot;&gt;
+.post-body .fancybox img { margin: 0 auto 25px; }
+&lt;/style&gt;
+
+&lt;h3 id=&quot;Install-libfreenect&quot;&gt;&lt;a href=&quot;#Install-libfreenect&quot; class=&quot;headerlink&quot; title=&quot;Install libfreenect&quot;&gt;&lt;/a&gt;Install &lt;a href=&quot;https://github.com/OpenKinect/libfreenect&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;libfreenect&lt;/a&gt;&lt;/h3&gt;&lt;blockquote&gt;
+&lt;p&gt;Note:&lt;br&gt;&amp;nbsp;&amp;nbsp;libfreenect  for Kinect Xbox 360&lt;br&gt;&amp;nbsp;&amp;nbsp;libfreenect2 for Kinect Xbox One&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;6&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;7&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;8&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;9&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;10&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;11&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;12&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;13&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;14&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;15&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;16&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;17&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;18&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;19&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;20&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;21&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;22&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;23&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;24&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;25&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;26&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;27&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;28&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;29&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;# download latest code, instead of latest release v0.5.5&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;$ git clone https://github.com/OpenKinect/libfreenect.git&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;$ cd libfreenect/&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;# fix issue with OpenCV, in line 173&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;$ vi OpenNI2-FreenectDriver/src/DepthStream.hpp&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;        case XN_STREAM_PROPERTY_ZERO_PLANE_DISTANCE:    // unsigned long long or unsigned int (for OpenNI2/OpenCV)&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;          if (*pDataSize != sizeof(unsigned long long) &amp;amp;&amp;amp; *pDataSize != sizeof(unsigned int))&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;          &amp;#123;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;            LogError(&amp;quot;Unexpected size for XN_STREAM_PROPERTY_ZERO_PLANE_DISTANCE&amp;quot;);&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;            return ONI_STATUS_ERROR;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;          &amp;#125; else &amp;#123;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;            if (*pDataSize != sizeof(unsigned long long)) &amp;#123;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;              *(static_cast&amp;lt;unsigned long long*&amp;gt;(data)) = ZERO_PLANE_DISTANCE_VAL;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;            &amp;#125; else &amp;#123;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;              *(static_cast&amp;lt;unsigned int*&amp;gt;(data)) = (unsigned int) ZERO_PLANE_DISTANCE_VAL;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;            &amp;#125;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;          &amp;#125;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;          return ONI_STATUS_OK;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;# build&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;$ mkdir build&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;$ cd build&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;$ cmake -DBUILD_OPENNI2_DRIVER=ON ..&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;$ make&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;# preview&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;$ ./bin/freenect-glview&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+      <category term="Tech" scheme="http://eevee.cc/categories/Tech/"/>
+    
+    
+      <category term="OpenCV" scheme="http://eevee.cc/tags/OpenCV/"/>
+    
+      <category term="Firefly-RK3399" scheme="http://eevee.cc/tags/Firefly-RK3399/"/>
+    
+      <category term="OpenNI2" scheme="http://eevee.cc/tags/OpenNI2/"/>
+    
+      <category term="libfreenect" scheme="http://eevee.cc/tags/libfreenect/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Build OpenCV on Firefly-RK3399</title>
     <link href="http://eevee.cc/2017/05/17/build-opencv-on-firefly-rk3399/"/>
     <id>http://eevee.cc/2017/05/17/build-opencv-on-firefly-rk3399/</id>
     <published>2017-05-17T04:49:56.000Z</published>
-    <updated>2017-05-17T05:39:56.000Z</updated>
+    <updated>2017-05-20T05:10:31.000Z</updated>
     
     <content type="html"><![CDATA[<h2 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h2><h3 id="Required-Packages"><a href="#Required-Packages" class="headerlink" title="Required Packages"></a>Required Packages</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"># compiler ✓</div><div class="line">$ sudo apt-get install build-essential</div><div class="line"># required ✓</div><div class="line">$ sudo apt-get install cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev</div><div class="line"></div><div class="line"># optional ✓</div><div class="line">$ sudo apt-get install python-dev python-numpy libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev libjasper-dev libdc1394-22-dev</div></pre></td></tr></table></figure>
 <h3 id="Getting-OpenCV-Source-Code"><a href="#Getting-OpenCV-Source-Code" class="headerlink" title="Getting OpenCV Source Code"></a>Getting OpenCV Source Code</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ git clone https://github.com/opencv/opencv.git</div><div class="line">$ cd opencv/</div><div class="line">$ git checkout 3.2.0</div></pre></td></tr></table></figure>
@@ -56,6 +233,8 @@ $ cmake ... \
 &lt;h3 id=&quot;Building-OpenCV-from-Source&quot;&gt;&lt;a href=&quot;#Building-OpenCV-from-Source&quot; class=&quot;headerlink&quot; title=&quot;Building OpenCV from Source&quot;&gt;&lt;/a&gt;Building OpenCV from Source&lt;/h3&gt;
     
     </summary>
+    
+      <category term="Tech" scheme="http://eevee.cc/categories/Tech/"/>
     
     
       <category term="OpenCV" scheme="http://eevee.cc/tags/OpenCV/"/>
@@ -601,9 +780,9 @@ make: *** [all] Error 2
     
       <category term="CUDA" scheme="http://eevee.cc/tags/CUDA/"/>
     
-      <category term="OpenCV" scheme="http://eevee.cc/tags/OpenCV/"/>
-    
       <category term="Android" scheme="http://eevee.cc/tags/Android/"/>
+    
+      <category term="OpenCV" scheme="http://eevee.cc/tags/OpenCV/"/>
     
   </entry>
   
@@ -1136,11 +1315,11 @@ Extra Tools:
       <category term="Tech" scheme="http://eevee.cc/categories/Tech/"/>
     
     
-      <category term="Android" scheme="http://eevee.cc/tags/Android/"/>
-    
       <category term="Djinni" scheme="http://eevee.cc/tags/Djinni/"/>
     
       <category term="Cpp" scheme="http://eevee.cc/tags/Cpp/"/>
+    
+      <category term="Android" scheme="http://eevee.cc/tags/Android/"/>
     
       <category term="iOS" scheme="http://eevee.cc/tags/iOS/"/>
     

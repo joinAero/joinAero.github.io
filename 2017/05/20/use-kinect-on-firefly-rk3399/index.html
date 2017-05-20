@@ -1,0 +1,1315 @@
+<!doctype html>
+
+
+
+
+<html class="theme-next mist" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="OpenCV,Firefly-RK3399,OpenNI2,libfreenect," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Flower Crown Eevee" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="Preparation  .post-body .fancybox img { margin: 0 auto 25px; }   Install libfreenect Note:&amp;nbsp;&amp;nbsp;libfreenect  for Kinect Xbox 360&amp;nbsp;&amp;nbsp;libfreenect2 for Kinect Xbox One  12345678910111213141">
+<meta name="keywords" content="OpenCV,Firefly-RK3399,OpenNI2,libfreenect">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Use Kinect on Firefly-RK3399">
+<meta property="og:url" content="http://eevee.cc/2017/05/20/use-kinect-on-firefly-rk3399/index.html">
+<meta property="og:site_name" content="Flower Crown Eevee">
+<meta property="og:description" content="Preparation  .post-body .fancybox img { margin: 0 auto 25px; }   Install libfreenect Note:&amp;nbsp;&amp;nbsp;libfreenect  for Kinect Xbox 360&amp;nbsp;&amp;nbsp;libfreenect2 for Kinect Xbox One  12345678910111213141">
+<meta property="og:image" content="http://eevee.cc/2017/05/20/use-kinect-on-firefly-rk3399/freenect-glview.png">
+<meta property="og:image" content="http://eevee.cc/2017/05/20/use-kinect-on-firefly-rk3399/kinect-sample.png">
+<meta property="og:updated_time" content="2017-05-20T05:28:25.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Use Kinect on Firefly-RK3399">
+<meta name="twitter:description" content="Preparation  .post-body .fancybox img { margin: 0 auto 25px; }   Install libfreenect Note:&amp;nbsp;&amp;nbsp;libfreenect  for Kinect Xbox 360&amp;nbsp;&amp;nbsp;libfreenect2 for Kinect Xbox One  12345678910111213141">
+<meta name="twitter:image" content="http://eevee.cc/2017/05/20/use-kinect-on-firefly-rk3399/freenect-glview.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: false,
+    duoshuo: {
+      userId: '6273277081015027000',
+      author: 'Eevee'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://eevee.cc/2017/05/20/use-kinect-on-firefly-rk3399/"/>
+
+
+
+
+
+  <title>Use Kinect on Firefly-RK3399 | Flower Crown Eevee</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=55592908";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Flower Crown Eevee</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://eevee.cc/2017/05/20/use-kinect-on-firefly-rk3399/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Eevee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Flower Crown Eevee">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Use Kinect on Firefly-RK3399</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-20T13:09:46+08:00">
+                2017-05-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Tech/" itemprop="url" rel="index">
+                    <span itemprop="name">Tech</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a class="cloud-tie-join-count" href="/2017/05/20/use-kinect-on-firefly-rk3399/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count join-count" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Preparation"><a href="#Preparation" class="headerlink" title="Preparation"></a>Preparation</h2>
+<style type="text/css">
+.post-body .fancybox img { margin: 0 auto 25px; }
+</style>
+
+<h3 id="Install-libfreenect"><a href="#Install-libfreenect" class="headerlink" title="Install libfreenect"></a>Install <a href="https://github.com/OpenKinect/libfreenect" target="_blank" rel="external">libfreenect</a></h3><blockquote>
+<p>Note:<br>&nbsp;&nbsp;libfreenect  for Kinect Xbox 360<br>&nbsp;&nbsp;libfreenect2 for Kinect Xbox One</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"># download latest code, instead of latest release v0.5.5</div><div class="line">$ git clone https://github.com/OpenKinect/libfreenect.git</div><div class="line">$ cd libfreenect/</div><div class="line"></div><div class="line"># fix issue with OpenCV, in line 173</div><div class="line">$ vi OpenNI2-FreenectDriver/src/DepthStream.hpp</div><div class="line"></div><div class="line">        case XN_STREAM_PROPERTY_ZERO_PLANE_DISTANCE:    // unsigned long long or unsigned int (for OpenNI2/OpenCV)</div><div class="line">          if (*pDataSize != sizeof(unsigned long long) &amp;&amp; *pDataSize != sizeof(unsigned int))</div><div class="line">          &#123;</div><div class="line">            LogError(&quot;Unexpected size for XN_STREAM_PROPERTY_ZERO_PLANE_DISTANCE&quot;);</div><div class="line">            return ONI_STATUS_ERROR;</div><div class="line">          &#125; else &#123;</div><div class="line">            if (*pDataSize != sizeof(unsigned long long)) &#123;</div><div class="line">              *(static_cast&lt;unsigned long long*&gt;(data)) = ZERO_PLANE_DISTANCE_VAL;</div><div class="line">            &#125; else &#123;</div><div class="line">              *(static_cast&lt;unsigned int*&gt;(data)) = (unsigned int) ZERO_PLANE_DISTANCE_VAL;</div><div class="line">            &#125;</div><div class="line">          &#125;</div><div class="line">          return ONI_STATUS_OK;</div><div class="line"></div><div class="line"># build</div><div class="line">$ mkdir build</div><div class="line">$ cd build</div><div class="line">$ cmake -DBUILD_OPENNI2_DRIVER=ON ..</div><div class="line">$ make</div><div class="line"></div><div class="line"># preview</div><div class="line">$ ./bin/freenect-glview</div></pre></td></tr></table></figure>
+<a id="more"></a>
+<img src="/2017/05/20/use-kinect-on-firefly-rk3399/freenect-glview.png" alt="freenect-glview.png" title="">
+<h3 id="Install-OpenNI"><a href="#Install-OpenNI" class="headerlink" title="Install OpenNI"></a>Install <a href="https://structure.io/openni" target="_blank" rel="external">OpenNI</a></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"># download this, aarch64 platform support</div><div class="line">$ git clone -b develop https://github.com/joinAero/OpenNI2.git</div><div class="line">$ cd OpenNI2/</div><div class="line"></div><div class="line"># deps</div><div class="line">$ sudo apt-get install libudev-dev</div><div class="line"># or, all</div><div class="line">$ sudo apt-get install \</div><div class="line">    g++              \</div><div class="line">    python           \</div><div class="line">    libusb-1.0-0-dev \</div><div class="line">    libudev-dev      \</div><div class="line">    openjdk-6-jdk    \</div><div class="line">    freeglut3-dev    \</div><div class="line">    doxygen          \</div><div class="line">    graphviz</div><div class="line"></div><div class="line"># build</div><div class="line">$ make</div><div class="line"></div><div class="line"># setup</div><div class="line">$ echo &quot;export OPENNI2_INCLUDE=`pwd`/Include&quot; &gt;&gt; ~/.bashrc</div><div class="line">$ echo &quot;export OPENNI2_REDIST=`pwd`/Bin/AArch64-Release&quot; &gt;&gt; ~/.bashrc</div></pre></td></tr></table></figure>
+<p>Then, copy the freenect driver to OpenNI2 driver repository:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">$ cd libfreenect/build/</div><div class="line">$ cd lib/OpenNI2-FreenectDriver/</div><div class="line"></div><div class="line">$ export FREENECT_DRIVER_LIB=libFreenectDriver.so</div><div class="line">$ export FREENECT_DRIVER_REAL_LIB=$(python - &lt;&lt;&apos;EOF&apos;</div><div class="line">import os</div><div class="line">lib = os.environ[&apos;FREENECT_DRIVER_LIB&apos;]</div><div class="line">while os.path.islink(lib):</div><div class="line">    lib = os.readlink(lib)</div><div class="line">print(lib)</div><div class="line">EOF</div><div class="line">)</div><div class="line">$ ln -sf `pwd`/$FREENECT_DRIVER_REAL_LIB $OPENNI2_REDIST/OpenNI2/Drivers/$FREENECT_DRIVER_LIB</div></pre></td></tr></table></figure>
+<!--
+# ARM options: https://gcc.gnu.org/onlinedocs/gcc/ARM-Options.html
+# AArch64 Options: https://gcc.gnu.org/onlinedocs/gcc-7.1.0/gcc/AArch64-Options.html
+# `cat /proc/cpuinfo`
+# `lscpu`
+-->
+<h3 id="Build-OpenCV-with-OpenNI"><a href="#Build-OpenCV-with-OpenNI" class="headerlink" title="Build OpenCV with OpenNI"></a>Build OpenCV with OpenNI</h3><blockquote>
+<p>NOTE: Please see how to <a href="http://eevee.cc/2017/05/17/build-opencv-on-firefly-rk3399/">Build OpenCV on Firefly-RK3399</a>.</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">$ cd opencv/</div><div class="line">$ mkdir build</div><div class="line">$ cd build/</div><div class="line"></div><div class="line">$ export PY_NAME=$(python -c &apos;from sys import version_info as v; print(&quot;python%d.%d&quot; % v[:2])&apos;)</div><div class="line">$ export PY_NUMPY_DIR=$(python -c &apos;import os.path, numpy.core; print(os.path.dirname(numpy.core.__file__))&apos;)</div><div class="line"></div><div class="line">$ cmake -DCMAKE_BUILD_TYPE=RELEASE \</div><div class="line">-DCMAKE_INSTALL_PREFIX=/usr/local \</div><div class="line">\</div><div class="line">-DPYTHON2_EXECUTABLE=$(which python) \</div><div class="line">-DPYTHON_INCLUDE_DIR=/usr/include/$PY_NAME \</div><div class="line">-DPYTHON_INCLUDE_DIR2=/usr/include/aarch64-linux-gnu/$PY_NAME \</div><div class="line">-DPYTHON_LIBRARY=/usr/lib/aarch64-linux-gnu/lib$PY_NAME.so \</div><div class="line">-DPYTHON2_NUMPY_INCLUDE_DIRS=/usr/lib/$PY_NAME/dist-packages/numpy/core/include/ \</div><div class="line">\</div><div class="line">-DWITH_OPENNI2=ON \</div><div class="line">\</div><div class="line">-DBUILD_DOCS=OFF \</div><div class="line">-DBUILD_EXAMPLES=OFF \</div><div class="line">-DBUILD_TESTS=OFF \</div><div class="line">-DBUILD_PERF_TESTS=OFF \</div><div class="line">\</div><div class="line">-DOPENCV_EXTRA_MODULES_PATH=../../opencv_contrib/modules \</div><div class="line">..</div><div class="line"></div><div class="line">$ make -j$(nproc --all)</div><div class="line">$ sudo make install</div></pre></td></tr></table></figure>
+<h2 id="Usage"><a href="#Usage" class="headerlink" title="Usage"></a>Usage</h2><h3 id="C"><a href="#C" class="headerlink" title="C++"></a>C++</h3><p><code>kinect.cc</code>:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">#include &quot;camera.hpp&quot;</div><div class="line"></div><div class="line">int main(int argc, char const *argv[]) &#123;</div><div class="line">    Camera cam(cv::CAP_OPENNI2);</div><div class="line">    if (!cam.IsOpened()) &#123;</div><div class="line">        std::cerr &lt;&lt; &quot;ERROR: Open camera failed&quot; &lt;&lt; std::endl;</div><div class="line">        return 1;</div><div class="line">    &#125;</div><div class="line">    std::cout &lt;&lt; &quot;\033[1;32mPress ESC/Q to terminate\033[0m\n\n&quot;;</div><div class="line"></div><div class="line">    double min, max;</div><div class="line">    cv::Mat adjmap, colormap;</div><div class="line">    cam.Capture([&amp;](const cv::Mat&amp; frame, const cv::Mat&amp; depthmap) &#123;</div><div class="line">        cv::minMaxIdx(depthmap, &amp;min, &amp;max);</div><div class="line">        const float scale = 255 / (max-min);</div><div class="line">        depthmap.convertTo(adjmap, CV_8UC1, scale, -min*scale);</div><div class="line"></div><div class="line">        //applyColorMap(adjmap, colormap, cv::COLORMAP_AUTUMN);</div><div class="line"></div><div class="line">        cam.DrawInfo(frame);</div><div class="line">        cam.DrawInfo(adjmap);</div><div class="line">        cv::imshow(&quot;frame&quot;, frame);</div><div class="line">        cv::imshow(&quot;depthmap&quot;, adjmap);</div><div class="line"></div><div class="line">        const int key = cv::waitKey(10);</div><div class="line">        return !(key == 27 || key == &apos;q&apos; || key == &apos;Q&apos;); // ESC/Q</div><div class="line">    &#125;);</div><div class="line"></div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>./build/bin/kinect</code>:</p>
+<img src="/2017/05/20/use-kinect-on-firefly-rk3399/kinect-sample.png" alt="kinect-sample.png" title="">
+<p>Could get complete C++ code <a href="https://gist.github.com/joinAero/40f2bf867b8d7beed2d2c5de3b6f933a" target="_blank" rel="external">here</a>, Python code <a href="https://gist.github.com/joinAero/1f76844278f141cea8338d1118423648" target="_blank" rel="external">here</a>.</p>
+<blockquote>
+<p>NOTE: Unable to retrieve correct image using Python code now. Please see this <a href="https://github.com/opencv/opencv/issues/4735" target="_blank" rel="external">issue</a>.</p>
+</blockquote>
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
+<li><a href="http://docs.opencv.org/master/d7/d6f/tutorial_kinect_openni.html" target="_blank" rel="external">Using Kinect and other OpenNI compatible depth sensors</a></li>
+<li><a href="http://stackoverflow.com/questions/37946618/openni2-with-opencv-3" target="_blank" rel="external">OpenNI2 with OpenCV 3 (macOS)</a><ul>
+<li>How to use Kinect using OpenNI2 with OpenCV 3 on macOS</li>
+</ul>
+</li>
+</ul>
+<h2 id="Issues"><a href="#Issues" class="headerlink" title="Issues"></a>Issues</h2><h3 id="Failed-to-use-libfreenect-form-sudo-apt-get-install-freenect"><a href="#Failed-to-use-libfreenect-form-sudo-apt-get-install-freenect" class="headerlink" title="Failed to use libfreenect form sudo apt-get install freenect"></a>Failed to use libfreenect form <code>sudo apt-get install freenect</code></h3><p><strong>Install:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">$ sudo apt-get install freenect</div><div class="line"></div><div class="line">$ apt-cache show freenect</div><div class="line">$ dpkg -L freenect</div><div class="line">$ dpkg -L libfreenect-bin</div><div class="line">$ dpkg -L libfreenect-dev</div><div class="line">$ dpkg -L libfreenect0.5</div><div class="line">$ dpkg -L libfreenect-doc</div></pre></td></tr></table></figure>
+<p><strong>Cause:</strong> not install freenect driver.</p>
+<h3 id="Failed-to-build-libfreenect-on-Firefly-RK3399-aarch64"><a href="#Failed-to-build-libfreenect-on-Firefly-RK3399-aarch64" class="headerlink" title="Failed to build libfreenect on Firefly-RK3399 (aarch64)"></a>Failed to build libfreenect on Firefly-RK3399 (aarch64)</h3><p><strong>Error when build libfreenect:</strong></p>
+<pre><code>[ 94%] Building CXX object OpenNI2-FreenectDriver/CMakeFiles/FreenectDriver.dir/src/ColorStream.cpp.o
+In file included from /home/firefly/Workspace/libfreenect-0.5.5/OpenNI2-FreenectDriver/extern/OpenNI-Linux-x64-2.2.0.33/Include/Driver/OniDriverAPI.h:24:0,
+                 from /home/firefly/Workspace/libfreenect-0.5.5/OpenNI2-FreenectDriver/src/ColorStream.hpp:6,
+                 from /home/firefly/Workspace/libfreenect-0.5.5/OpenNI2-FreenectDriver/src/ColorStream.cpp:2:
+/home/firefly/Workspace/libfreenect-0.5.5/OpenNI2-FreenectDriver/extern/OpenNI-Linux-x64-2.2.0.33/Include/OniPlatform.h:49:3: error: #error Xiron Platform Abstraction Layer - Unsupported Platform!
+ # error Xiron Platform Abstraction Layer - Unsupported Platform!
+   ^
+In file included from /home/firefly/Workspace/libfreenect-0.5.5/OpenNI2-FreenectDriver/extern/OpenNI-Linux-x64-2.2.0.33/Include/Driver/OniDriverAPI.h:25:0,
+                 from /home/firefly/Workspace/libfreenect-0.5.5/OpenNI2-FreenectDriver/src/ColorStream.hpp:6,
+                 from /home/firefly/Workspace/libfreenect-0.5.5/OpenNI2-FreenectDriver/src/ColorStream.cpp:2:
+/home/firefly/Workspace/libfreenect-0.5.5/OpenNI2-FreenectDriver/extern/OpenNI-Linux-x64-2.2.0.33/Include/OniCTypes.h:115:32: error: expected &apos;)&apos; before &apos;*&apos; token
+ typedef void (ONI_CALLBACK_TYPE* OniNewFrameCallback)(OniStreamHandle stream, void* pCookie);
+                                ^
+...
+In file included from /home/firefly/Workspace/libfreenect-0.5.5/OpenNI2-FreenectDriver/src/ColorStream.hpp:7:0,
+                 from /home/firefly/Workspace/libfreenect-0.5.5/OpenNI2-FreenectDriver/src/ColorStream.cpp:2:
+/home/firefly/Workspace/libfreenect-0.5.5/OpenNI2-FreenectDriver/src/VideoStream.hpp: In constructor &apos;FreenectDriver::VideoStream::VideoStream(Freenect::FreenectDevice*)&apos;:
+/home/firefly/Workspace/libfreenect-0.5.5/OpenNI2-FreenectDriver/src/VideoStream.hpp:34:46: error: &apos;memset&apos; was not declared in this scope
+         memset(&amp;cropping, 0, sizeof(cropping));
+                                              ^
+OpenNI2-FreenectDriver/CMakeFiles/FreenectDriver.dir/build.make:62: recipe for target &apos;OpenNI2-FreenectDriver/CMakeFiles/FreenectDriver.dir/src/ColorStream.cpp.o&apos; failed
+make[2]: *** [OpenNI2-FreenectDriver/CMakeFiles/FreenectDriver.dir/src/ColorStream.cpp.o] Error 1
+CMakeFiles/Makefile2:902: recipe for target &apos;OpenNI2-FreenectDriver/CMakeFiles/FreenectDriver.dir/all&apos; failed
+make[1]: *** [OpenNI2-FreenectDriver/CMakeFiles/FreenectDriver.dir/all] Error 2
+Makefile:127: recipe for target &apos;all&apos; failed
+make: *** [all] Error 2
+</code></pre><p><strong>Case:</strong> not support aarch64 platform if build from latest release v0.5.5.</p>
+<p><strong>Solution:</strong> use latest code instead of latest release v0.5.5.</p>
+<p>See this commit, <a href="https://github.com/OpenKinect/libfreenect/commit/873a2cc6f625221d34856c6574a959cfe8277a1e" target="_blank" rel="external">OpenNI2: Add aarch64 platform detection</a>.</p>
+<h3 id="Failed-to-use-OpenNI2-from-sudo-apt-get-install-libopenni2-dev"><a href="#Failed-to-use-OpenNI2-from-sudo-apt-get-install-libopenni2-dev" class="headerlink" title="Failed to use OpenNI2 from sudo apt-get install libopenni2-dev"></a>Failed to use OpenNI2 from <code>sudo apt-get install libopenni2-dev</code></h3><p><strong>Install:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"># install</div><div class="line">$ sudo apt-get install libopenni2-dev</div><div class="line"></div><div class="line">$ apt-cache show libopenni2-dev</div><div class="line">$ dpkg -L libopenni2-dev</div><div class="line"></div><div class="line"># copy driver</div><div class="line">$ cd libfreenect/build/</div><div class="line">$ cd lib/OpenNI2-FreenectDriver/</div><div class="line">$ export FREENECT_DRIVER_LIB=libFreenectDriver.so</div><div class="line">$ export FREENECT_DRIVER_REAL_LIB=$(python - &lt;&lt;&apos;EOF&apos;</div><div class="line">import os</div><div class="line">lib = os.environ[&apos;FREENECT_DRIVER_LIB&apos;]</div><div class="line">while os.path.islink(lib):</div><div class="line">    lib = os.readlink(lib)</div><div class="line">print(lib)</div><div class="line">EOF</div><div class="line">)</div><div class="line">$ ln -sf `pwd`/$FREENECT_DRIVER_REAL_LIB /usr/lib/OpenNI2/Drivers/$FREENECT_DRIVER_LIB</div></pre></td></tr></table></figure>
+<p><strong>Error when run sample:</strong></p>
+<pre><code>OpenCV Error: Unspecified error (OpenCVKinect: Device open failed see:  DeviceOpen using default: no devices found
+
+) in CvCapture_OpenNI2, file /home/firefly/Workspace/opencv/modules/videoio/src/cap_openni2.cpp, line 237
+VIDEOIO(cvCreateCameraCapture_OpenNI2(index)): raised OpenCV exception:
+
+/home/firefly/Workspace/opencv/modules/videoio/src/cap_openni2.cpp:237: error: (-2) OpenCVKinect: Device open failed see:   DeviceOpen using default: no devices found
+
+ in function CvCapture_OpenNI2
+</code></pre><p><strong>Case:</strong> not found freenect driver! why?</p>
+<h3 id="Failed-to-use-OpenNI2-from-OpenNI-Linux-Arm-2-2-0-33-tar-bz2"><a href="#Failed-to-use-OpenNI2-from-OpenNI-Linux-Arm-2-2-0-33-tar-bz2" class="headerlink" title="Failed to use OpenNI2 from OpenNI-Linux-Arm-2.2.0.33.tar.bz2"></a>Failed to use OpenNI2 from <code>OpenNI-Linux-Arm-2.2.0.33.tar.bz2</code></h3><p><strong>Install:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"># download</div><div class="line">$ curl -O https://s3.amazonaws.com/com.occipital.openni/OpenNI-Linux-Arm-2.2.0.33.tar.bz2</div><div class="line">$ tar jxf OpenNI-Linux-Arm-2.2.0.33.tar.bz2</div><div class="line">$ cd OpenNI-Linux-Arm-2.2/</div><div class="line"></div><div class="line"># install</div><div class="line">$ sudo ./install.sh</div><div class="line">$ cat OpenNIDevEnvironment &gt;&gt; ~/.bashrc</div><div class="line">$ source ~/.bashrc</div></pre></td></tr></table></figure>
+<ul>
+<li><a href="http://wiki.icub.org/wiki/OpenNI2" target="_blank" rel="external">OpenNI2 Wiki</a></li>
+</ul>
+<p>Then, copy the freenect driver to OpenNI2 driver repository:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">$ cd libfreenect/build/</div><div class="line">$ cd lib/OpenNI2-FreenectDriver/</div><div class="line"></div><div class="line">$ export FREENECT_DRIVER_LIB=libFreenectDriver.so</div><div class="line">$ export FREENECT_DRIVER_REAL_LIB=$(python - &lt;&lt;&apos;EOF&apos;</div><div class="line">import os</div><div class="line">lib = os.environ[&apos;FREENECT_DRIVER_LIB&apos;]</div><div class="line">while os.path.islink(lib):</div><div class="line">    lib = os.readlink(lib)</div><div class="line">print(lib)</div><div class="line">EOF</div><div class="line">)</div><div class="line">$ ln -sf `pwd`/$FREENECT_DRIVER_REAL_LIB $OPENNI2_REDIST/OpenNI2/Drivers/$FREENECT_DRIVER_LIB</div></pre></td></tr></table></figure>
+<p><strong>Error when rebuild OpenCV:</strong></p>
+<pre><code>[ 61%] Building CXX object modules/videoio/CMakeFiles/opencv_videoio.dir/src/cap_openni2.cpp.o
+In file included from /home/firefly/Workspace/OpenNI-Linux-Arm-2.2/Include/OpenNI.h:24:0,
+                 from /home/firefly/Workspace/opencv/modules/videoio/src/cap_openni2.cpp:69:
+/home/firefly/Workspace/OpenNI-Linux-Arm-2.2/Include/OniPlatform.h:49:3: error: #error Xiron Platform Abstraction Layer - Unsupported Platform!
+ # error Xiron Platform Abstraction Layer - Unsupported Platform!
+   ^
+In file included from /home/firefly/Workspace/OpenNI-Linux-Arm-2.2/Include/OniCAPI.h:25:0,
+                 from /home/firefly/Workspace/OpenNI-Linux-Arm-2.2/Include/OpenNI.h:28,
+                 from /home/firefly/Workspace/opencv/modules/videoio/src/cap_openni2.cpp:69:
+/home/firefly/Workspace/OpenNI-Linux-Arm-2.2/Include/OniCTypes.h:115:32: error: expected &apos;)&apos; before &apos;*&apos; token
+ typedef void (ONI_CALLBACK_TYPE* OniNewFrameCallback)(OniStreamHandle stream, void* pCookie);
+                                ^
+...
+/home/firefly/Workspace/opencv/modules/videoio/src/cap_openni2.cpp: In member function &apos;bool CvCapture_OpenNI2::setDepthGeneratorProperty(int, double)&apos;:
+/home/firefly/Workspace/opencv/modules/videoio/src/cap_openni2.cpp:612:60: warning: logical not is only applied to the left hand side of comparison [-Wlogical-not-parentheses]
+                     if( !device.getImageRegistrationMode() == mode )
+                                                            ^
+modules/videoio/CMakeFiles/opencv_videoio.dir/build.make:206: recipe for target &apos;modules/videoio/CMakeFiles/opencv_videoio.dir/src/cap_openni2.cpp.o&apos; failed
+make[2]: *** [modules/videoio/CMakeFiles/opencv_videoio.dir/src/cap_openni2.cpp.o] Error 1
+CMakeFiles/Makefile2:3987: recipe for target &apos;modules/videoio/CMakeFiles/opencv_videoio.dir/all&apos; failed
+make[1]: *** [modules/videoio/CMakeFiles/opencv_videoio.dir/all] Error 2
+</code></pre><p><strong>Case:</strong> not support aarch64 platform.</p>
+<p><strong>Solution:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ cd OpenNI-Linux-Arm-2.2</div><div class="line"># add `__aarch64__` in line 42</div><div class="line">$ vi Include/OniPlatform.h</div><div class="line"></div><div class="line">#elif (__linux__ &amp;&amp; (__arm__ || __aarch64__))</div></pre></td></tr></table></figure>
+<p><strong>Error when rebuild OpenCV again:</strong></p>
+<pre><code>[ 60%] Linking CXX shared library ../../lib/libopencv_videoio.so
+/usr/bin/ld: skipping incompatible /home/firefly/Workspace/OpenNI-Linux-Arm-2.2/Redist/libOpenNI2.so when searching for -lOpenNI2
+/usr/bin/ld: cannot find -lOpenNI2
+collect2: error: ld returned 1 exit status
+modules/videoio/CMakeFiles/opencv_videoio.dir/build.make:281: recipe for target &apos;lib/libopencv_videoio.so.3.2.0&apos; failed
+make[2]: *** [lib/libopencv_videoio.so.3.2.0] Error 1
+CMakeFiles/Makefile2:3987: recipe for target &apos;modules/videoio/CMakeFiles/opencv_videoio.dir/all&apos; failed
+make[1]: *** [modules/videoio/CMakeFiles/opencv_videoio.dir/all] Error 2
+Makefile:149: recipe for target &apos;all&apos; failed
+make: *** [all] Error 2
+</code></pre><p><strong>Case:</strong> not incompatible “libOpenNI2.so”.</p>
+<p><strong>Solution:</strong> build form source.</p>
+<h3 id="Failed-to-use-libfreenect-with-OpenNI2-from-source"><a href="#Failed-to-use-libfreenect-with-OpenNI2-from-source" class="headerlink" title="Failed to use libfreenect with OpenNI2 (from source)"></a>Failed to use libfreenect with OpenNI2 (from source)</h3><p><strong>Error when run sample:</strong></p>
+<pre><code>OpenNI2-FreenectDriver: (ERROR) Unexpected size for XN_STREAM_PROPERTY_ZERO_PLANE_DISTANCE
+OpenCV Error: Unspecified error (CvCapture_OpenNI2::readCamerasParams : Could not read virtual plane distance!
+) in readCamerasParams, file /home/firefly/Workspace/opencv/modules/videoio/src/cap_openni2.cpp, line 404
+write_register: 0x0005 &lt;= 0x00
+write_register: 0x0006 &lt;= 0x00
+OpenNI2-FreenectDriver: Closing device freenect://0
+VIDEOIO(cvCreateCameraCapture_OpenNI2(index)): raised OpenCV exception:
+
+/home/firefly/Workspace/opencv/modules/videoio/src/cap_openni2.cpp:404: error: (-2) CvCapture_OpenNI2::readCamerasParams : Could not read virtual plane distance!
+ in function readCamerasParams
+</code></pre><p><strong>Solution:</strong> fix this issue, plz see <a href="http://stackoverflow.com/questions/33657103/using-microsoft-kinect-with-opencv-3-0-0" target="_blank" rel="external">here</a>.</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div><div style="display: table; margin: 0 auto"> <span style="display: table-cell; vertical-align: middle">您可以投食小伊布</span> <img src="/uploads/avatar.png" style="display: table-cell; width: 30px; margin-bottom: 10px" /> <span style="display: table-cell; vertical-align: middle">，奖励一下哦~</span> </div></div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/uploads/wechat-reward-qrcode.png" alt="Eevee WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/uploads/alipay-reward-qrcode.jpg" alt="Eevee Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      Eevee
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://eevee.cc/2017/05/20/use-kinect-on-firefly-rk3399/" title="Use Kinect on Firefly-RK3399">http://eevee.cc/2017/05/20/use-kinect-on-firefly-rk3399/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh" rel="external nofollow" target="_blank">CC BY-NC-ND 4.0</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/OpenCV/" rel="tag"># OpenCV</a>
+          
+            <a href="/tags/Firefly-RK3399/" rel="tag"># Firefly-RK3399</a>
+          
+            <a href="/tags/OpenNI2/" rel="tag"># OpenNI2</a>
+          
+            <a href="/tags/libfreenect/" rel="tag"># libfreenect</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/05/17/build-opencv-on-firefly-rk3399/" rel="next" title="Build OpenCV on Firefly-RK3399">
+                <i class="fa fa-chevron-left"></i> Build OpenCV on Firefly-RK3399
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.png"
+               alt="Eevee" />
+          <p class="site-author-name" itemprop="name">Eevee</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">21</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/joinAero" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/joinAero" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Preparation"><span class="nav-number">1.</span> <span class="nav-text">Preparation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Install-libfreenect"><span class="nav-number">1.1.</span> <span class="nav-text">Install libfreenect</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Install-OpenNI"><span class="nav-number">1.2.</span> <span class="nav-text">Install OpenNI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Build-OpenCV-with-OpenNI"><span class="nav-number">1.3.</span> <span class="nav-text">Build OpenCV with OpenNI</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Usage"><span class="nav-number">2.</span> <span class="nav-text">Usage</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#C"><span class="nav-number">2.1.</span> <span class="nav-text">C++</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#References"><span class="nav-number">3.</span> <span class="nav-text">References</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Issues"><span class="nav-number">4.</span> <span class="nav-text">Issues</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Failed-to-use-libfreenect-form-sudo-apt-get-install-freenect"><span class="nav-number">4.1.</span> <span class="nav-text">Failed to use libfreenect form sudo apt-get install freenect</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Failed-to-build-libfreenect-on-Firefly-RK3399-aarch64"><span class="nav-number">4.2.</span> <span class="nav-text">Failed to build libfreenect on Firefly-RK3399 (aarch64)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Failed-to-use-OpenNI2-from-sudo-apt-get-install-libopenni2-dev"><span class="nav-number">4.3.</span> <span class="nav-text">Failed to use OpenNI2 from sudo apt-get install libopenni2-dev</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Failed-to-use-OpenNI2-from-OpenNI-Linux-Arm-2-2-0-33-tar-bz2"><span class="nav-number">4.4.</span> <span class="nav-text">Failed to use OpenNI2 from OpenNI-Linux-Arm-2.2.0.33.tar.bz2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Failed-to-use-libfreenect-with-OpenNI2-from-source"><span class="nav-number">4.5.</span> <span class="nav-text">Failed to use libfreenect with OpenNI2 (from source)</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Eevee</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+    
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "7b9ece3e921846afa2286960d7f650a2",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (search_path.endsWith("json")) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
