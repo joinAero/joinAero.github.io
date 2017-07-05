@@ -26,6 +26,13 @@ tags:
 
 {% asset_img dconf-editor.png %}
 
+Or,
+
+```
+$ export DISPLAY=:0
+$ dconf write /org/gnome/desktop/remote-access/require-encryption false
+```
+
 ## Mac
 
 1) Spotlight Search "Screen Sharing" and connect to,
@@ -41,6 +48,7 @@ tags:
 ## References
 
 * [Can no longer use Screen Share ...](https://askubuntu.com/questions/463486/can-no-longer-use-screen-share-to-connect-mac-to-ubuntu-since-upgrading-to-14-04)
+* [Enable remote desktop for Gnome from command line?](https://unix.stackexchange.com/questions/73041/enable-remote-desktop-for-gnome-from-command-line)
 
 <!--
 
