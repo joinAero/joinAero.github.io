@@ -78,6 +78,9 @@ menu_icons:
   sitemap: sitemap
   commonweal: heartbeat
 
+
+
+
 # ---------------------------------------------------------------
 # Scheme Settings
 # ---------------------------------------------------------------
@@ -86,6 +89,7 @@ menu_icons:
 #scheme: Muse
 scheme: Mist
 #scheme: Pisces
+
 
 # ---------------------------------------------------------------
 # Font Settings
@@ -133,9 +137,13 @@ font:
     family:
     size:
 
+
+
+
 # ---------------------------------------------------------------
 # Sidebar Settings
 # ---------------------------------------------------------------
+
 
 # Social Links
 # Key is the link label showing to end users.
@@ -165,14 +173,20 @@ avatar: /uploads/avatar.png
 # Table Of Contents in the Sidebar
 toc:
   enable: true
+
   # Automatically add list number to toc.
   number: true
+
+  # If true, all words will placed on next lines if header width longer then sidebar width.
+  wrap: false
+
 
 # Creative Commons 4.0 International License.
 # http://creativecommons.org/
 # Available: by | by-nc | by-nc-nd | by-nc-sa | by-nd | by-sa | zero
 #creative_commons: by-nc-sa
 #creative_commons:
+
 
 sidebar:
   # Sidebar Position, available value: left | right
@@ -199,12 +213,14 @@ sidebar:
   # Scroll percent label in b2t button
   scrollpercent: false
 
+
 # Blog rolls
 #links_title: Links
 #links_layout: block
 #links_layout: inline
 #links:
   #Title: http://example.com/
+
 
 # ---------------------------------------------------------------
 # Post Settings
@@ -238,6 +254,7 @@ post_wordcount:
   item_text: true
   wordcount: false
   min2read: false
+  separated_meta: true
 
 # Wechat Subscriber
 #wechat_subscriber:
@@ -264,11 +281,13 @@ custom_logo:
   enabled: false
   image:
 
+
 # Code Highlight theme
 # Available value:
 #    normal | night | night eighties | night blue | night bright
 # https://github.com/chriskempson/tomorrow-theme
 highlight_theme: normal
+
 
 # ---------------------------------------------------------------
 # Third Party Services Settings
@@ -278,7 +297,7 @@ highlight_theme: normal
 mathjax:
   enable: false
   per_page: false
-  cdn: //cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML
+  cdn: //cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML
 
 # Han Support docs: https://hanzi.pro/
 han: false
@@ -388,6 +407,14 @@ vkontakte_api:
   comments:     true
   num_of_posts: 10
 
+# Star rating support to each article.
+# To get your ID visit https://widgetpack.com
+rating:
+  enable: false
+  id:     #<app_id>
+  color:  fc6423
+
+
 # Show number of visitors to each article.
 # You can visit https://leancloud.cn get AppID and AppKey.
 leancloud_visitors:
@@ -413,11 +440,13 @@ busuanzi_count:
   page_pv_header: <i class="fa fa-file-o"></i>
   page_pv_footer:
 
+
 # Tencent analytics ID
 tencent_analytics: 55592908
 
 # Tencent MTA ID
 # tencent_mta:
+
 
 # Enable baidu push so that the blog will push the url to baidu automatically which is very helpful for SEO
 baidu_push: true
@@ -449,6 +478,7 @@ algolia_search:
     hits_empty: "We didn't find any results for the search: ${query}"
     hits_stats: "${hits} results found in ${time} ms"
 
+
 # Local search
 local_search:
   enable: true
@@ -469,6 +499,7 @@ search:
 # Alias: {% extlink text url "title" %}
 exturl: false
 
+
 #! ---------------------------------------------------------------
 #! DO NOT EDIT THE FOLLOWING SETTINGS
 #! UNLESS YOU KNOW WHAT YOU ARE DOING
@@ -479,6 +510,26 @@ use_motion: false
 
 # Fancybox
 fancybox: true
+
+# Progress bar in the top during page loading.
+pace: false
+# Themes list:
+#pace-theme-big-counter
+#pace-theme-bounce
+#pace-theme-barber-shop
+#pace-theme-center-atom
+#pace-theme-center-circle
+#pace-theme-center-radar
+#pace-theme-center-simple
+#pace-theme-corner-indicator
+#pace-theme-fill-left
+#pace-theme-flash
+#pace-theme-loading-bar
+#pace-theme-mac-osx
+#pace-theme-minimal
+# For example
+# pace_theme: pace-theme-center-simple
+pace_theme: pace-theme-minimal
 
 # Canvas-nest
 canvas_nest: false
@@ -543,6 +594,14 @@ vendors:
   algolia_instant_js:
   algolia_instant_css:
 
+  # Internal version: 1.0.2
+  # See: https://github.com/HubSpot/pace
+  # Or use direct links below:
+  # pace: //cdn.bootcss.com/pace/1.0.2/pace.min.js
+  # pace_css: //cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-flash.min.css
+  pace:
+  pace_css:
+
   # Internal version: 1.0.0
   # https://github.com/hustcc/canvas-nest.js
   canvas_nest:
@@ -569,6 +628,7 @@ vendors:
   # Internal version: 3.3.0
   # https://github.com/ethantw/Han
   han:
+
 
 # Assets
 css: css
