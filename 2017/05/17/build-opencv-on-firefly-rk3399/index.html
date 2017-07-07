@@ -14,6 +14,9 @@
 
 
 
+
+
+
 <meta http-equiv="Cache-Control" content="no-transform" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
 
@@ -137,10 +140,6 @@
 
 
   <title>Build OpenCV on Firefly-RK3399 | Flower Crown Eevee</title>
-</head>
-
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
-
   
 
 
@@ -164,6 +163,10 @@
 
 
 
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
   
   
@@ -373,16 +376,6 @@
 
           
             
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a class="cloud-tie-join-count" href="/2017/05/17/build-opencv-on-firefly-rk3399/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count join-count" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
           
 
           
@@ -500,7 +493,7 @@ $ cmake ... \
       
 
       
-        
+      
       
 
       
@@ -544,8 +537,6 @@ $ cmake ... \
 
           
   <div class="comments" id="comments">
-    
-      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
     
   </div>
 
@@ -823,21 +814,12 @@ $ cmake ... \
 
 
   
-    
-    <script>
-      var cloudTieConfig = {
-        url: document.location.href, 
-        sourceId: "",
-        productKey: "7b9ece3e921846afa2286960d7f650a2",
-        target: "cloud-tie-wrapper"
-      };
-    </script>
-    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
+
+
+
+
+
   
-
-
-
-
 
 
 
@@ -854,7 +836,7 @@ $ cmake ... \
     var search_path = "search.xml";
     if (search_path.length === 0) {
       search_path = "search.xml";
-    } else if (search_path.endsWith("json")) {
+    } else if (/json$/i.test(search_path)) {
       isXml = false;
     }
     var path = "/" + search_path;
@@ -1185,6 +1167,8 @@ $ cmake ... \
 })();
 </script>
 
+
+  
 
   
 

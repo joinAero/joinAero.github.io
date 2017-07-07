@@ -14,6 +14,9 @@
 
 
 
+
+
+
 <meta http-equiv="Cache-Control" content="no-transform" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
 
@@ -90,21 +93,21 @@
 
 
 
-<meta name="description" content="Ubuntu  .post-body .fancybox img { margin: 0 auto 25px; }   1) Open “Desktop Sharing” and setup,  2) sudo apt-get install dconf-tools and run dconf-editor,  Mac1) Spotlight Search “Screen Sharing” and">
+<meta name="description" content="Ubuntu  .post-body .fancybox img { margin: 0 auto 25px; }   1) Open “Desktop Sharing” and setup,  2) sudo apt-get install dconf-tools and run dconf-editor,  Or, 12$ export DISPLAY=:0$ dconf write /org">
 <meta name="keywords" content="Screen Sharing,Remote Desktop,Ubuntu,Mac">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Screen Sharing from Ubuntu to Mac">
 <meta property="og:url" content="http://eevee.cc/2017/05/09/screen-sharing-from-ubuntu-to-mac/index.html">
 <meta property="og:site_name" content="Flower Crown Eevee">
-<meta property="og:description" content="Ubuntu  .post-body .fancybox img { margin: 0 auto 25px; }   1) Open “Desktop Sharing” and setup,  2) sudo apt-get install dconf-tools and run dconf-editor,  Mac1) Spotlight Search “Screen Sharing” and">
+<meta property="og:description" content="Ubuntu  .post-body .fancybox img { margin: 0 auto 25px; }   1) Open “Desktop Sharing” and setup,  2) sudo apt-get install dconf-tools and run dconf-editor,  Or, 12$ export DISPLAY=:0$ dconf write /org">
 <meta property="og:image" content="http://eevee.cc/2017/05/09/screen-sharing-from-ubuntu-to-mac/desktop-sharing.png">
 <meta property="og:image" content="http://eevee.cc/2017/05/09/screen-sharing-from-ubuntu-to-mac/dconf-editor.png">
 <meta property="og:image" content="http://eevee.cc/2017/05/09/screen-sharing-from-ubuntu-to-mac/screen-sharing.png">
 <meta property="og:image" content="http://eevee.cc/2017/05/09/screen-sharing-from-ubuntu-to-mac/ubuntu-desktop.png">
-<meta property="og:updated_time" content="2017-05-11T01:19:37.000Z">
+<meta property="og:updated_time" content="2017-07-04T08:06:44.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Screen Sharing from Ubuntu to Mac">
-<meta name="twitter:description" content="Ubuntu  .post-body .fancybox img { margin: 0 auto 25px; }   1) Open “Desktop Sharing” and setup,  2) sudo apt-get install dconf-tools and run dconf-editor,  Mac1) Spotlight Search “Screen Sharing” and">
+<meta name="twitter:description" content="Ubuntu  .post-body .fancybox img { margin: 0 auto 25px; }   1) Open “Desktop Sharing” and setup,  2) sudo apt-get install dconf-tools and run dconf-editor,  Or, 12$ export DISPLAY=:0$ dconf write /org">
 <meta name="twitter:image" content="http://eevee.cc/2017/05/09/screen-sharing-from-ubuntu-to-mac/desktop-sharing.png">
 
 
@@ -140,10 +143,6 @@
 
 
   <title>Screen Sharing from Ubuntu to Mac | Flower Crown Eevee</title>
-</head>
-
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
-
   
 
 
@@ -167,6 +166,10 @@
 
 
 
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
   
   
@@ -376,16 +379,6 @@
 
           
             
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a class="cloud-tie-join-count" href="/2017/05/09/screen-sharing-from-ubuntu-to-mac/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count join-count" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
           
 
           
@@ -416,6 +409,8 @@
 <img src="/2017/05/09/screen-sharing-from-ubuntu-to-mac/desktop-sharing.png" alt="desktop-sharing.png" title="">
 <p>2) <code>sudo apt-get install dconf-tools</code> and run <code>dconf-editor</code>,</p>
 <img src="/2017/05/09/screen-sharing-from-ubuntu-to-mac/dconf-editor.png" alt="dconf-editor.png" title="">
+<p>Or,</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ export DISPLAY=:0</div><div class="line">$ dconf write /org/gnome/desktop/remote-access/require-encryption false</div></pre></td></tr></table></figure>
 <h2 id="Mac"><a href="#Mac" class="headerlink" title="Mac"></a>Mac</h2><p>1) Spotlight Search “Screen Sharing” and connect to,</p>
 <a id="more"></a>
 <img src="/2017/05/09/screen-sharing-from-ubuntu-to-mac/screen-sharing.png" alt="screen-sharing.png" title="">
@@ -423,6 +418,7 @@
 <img src="/2017/05/09/screen-sharing-from-ubuntu-to-mac/ubuntu-desktop.png" alt="ubuntu-desktop.png" title="">
 <h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
 <li><a href="https://askubuntu.com/questions/463486/can-no-longer-use-screen-share-to-connect-mac-to-ubuntu-since-upgrading-to-14-04" target="_blank" rel="external">Can no longer use Screen Share …</a></li>
+<li><a href="https://unix.stackexchange.com/questions/73041/enable-remote-desktop-for-gnome-from-command-line" target="_blank" rel="external">Enable remote desktop for Gnome from command line?</a></li>
 </ul>
 <!--
 
@@ -509,7 +505,7 @@ Alternatives (failed):
       
 
       
-        
+      
       
 
       
@@ -553,8 +549,6 @@ Alternatives (failed):
 
           
   <div class="comments" id="comments">
-    
-      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
     
   </div>
 
@@ -832,21 +826,12 @@ Alternatives (failed):
 
 
   
-    
-    <script>
-      var cloudTieConfig = {
-        url: document.location.href, 
-        sourceId: "",
-        productKey: "7b9ece3e921846afa2286960d7f650a2",
-        target: "cloud-tie-wrapper"
-      };
-    </script>
-    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
+
+
+
+
+
   
-
-
-
-
 
 
 
@@ -863,7 +848,7 @@ Alternatives (failed):
     var search_path = "search.xml";
     if (search_path.length === 0) {
       search_path = "search.xml";
-    } else if (search_path.endsWith("json")) {
+    } else if (/json$/i.test(search_path)) {
       isXml = false;
     }
     var path = "/" + search_path;
@@ -1194,6 +1179,8 @@ Alternatives (failed):
 })();
 </script>
 
+
+  
 
   
 

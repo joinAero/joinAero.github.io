@@ -14,6 +14,9 @@
 
 
 
+
+
+
 <meta http-equiv="Cache-Control" content="no-transform" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
 
@@ -72,7 +75,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="CUDA,Android,OpenCV," />
+  <meta name="keywords" content="Android,CUDA,OpenCV," />
 
 
 
@@ -91,7 +94,7 @@
 
 
 <meta name="description" content="Prerequisites Ubuntu 14.04 LTS Download here   NVIDIA CodeWorks for Android 1R4 Doc here Download here Could only select actions: CUDA ToolKit 7.0, CUDA for Android 7.0   Android Studio Add C and C++">
-<meta name="keywords" content="CUDA,Android,OpenCV">
+<meta name="keywords" content="Android,CUDA,OpenCV">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Build OpenCV for Android with CUDA">
 <meta property="og:url" content="http://eevee.cc/2017/05/05/build-ocv-for-android-with-cuda/index.html">
@@ -135,10 +138,6 @@
 
 
   <title>Build OpenCV for Android with CUDA | Flower Crown Eevee</title>
-</head>
-
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
-
   
 
 
@@ -162,6 +161,10 @@
 
 
 
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
   
   
@@ -371,16 +374,6 @@
 
           
             
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a class="cloud-tie-join-count" href="/2017/05/05/build-ocv-for-android-with-cuda/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count join-count" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
           
 
           
@@ -556,9 +549,9 @@ make: *** [all] Error 2
       
         <div class="post-tags">
           
-            <a href="/tags/CUDA/" rel="tag"># CUDA</a>
-          
             <a href="/tags/Android/" rel="tag"># Android</a>
+          
+            <a href="/tags/CUDA/" rel="tag"># CUDA</a>
           
             <a href="/tags/OpenCV/" rel="tag"># OpenCV</a>
           
@@ -566,7 +559,7 @@ make: *** [all] Error 2
       
 
       
-        
+      
       
 
       
@@ -610,8 +603,6 @@ make: *** [all] Error 2
 
           
   <div class="comments" id="comments">
-    
-      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
     
   </div>
 
@@ -889,21 +880,12 @@ make: *** [all] Error 2
 
 
   
-    
-    <script>
-      var cloudTieConfig = {
-        url: document.location.href, 
-        sourceId: "",
-        productKey: "7b9ece3e921846afa2286960d7f650a2",
-        target: "cloud-tie-wrapper"
-      };
-    </script>
-    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
+
+
+
+
+
   
-
-
-
-
 
 
 
@@ -920,7 +902,7 @@ make: *** [all] Error 2
     var search_path = "search.xml";
     if (search_path.length === 0) {
       search_path = "search.xml";
-    } else if (search_path.endsWith("json")) {
+    } else if (/json$/i.test(search_path)) {
       isXml = false;
     }
     var path = "/" + search_path;
@@ -1251,6 +1233,8 @@ make: *** [all] Error 2
 })();
 </script>
 
+
+  
 
   
 
